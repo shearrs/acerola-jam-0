@@ -15,7 +15,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public Vector3 OriginalPosition { get; set; }
     public Quaternion OriginalRotation { get; set; }
 
-    private void Awake()
+    private void Start()
     {
         lotsUI = UIManager.Instance.LotsUI;
     }

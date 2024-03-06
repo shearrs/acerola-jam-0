@@ -12,10 +12,13 @@ public class LotsUI
     [Header("References")]
     [SerializeField] private Canvas canvas;
     [SerializeField] private GameObject combatContainer;
+    [SerializeField] private RectTransform lotsUI;
+    [SerializeField] private RectTransform lotsParent;
     [SerializeField] private RectTransform lotsContainer;
     [SerializeField] private LotsButton lotsButton;
     [SerializeField] private LotsBox lotsBox;
     [SerializeField] private Lot lotPrefab;
+    [SerializeField] private MinimizeButton minimizeButton;
     [SerializeField] private List<Spline> splines;
     private readonly List<Spline> currentSplines = new();
     private readonly List<Lot> lots = new();
@@ -32,9 +35,14 @@ public class LotsUI
     private int roll;
     private Coroutine selectCoroutine;
 
+    [Header("Minimizing")]
+    [SerializeField] private float minimizeHeight;
+    private Vector3 maximizePosition;
+
     [Header("Tween")]
     [SerializeField] private Tween scaleTween;
     [SerializeField] private Vector3 targetScale;
+    [SerializeField] private Tween minimizeTween;
 
     private Lot hoveredLot;
     public Lot HoveredLot
@@ -65,12 +73,15 @@ public class LotsUI
             combatContainer.SetActive(false);
             lotsButton.gameObject.SetActive(true);
             lotsBox.gameObject.SetActive(true);
+            minimizeButton.Enable();
         }
 
         lotsContainer.gameObject.SetActive(true);
         lotsContainer.localScale = Vector3.zero;
         lotsContainer.DoTweenScaleNonAlloc(targetScale, scaleTween.Duration, scaleTween).SetOnComplete(onComplete);
         roll = 0;
+
+        maximizePosition = lotsUI.anchoredPosition3D;
 
         CreateLots(player.LotCapacity);
     }
@@ -81,13 +92,38 @@ public class LotsUI
         {
             combatContainer.SetActive(true);
             lotsContainer.gameObject.SetActive(false);
-            lotsBox.gameObject.SetActive(false);
             lotsButton.gameObject.SetActive(false);
+            minimizeButton.Disable();
         }
 
         lotsContainer.DoTweenScaleNonAlloc(Vector3.zero, scaleTween.Duration, scaleTween).SetOnComplete(onComplete);
     }
 
+    public void ToggleMinimize(bool enable)
+    {
+        if (enable)
+        {
+            lotsUI.DoTweenPositionNonAlloc(new(maximizePosition.x, minimizeHeight, maximizePosition.z), minimizeTween.Duration, minimizeTween);
+
+            foreach (Lot lot in lots)
+                lot.gameObject.SetActive(false);
+        }
+        else
+        {
+            void onComplete()
+            {
+                if (roll == 0)
+                    return;
+
+                foreach (Lot lot in lots)
+                    lot.gameObject.SetActive(true);
+            }
+
+            lotsUI.DoTweenPositionNonAlloc(maximizePosition, minimizeTween.Duration, minimizeTween).SetOnComplete(onComplete);
+        }
+    }
+
+    #region Lots Gameplay
     public void ThrowLots()
     {
         if (selectCoroutine != null)
@@ -179,12 +215,13 @@ public class LotsUI
     {
         for (int i = 0; i < amount; i++)
         {
-            Lot lot = Object.Instantiate(lotPrefab, canvas.transform);
+            Lot lot = Object.Instantiate(lotPrefab, lotsParent);
             lot.gameObject.SetActive(false);
 
             lots.Add(lot);
         }
     }
+    #endregion
 
     #region Splines
     private Spline GetSpline()
