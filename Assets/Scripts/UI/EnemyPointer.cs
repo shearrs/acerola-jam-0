@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tweens;
 
 public class EnemyPointer : MonoBehaviour
 {
+    [SerializeField] private Tween movementTween;
+    private readonly Tween rotationTween = new();
     private Battle battle;
     private Player player;
 
@@ -22,7 +25,7 @@ public class EnemyPointer : MonoBehaviour
     public void Enable()
     {
         transform.gameObject.SetActive(true);
-        SetPosition();
+        SetPosition(true);
     }
 
     public void Disable()
@@ -36,13 +39,19 @@ public class EnemyPointer : MonoBehaviour
         Disable();
     }
 
-    public void SetPosition()
+    public void SetPosition(bool initialize = false)
     {
         Enemy enemy = battle.GetEnemy(player.EnemyIndex);
         Vector3 position = enemy.BattlePosition;
         position.y += enemy.PointerOffset;
         Quaternion rotation = Quaternion.LookRotation((Camera.main.transform.position - position).normalized, Vector3.up);
 
-        transform.SetPositionAndRotation(position, rotation);
+        if (initialize)
+            transform.SetPositionAndRotation(position, rotation);
+        else
+        {
+            transform.DoTweenPositionNonAlloc(position, movementTween.Duration, movementTween);
+            transform.DoTweenRotationNonAlloc(rotation, movementTween.Duration, rotationTween);
+        }
     }
 }

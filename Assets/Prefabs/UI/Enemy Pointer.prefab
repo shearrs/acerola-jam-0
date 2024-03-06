@@ -45,6 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f890ef2144824240b91b766726b7d49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementTween:
+    duration: 0.2
+    loopType: 0
+    loops: 0
+    easingFunction: 2
+    useCustomCurve: 0
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &4204745917478778390
 GameObject:
   m_ObjectHideFlags: 0
