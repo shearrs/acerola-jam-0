@@ -1,0 +1,56 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Common.hlsl"
+#include "Packages/com.unity.render-pipelines.high-definition/Runtime/ShaderLibrary/ShaderVariables.hlsl"
+
+#pragma kernel Posterizing
+
+#define THREADS_X 8
+#define THREADS_Y 4
+#define THREADS_Z 1
+
+
+TEXTURE2D_X(_Source);
+RW_TEXTURE2D_X(float3, _Destination);
+uint factor;
+uint width;
+float darknessThreshold;
+float brightnessModifier;
+
+float brightness(float3 color)
+{
+    return (color.r + color.g + color.b) / 3.0;
+}
+
+void posterize(int x, int y)
+{
+    uint2 pixel = uint2(x, y);
+    float3 sourceColor = _Source[COORD_TEXTURE2D_X(pixel.xy)].rgb;
+    
+    float3 newColor = pow(sourceColor, 0.454545);
+    newColor = lerp(newColor, newColor * brightnessModifier, step(brightness(newColor), darknessThreshold));
+    newColor = round(factor * newColor) * (1.0 / factor); // map our color to the constraint
+   
+    _Destination[COORD_TEXTURE2D_X(pixel.xy)] = newColor;
+}
+
+void calculatePixel(uint id, uint x, uint y)
+{
+    posterize(x, y);
+}
+
+// id - id of the thread in this threadgroup
+// groupID - id of the threadgroup
+[numthreads(THREADS_X, THREADS_Y, THREADS_Z)]
+void Posterizing(uint id : SV_GroupIndex, uint3 groupID : SV_GroupID)
+{
+    uint groupSize = THREADS_X * THREADS_Y * THREADS_Z;
+    
+    uint x = 0;
+    uint y = (groupID.x * groupSize) + id; // the y (row) of pixels we are working on
+    
+    //for every pixel in this thread...
+    for (x = 0; x < width; x++)
+    {
+        calculatePixel(id, x, y);
+    }
+}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96c78f12ce270a04dbd9ef58dcf2f50a, type: 3}
+  m_Name: Default UI Data
+  m_EditorClassIdentifier: 
+  initialOpenScale: {x: 0, y: 0, z: 0}
+  openDuration: 0.4
+  openEasingFunction: 0
+  closeDuration: 0.4
+  closeEasingFunction: 0
+  moveDuration: 1
+  moveEasingFunction: 0
+  shakeAmount: 8
+  shakeDuration: 0.25

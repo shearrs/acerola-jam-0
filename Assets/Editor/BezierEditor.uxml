@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <ui:Foldout text="Editor Settings" name="EditorFoldout" value="true">
+        <uie:PropertyField name="HandlesSizeSlider" binding-path="handlesSize" label="Handles Size" />
+        <uie:PropertyField name="DefaultMaterialField" binding-path="defaultMaterial" label="Default Material" />
+    </ui:Foldout>
+    <ui:GroupBox name="Properties" text="Properties" style="background-color: rgb(46, 46, 46); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; flex-basis: auto; flex-shrink: 0; flex-direction: column; flex-wrap: nowrap; margin-left: 1px; padding-left: 3px; padding-right: 3px; margin-right: 1px; -unity-text-align: upper-left; align-items: stretch;">
+        <uie:PropertyField name="TValueProperty" binding-path="tValue" label="T Value" />
+        <uie:PropertyField name="ControlPointsField" binding-path="controlPoints" />
+    </ui:GroupBox>
+    <ui:GroupBox text="Actions" name="Actions" style="-unity-text-align: upper-left; flex-wrap: nowrap; flex-direction: column; justify-content: flex-start; align-items: stretch; background-color: rgb(46, 46, 46); border-left-color: rgb(0, 0, 0); border-right-color: rgb(0, 0, 0); border-top-color: rgb(0, 0, 0); border-bottom-color: rgb(0, 0, 0); border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; font-size: 12px;">
+        <uie:PropertyField name="EditableProperty" binding-path="editable" label="Editable" />
+        <ui:Button text="Add Bezier" display-tooltip-when-elided="true" enable-rich-text="true" name="AddBezierButton" style="height: 40px; left: auto; top: auto; right: auto; bottom: auto; width: auto; -unity-text-align: middle-center; overflow: hidden; align-items: auto;" />
+        <ui:Button text="Remove Bezier" display-tooltip-when-elided="true" enable-rich-text="true" name="RemoveBezierButton" style="height: 40px; left: auto; top: auto; right: auto; bottom: auto; width: auto; -unity-text-align: middle-center; overflow: hidden; align-items: auto; margin-top: 6px;" />
+    </ui:GroupBox>
+</ui:UXML>
