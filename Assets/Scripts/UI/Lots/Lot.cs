@@ -1,23 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using CustomUI;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Tweens;
+
+public enum LotType { DAMAGE, PROTECTION, HOLY, TEMPTATION };
 
 public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image lotImage;
     [SerializeField] private Image highlightImage;
-    private LotsUI lotsUI;
+    private LotsManager lotsManager;
+
+    [Header("Type Colors")]
+    [SerializeField] private Color damageColor;
+    [SerializeField] private Color protectionColor;
+    [SerializeField] private Color holyColor;
+    [SerializeField] private Color temptationColor;
+    [SerializeField] private Tween colorTween;
+    private Color defaultColor;
 
     public bool IsKept { get; set; }
     public Vector3 OriginalPosition { get; set; }
     public Quaternion OriginalRotation { get; set; }
+    public LotType Type { get; private set; }
 
     private void Start()
     {
-        lotsUI = UIManager.Instance.LotsUI;
+        lotsManager = LotsManager.Instance;
+        defaultColor = lotImage.color;
     }
 
     public void Throw(Spline path, bool notifyUI = false)
@@ -25,7 +37,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         StartCoroutine(IEThrow(path, notifyUI));
     }
 
-    private IEnumerator IEThrow(Spline path, bool notifyUI)
+    private IEnumerator IEThrow(Spline path, bool onComplete)
     {
         float progress = 0;
         float verticalRotations = Random.Range(1, 5) * 360;
@@ -55,13 +67,54 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z)
             );
 
-        if (notifyUI)
-            lotsUI.SelectLots();
+        if (onComplete)
+            lotsManager.SelectLots();
     }
 
-    public void SetColor(Color color)
+    public void RandomizeType()
     {
-        lotImage.color = color;
+        int typeIndex = Random.Range(0, 9);
+
+        Type = GetTypeForIndex(typeIndex);
+        SetColor();
+    }
+
+    private LotType GetTypeForIndex(int index)
+    {
+        if (index == 0)
+            return LotType.TEMPTATION;
+        else if (index == 7)
+            return LotType.HOLY;
+        else if (index < 5)
+            return LotType.DAMAGE;
+        else if (index <= 8)
+            return LotType.PROTECTION;
+        else
+            return LotType.DAMAGE;
+    }
+
+    private void SetColor()
+    {
+        Color color = GetColorForType(Type);
+
+        void updateColor(float percentage)
+        {
+            lotImage.color = Color.Lerp(defaultColor, color, percentage);
+        }
+
+        TweenManager.DoTweenCustomNonAlloc(updateColor, colorTween.Duration, colorTween);
+    }
+
+    private Color GetColorForType(LotType type)
+    {
+        return type switch
+        {
+            LotType.DAMAGE => damageColor,
+            LotType.PROTECTION => protectionColor,
+            LotType.HOLY => holyColor,
+            LotType.TEMPTATION => temptationColor,
+            _ => damageColor,
+        };
     }
 
     public void Highlight(bool enable)
@@ -79,12 +132,12 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        lotsUI.HoveredLot = this;
+        lotsManager.HoveredLot = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (lotsUI.HoveredLot == this)
-            lotsUI.HoveredLot = null;
+        if (lotsManager.HoveredLot == this)
+            lotsManager.HoveredLot = null;
     }
 }

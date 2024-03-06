@@ -4,10 +4,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum PlayerTurnType { STAFF, DEFEND, PETITION }
+
 public class PlayerActionButton : MonoBehaviour
 {
-    [SerializeField] private TurnAction action;
-    [SerializeField] private bool isTargetingEnemy;
+    [SerializeField] private PlayerTurnType turnType;
     [SerializeField] private Color disabledImageColor;
     [SerializeField] private Color disabledTextColor;
     private Button button;
@@ -15,7 +16,7 @@ public class PlayerActionButton : MonoBehaviour
     private Color originalTextColor;
     private Image image;
     private TextMeshProUGUI text;
-    private Player player;
+    private CombatManager combatManager;
 
     private void OnEnable()
     {
@@ -26,7 +27,7 @@ public class PlayerActionButton : MonoBehaviour
             text = GetComponentInChildren<TextMeshProUGUI>();
             originalImageColor = image.color;
             originalTextColor = text.color;
-            player = Level.Instance.Player;
+            combatManager = CombatManager.Instance;
         }
     }
 
@@ -46,15 +47,6 @@ public class PlayerActionButton : MonoBehaviour
     
     public void SubmitAction()
     {
-        ICombatEntity target;
-
-        if (isTargetingEnemy)
-            target = player.Battle.GetEnemy(player.EnemyIndex);
-        else
-            target = player;
-
-        Turn turn = new(player, target, action);
-
-        player.ChooseTurn(turn);
+        combatManager.ChooseTurn(turnType);
     }
 }

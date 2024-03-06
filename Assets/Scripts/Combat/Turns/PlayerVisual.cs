@@ -10,6 +10,6 @@ public class LotsVisual : TurnActionVisual
         // tween up the lots ui
         // spawn the different lots
 
-        UIManager.Instance.LotsUI.Enable();
+        LotsManager.Instance.EnterLotsPhase();
     }
 }

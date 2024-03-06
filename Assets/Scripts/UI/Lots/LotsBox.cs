@@ -11,7 +11,8 @@ public class LotsBox : MonoBehaviour
     [SerializeField] private Vector3 verticalPadding;
     private readonly List<Lot> lots = new();
 
-    public int KeptLots => lots.Count;
+    public List<Lot> Lots => lots;
+    public int LotsCount => lots.Count;
 
     public void KeepLot(Lot lot)
     {
@@ -32,7 +33,34 @@ public class LotsBox : MonoBehaviour
     {
         lots.Remove(lot);
         lot.IsKept = false;
-        lot.transform.localPosition = lot.OriginalPosition;
-        lot.transform.rotation = lot.OriginalRotation;
+    }
+
+    public int GetAmountOfType(LotType type)
+    {
+        int count = 0;
+
+        foreach(Lot lot in lots)
+        {
+            if (lot.Type == type)
+                count++;
+        }
+
+        return count;
+    }
+
+    public List<Lot> ReleaseLotsOfType(LotType type)
+    {
+        List<Lot> typedLots = new(GetAmountOfType(type));
+
+        foreach(Lot lot in lots)
+        {
+            if (lot.Type == type)
+                typedLots.Add(lot);
+        }
+
+        foreach (Lot lot in typedLots)
+            ReleaseLot(lot);
+
+        return typedLots;
     }
 }

@@ -17,15 +17,13 @@ public class LotsButton : MonoBehaviour
     private Color originalTextColor;
     private Image image;
     private Button button;
-    private LotsUI lotsUI;
-    private Player player;
+    private LotsManager lotsManager;
 
     private bool confirmable = false;
 
     private void Start()
     {
-        player = Level.Instance.Player;
-        lotsUI = UIManager.Instance.LotsUI;
+        lotsManager = LotsManager.Instance;
 
         image = GetComponent<Image>();
         button = GetComponent<Button>();
@@ -65,8 +63,8 @@ public class LotsButton : MonoBehaviour
     public void LotsAction()
     {
         if (confirmable)
-            lotsUI.ConfirmLots();
+            lotsManager.ConfirmLots();
         else
-            lotsUI.ThrowLots();
+            lotsManager.ThrowLots();
     }
 }

@@ -24,6 +24,7 @@ public class Player : MonoBehaviour, ICombatEntity
 
     public string Name => "Shepherd";
     public int Health { get; private set; }
+    public int Defense { get; set; }
     public Battle Battle { get; set; }
     public Turn Turn { get; set; }
     public Animator Animator => animator;
@@ -78,12 +79,6 @@ public class Player : MonoBehaviour, ICombatEntity
 
         animator.SetBool(isWalkingID, false);
         Level.Instance.StartEncounter();
-    }
-
-    public void ChooseTurn(Turn turn)
-    {
-        Turn = turn;
-        Battle.SubmitTurn(turn);
     }
 
     public void Damage(int damage)

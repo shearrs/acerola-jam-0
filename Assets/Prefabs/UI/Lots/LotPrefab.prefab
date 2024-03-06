@@ -121,9 +121,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e259aa9de80d1f40a986c5bde4074ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.5
   lotImage: {fileID: 7291695548004373881}
   highlightImage: {fileID: 6857438555200505482}
+  damageColor: {r: 0.98039216, g: 0.2509804, b: 0.17254902, a: 1}
+  protectionColor: {r: 0.3647059, g: 0.5921569, b: 1, a: 1}
+  holyColor: {r: 0.8156863, g: 0.96862745, b: 1, a: 0.6392157}
+  temptationColor: {r: 0.16862746, g: 0.105882354, b: 0.21568628, a: 1}
+  colorTween:
+    duration: 1
+    loopType: 0
+    loops: 0
+    easingFunction: 0
+    useCustomCurve: 0
+    curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
 --- !u!1 &7767357524105304836
 GameObject:
   m_ObjectHideFlags: 0
