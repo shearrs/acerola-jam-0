@@ -16,6 +16,7 @@ public class Player : MonoBehaviour, ICombatEntity
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth;
     [SerializeField] private int combatSpeed;
+    [SerializeField] private int lotCapacity;
     private UIManager uiManager;
     private CombatUI combatUI;
 
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour, ICombatEntity
     public int EnemyIndex { get; set; }
     public bool IsDead { get; private set; } = false;
     public int MaxHealth => maxHealth;
+    public int LotCapacity => lotCapacity;
 
     private void Awake()
     {

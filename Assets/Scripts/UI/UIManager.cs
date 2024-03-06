@@ -176,10 +176,5 @@ namespace CustomUI
             tween.SetOnComplete(() => priorityTweens.Remove(element));
         }
         #endregion
-
-        private void OnDrawGizmosSelected()
-        {
-            lotsUI.DrawGizmos();
-        }
     }
 }
