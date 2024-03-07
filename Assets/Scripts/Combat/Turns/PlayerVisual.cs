@@ -2,14 +2,13 @@ using CustomUI;
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Lots Visual", menuName = "Turn/Visual/Lots")]
-public class LotsVisual : TurnActionVisual
+[CreateAssetMenu(fileName = "New Player Visual", menuName = "Turn/Visual/Player")]
+public class PlayerVisual : TurnActionVisual
 {
+    public Action<Action> SelectedVisual { get; set; }
+
     public override void PerformVisual(Turn turn, Action onComplete)
     {
-        // tween up the lots ui
-        // spawn the different lots
-
-        LotsManager.Instance.EnterLotsPhase();
+        SelectedVisual?.Invoke(onComplete);
     }
 }

@@ -24,7 +24,6 @@ public class Battle
         player.Battle = this;
 
         SpawnEnemies();
-        StartTurns();
     }
 
     private void SpawnEnemies()

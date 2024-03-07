@@ -18,12 +18,13 @@ public class Level : Singleton<Level>
 
     public void StartEncounter()
     {
+        UIManager.Instance.EnterEncounter();
         CurrentEncounter.Enter();
-        UIManager.Instance.EnterEncounter(CurrentEncounter);
     }
 
     public void EndEncounter()
     {
+        UIManager.Instance.EndEncounter();
         encounters.RemoveAt(0);
 
         if (!Player.IsDead)

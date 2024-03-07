@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class CombatUI
+public class ActionUI
 {
     [Header("Images")]
     [SerializeField] private RectTransform combatImages;
@@ -22,12 +22,9 @@ public class CombatUI
     private RectTransform portrait;
     private EnemyPointer enemyPointer;
 
-    [Header("Settings")]
-    [SerializeField] private float timeBetweenTurns;
     private Battle battle;
     private Player player;
 
-    public float TimeBetweenTurns => timeBetweenTurns;
     public EnemyPointer Pointer => enemyPointer;
 
     public void Initialize()
@@ -42,40 +39,26 @@ public class CombatUI
         healthbar.GenerateHearts();
     }
 
-    public void StartEncounter(CombatEncounter encounter)
+    public void Enable()
     {
-        battle = encounter.Battle;
-        uiManager.ToggleBar(true, InitializeUI);
-    }
+        Debug.Log("enable");
 
-    public void EndEncounter()
-    {
-        CombatSelectionUI(false);
-        uiManager.ToggleBar(false);
-    }
+        battle = player.Battle;
 
-    private void InitializeUI()
-    {
         enemyPointer.StartCombat(battle);
-        CombatSelectionUI(true);
+
+        combatImages.gameObject.SetActive(true);
+        UpdateSelectionButtons();
+        SetActions(true);
+        enemyPointer.Enable();
     }
 
-    public void CombatSelectionUI(bool open)
+    public void Disable()
     {
-        if (open)
-        {
-            combatImages.gameObject.SetActive(true);
+        Debug.Log("disable");
+        enemyPointer.CombatEnded();
 
-            UpdateSelectionButtons();
-            SetActions(true);
-            enemyPointer.Enable();
-        }
-        else
-        {
-            combatImages.gameObject.SetActive(false);
-
-            enemyPointer.CombatEnded();
-        }
+        combatImages.gameObject.SetActive(false);
     }
 
     public void SetActions(bool enabled)

@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, ICombatEntity
     [SerializeField] private int combatSpeed;
     [SerializeField] private int lotCapacity;
     private UIManager uiManager;
-    private CombatUI combatUI;
+    private ActionUI combatUI;
 
     private readonly int isWalkingID = PlayerAnimationData.IsWalking;
 
@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, ICombatEntity
     private void Start()
     {
         uiManager = UIManager.Instance;
-        combatUI = uiManager.CombatUI;
+        combatUI = uiManager.ActionUI;
     }
 
     public void Move()

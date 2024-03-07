@@ -11,29 +11,41 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image lotImage;
     [SerializeField] private Image highlightImage;
-    private LotsManager lotsManager;
+    private CombatManager combatManager;
 
     [Header("Type Colors")]
     [SerializeField] private Color damageColor;
     [SerializeField] private Color protectionColor;
     [SerializeField] private Color holyColor;
     [SerializeField] private Color temptationColor;
-    [SerializeField] private Tween colorTween;
-    private Color defaultColor;
+    private int previousChildIndex;
 
-    public bool IsKept { get; set; }
+    private bool isKept = false;
+    private bool keptHighlightPrevent = false;
+    public bool IsKept 
+    { 
+        get => isKept; 
+        set
+        {
+            isKept = value;
+            if (isKept)
+                keptHighlightPrevent = true;
+        }
+    }
+
+    public bool IsLocked { get; set; }
     public Vector3 OriginalPosition { get; set; }
     public Quaternion OriginalRotation { get; set; }
     public LotType Type { get; private set; }
 
     private void Start()
     {
-        lotsManager = LotsManager.Instance;
-        defaultColor = lotImage.color;
+        combatManager = CombatManager.Instance;
     }
 
     public void Throw(Spline path, bool notifyUI = false)
     {
+        lotImage.color = Color.white;
         StartCoroutine(IEThrow(path, notifyUI));
     }
 
@@ -68,7 +80,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             );
 
         if (onComplete)
-            lotsManager.SelectLots();
+            combatManager.SelectLots();
     }
 
     public void RandomizeType()
@@ -97,12 +109,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         Color color = GetColorForType(Type);
 
-        void updateColor(float percentage)
-        {
-            lotImage.color = Color.Lerp(defaultColor, color, percentage);
-        }
-
-        TweenManager.DoTweenCustomNonAlloc(updateColor, colorTween.Duration, colorTween);
+        lotImage.color = color;
     }
 
     private Color GetColorForType(LotType type)
@@ -123,21 +130,40 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         float alpha;
 
         if (enable)
+        {
+            previousChildIndex = transform.GetSiblingIndex();
             alpha = 255;
+            BringToFront();
+        }
         else
+        {
             alpha = 0;
+
+            if (!keptHighlightPrevent)
+                transform.SetSiblingIndex(previousChildIndex);
+            else
+                keptHighlightPrevent = false;
+        }
 
         highlightImage.color = new(highlightColor.r, highlightColor.g, highlightColor.b, alpha);
     }
 
+    public void BringToFront()
+    {
+        transform.SetSiblingIndex(transform.parent.childCount - 1);
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
-        lotsManager.HoveredLot = this;
+        if (IsLocked) 
+            return;
+
+        combatManager.HoveredLot = this;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (lotsManager.HoveredLot == this)
-            lotsManager.HoveredLot = null;
+        if (combatManager.HoveredLot == this)
+            combatManager.HoveredLot = null;
     }
 }

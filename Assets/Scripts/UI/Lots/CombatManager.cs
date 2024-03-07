@@ -1,51 +1,105 @@
+using CustomUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum CombatPhase { LOTS, ACTION, TURN };
+
 public class CombatManager : Singleton<CombatManager>
 {
-    [SerializeField] private LotsBox lotsBox;
-    private Player player;
+    [SerializeField] private RectTransform startButton;
 
-    private Battle Battle => player.Battle;
+    [Header("Managers")]
+    [SerializeField] private LotsManager lotsManager;
+    [SerializeField] private PlayerActionManager actionManager;
+    [SerializeField] private TurnManager turnManager;
+    [SerializeField] private LotsBox lotsBox;
+
+    [Header("Combat Settings")]
+    [SerializeField] private float timeBetweenTurns;
+
+    private UIManager uiManager;
+
+    public float TimeBetweenTurns => timeBetweenTurns;
+    public int Roll => lotsManager.Roll;
+    public Lot HoveredLot { get => lotsManager.HoveredLot; set => lotsManager.HoveredLot = value; }
+    public LotsBox LotsBox => lotsBox;
+    public CombatPhase Phase { get; private set; }
 
     private void Start()
     {
-        player = Level.Instance.Player;
+        uiManager = UIManager.Instance;
+
+        lotsManager.Initialize();
+        actionManager.Initialize();
+        turnManager.Initialize();
     }
 
-    public void ChooseTurn(PlayerTurnType type)
+    public void Enable()
     {
-        switch(type)
+        void onComplete()
         {
-            case PlayerTurnType.STAFF:
-                Staff(Battle.GetEnemy(player.EnemyIndex));
-                break;
-            case PlayerTurnType.DEFEND:
-                Defend();
-                break;
-            case PlayerTurnType.PETITION:
-                Petition();
-                break;
-        }    
+            startButton.gameObject.SetActive(true);
+            lotsBox.gameObject.SetActive(true);
+        }
+
+        uiManager.ToggleBar(true, onComplete, true);
+        lotsManager.LotsParent.gameObject.SetActive(true);
     }
 
-    private void Staff(Enemy target)
+    public void Disable()
     {
-        int damage = lotsBox.ReleaseLotsOfType(LotType.DAMAGE).Count;
+        uiManager.ToggleBar(false, null, true);
 
-        target.Damage(damage);
+        lotsManager.ExitPhase();
+        actionManager.ExitPhase();
+        turnManager.ExitPhase();
+        lotsBox.gameObject.SetActive(false);
+        lotsManager.LotsParent.gameObject.SetActive(false);
     }
 
-    private void Defend()
+    public void EnterPhase(CombatPhase phase)
     {
-        int defense = lotsBox.ReleaseLotsOfType(LotType.PROTECTION).Count;
+        Phase = phase;
+        Debug.Log("enter phase: " + phase);
 
-        player.Defense += defense;
+        switch (phase)
+        {
+            case CombatPhase.LOTS:
+                LotsPhase();
+                break;
+            case CombatPhase.ACTION:
+                ActionPhase();
+                break;
+            case CombatPhase.TURN:
+                TurnPhase();
+                break;
+        }
     }
 
-    private void Petition()
+    private void LotsPhase()
     {
-        // deal with temptation
+        turnManager.ExitPhase();
+        lotsManager.EnterPhase();
     }
+
+    private void ActionPhase()
+    {
+        lotsManager.ExitPhase();
+        actionManager.EnterPhase();
+    }
+
+    private void TurnPhase()
+    {
+        actionManager.ExitPhase();
+        turnManager.EnterPhase();
+    }
+
+    public void ConfirmLots() => lotsManager.ConfirmLots();
+    public void ThrowLots() => lotsManager.ThrowLots();
+    public void SetLotsActive(bool active) => lotsManager.SetLotsActive(active);
+    public void SelectLots() => lotsManager.SelectLots();
+    public void RetireLot(Lot lot) => lotsManager.RetireLot(lot);
+
+    public void ChooseTurn(PlayerTurnType type) => actionManager.ChooseTurn(type);
 }

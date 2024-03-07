@@ -11,7 +11,7 @@ public class Turn
     private ICombatEntity target;
 
     public ICombatEntity User => user;
-    public ICombatEntity Target => target;
+    public ICombatEntity Target { get => target; set => target = value; }
     public TurnAction Action => action;
     public bool Finished { get; set; }
 
@@ -24,7 +24,13 @@ public class Turn
 
     public void Perform()
     {
-        Debug.Log(User.Name + " used " + action.Name + " on " + target.Name + ".");
+        if (User != null)
+        {
+            Debug.Log(User.Name + " used " + action.Name);
+
+            if (Target != null)
+                Debug.Log(" on " + Target.Name);
+        }
 
         action.Perform(this);
     }
@@ -33,8 +39,8 @@ public class Turn
 public abstract class TurnAction : ScriptableObject
 {
 
-    [SerializeField] private TurnActionVisual visual;
-    [SerializeField] private string actionName;
+    [SerializeField] protected TurnActionVisual visual;
+    [SerializeField] protected string actionName;
 
     public string Name => actionName;
 

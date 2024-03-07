@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8f5dce5c373e804e9917491faab416b, type: 3}
-  m_Name: Staff Animation
+  m_Script: {fileID: 11500000, guid: be0526381e8acfd4c8c93592cbadd404, type: 3}
+  m_Name: Player Action Visual
   m_EditorClassIdentifier: 
-  animationName: Attack

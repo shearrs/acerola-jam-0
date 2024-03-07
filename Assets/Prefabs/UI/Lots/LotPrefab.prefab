@@ -128,7 +128,7 @@ MonoBehaviour:
   holyColor: {r: 0.8156863, g: 0.96862745, b: 1, a: 0.6392157}
   temptationColor: {r: 0.16862746, g: 0.105882354, b: 0.21568628, a: 1}
   colorTween:
-    duration: 1
+    duration: 0.5
     loopType: 0
     loops: 0
     easingFunction: 0

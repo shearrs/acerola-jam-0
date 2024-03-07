@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LotsBox : MonoBehaviour
 {
@@ -24,15 +25,36 @@ public class LotsBox : MonoBehaviour
 
         lot.transform.localPosition = start + (amountInRow * horizontalPadding) + (row * verticalPadding);
         lot.transform.localRotation = Quaternion.Euler(rotation);
+        lot.BringToFront();
 
         lots.Add(lot);
         lot.IsKept = true;
     }
 
-    public void ReleaseLot(Lot lot)
+    public void KeepFinalLots(List<Lot> lots)
+    {
+        int count = lots.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            KeepLot(lots[0]);
+            lots[0].IsLocked = true;
+            lots.RemoveAt(0);
+        }
+
+        LockLots();
+    }
+
+    public void ReleaseLot(Lot lot, bool retire = false)
     {
         lots.Remove(lot);
         lot.IsKept = false;
+        lot.IsLocked = false;
+
+        if (retire)
+            CombatManager.Instance.RetireLot(lot);
+        else
+            SortLots();
     }
 
     public int GetAmountOfType(LotType type)
@@ -59,8 +81,32 @@ public class LotsBox : MonoBehaviour
         }
 
         foreach (Lot lot in typedLots)
-            ReleaseLot(lot);
+            ReleaseLot(lot, true);
+
+        SortLots();
 
         return typedLots;
+    }
+
+    private void LockLots()
+    {
+        foreach (Lot lot in lots)
+            lot.IsLocked = true;
+    }
+
+    private void SortLots()
+    {
+        for (int i = 0; i < lots.Count; i++)
+        {
+            int row = i / lotsPerRow;
+            int amountInRow = i - (lotsPerRow * row);
+            Lot lot = lots[i];
+
+            lot.transform.SetLocalPositionAndRotation
+                (
+                start + (amountInRow * horizontalPadding) + (row * verticalPadding), 
+                Quaternion.Euler(rotation)
+                );
+        }
     }
 }

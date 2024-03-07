@@ -18,15 +18,16 @@ namespace CustomUI
         [Header("Elements")]
         [SerializeField] private RectTransform bottomBar;
         [SerializeField] private Vector3 bbTargetPosition;
+        [SerializeField] private PlayerHealthbar healthbar;
         [SerializeField] private ShepherdPortrait portrait;
         private Vector3 bbOriginalPosition;
 
         [Header("Sub Classes")]
-        [SerializeField] private CombatUI combatUI;
+        [SerializeField] private ActionUI actionUI;
         [SerializeField] private LotsUI lotsUI;
 
         public ShepherdPortrait Portrait => portrait;
-        public CombatUI CombatUI => combatUI;
+        public ActionUI ActionUI => actionUI;
         public LotsUI LotsUI => lotsUI;
 
         private void Start()
@@ -39,37 +40,40 @@ namespace CustomUI
                 tweens.Insert(i, new());
             }
 
-            combatUI.Initialize();
+            actionUI.Initialize();
 
             bbOriginalPosition = bottomBar.anchoredPosition;
         }
 
         #region Game Specific
-        public void EnterEncounter(Encounter encounter)
+        public void EnterEncounter()
         {
-            if (encounter is CombatEncounter combat)
-            {
-                combatUI.StartEncounter(combat);
-                portrait.CombatPosition();
-            }
+            portrait.CombatPosition();
         }
 
-        public void EndEncounter(Encounter encounter)
+        public void EndEncounter()
         {
-            if (encounter is CombatEncounter)
-                combatUI.EndEncounter();
-
             portrait.DefaultPosition();
         }
 
-        public void ToggleBar(bool open, Action onComplete = null)
+        public void ToggleBar(bool open, Action onComplete = null, bool toggleHealthbar = false)
         {
             Tween tween;
 
             if (open)
+            {
                 tween = Move(bottomBar, bbTargetPosition);
+
+                if (toggleHealthbar)
+                    tween.SetOnComplete(() => healthbar.gameObject.SetActive(true));
+            }
             else
+            {
                 tween = Move(bottomBar, bbOriginalPosition);
+
+                if (toggleHealthbar)
+                    healthbar.gameObject.SetActive(false);
+            }
 
             if (onComplete != null)
                 tween.SetOnComplete(onComplete);

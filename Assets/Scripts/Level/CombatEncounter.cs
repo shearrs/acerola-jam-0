@@ -9,14 +9,16 @@ public class CombatEncounter : Encounter
     [SerializeField] private List<Enemy> enemies;
     [SerializeField] private Vector3[] enemyPositions;
     [SerializeField] private Battle battle;
-    private CombatUI combatUI;
+    private CombatManager combatManager;
 
     public Battle Battle => battle;
 
     public override void Enter()
     {
-        combatUI ??= UIManager.Instance.CombatUI;
+        if (combatManager == null)
+            combatManager = CombatManager.Instance;
 
+        combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
     }
 
@@ -37,10 +39,10 @@ public class CombatEncounter : Encounter
 
     private IEnumerator IEPlay(List<Turn> turns)
     {
-        WaitForSeconds wait = new(combatUI.TimeBetweenTurns);
+        WaitForSeconds wait = new(combatManager.TimeBetweenTurns);
         int count = turns.Count;
 
-        combatUI.SetActions(false);
+        combatManager.EnterPhase(CombatPhase.TURN);
         turns.Sort(OrderTurns);
 
         foreach (Turn turn in turns)
@@ -64,8 +66,8 @@ public class CombatEncounter : Encounter
             }
             else
             {
+                combatManager.EnterPhase(CombatPhase.LOTS);
                 battle.StartTurns();
-                combatUI.SetActions(true);
             }
         }
         else
@@ -74,8 +76,8 @@ public class CombatEncounter : Encounter
 
     protected override void EndEncounter()
     {
-        UIManager.Instance.EndEncounter(this);
         Level.Instance.EndEncounter();
+        combatManager.Disable();
     }
 
     private static int OrderTurns(Turn turn1, Turn turn2)

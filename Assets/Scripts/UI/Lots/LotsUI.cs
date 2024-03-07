@@ -8,17 +8,16 @@ using Tweens;
 public class LotsUI
 {
     [Header("References")]
-    [SerializeField] private GameObject combatContainer;
     [SerializeField] private RectTransform lotsUI;
     [SerializeField] private RectTransform lotsContainer;
     [SerializeField] private LotsButton lotsButton;
     [SerializeField] private LotsBox lotsBox;
     [SerializeField] private MinimizeButton minimizeButton;
-    private LotsManager lotsManager;
 
     [Header("Minimizing")]
     [SerializeField] private float minimizeHeight;
     private Vector3 maximizePosition;
+    private CombatManager combatManager;
 
     [Header("Tween")]
     [SerializeField] private Tween scaleTween;
@@ -27,21 +26,21 @@ public class LotsUI
 
     public void Enable()
     {
-        if (lotsManager == null)
-        {
-            lotsManager = LotsManager.Instance;
-        }
+        if (combatManager == null)
+            combatManager = CombatManager.Instance;
 
         lotsContainer.gameObject.SetActive(true);
         lotsContainer.localScale = Vector3.zero;
         lotsContainer.DoTweenScaleNonAlloc(targetScale, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(true));
+        UpdateLotsButton(Level.Instance.Player.LotCapacity);
 
         maximizePosition = lotsUI.anchoredPosition3D;
     }
 
     public void Disable()
     {
-        lotsContainer.DoTweenScaleNonAlloc(Vector3.zero, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(true));
+        lotsButton.gameObject.SetActive(false);
+        lotsContainer.DoTweenScaleNonAlloc(Vector3.zero, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(false));
     }
 
     public void SelectLots()
@@ -64,10 +63,10 @@ public class LotsUI
 
     private void OnTweenComplete(bool open)
     {
-        combatContainer.SetActive(!open);
         lotsContainer.gameObject.SetActive(open);
-        lotsButton.gameObject.SetActive(open);
-        lotsBox.gameObject.SetActive(open);
+
+        if (open)
+            lotsButton.gameObject.SetActive(open);
 
         if (open)
             minimizeButton.Enable();
@@ -81,16 +80,16 @@ public class LotsUI
         {
             lotsUI.DoTweenPositionNonAlloc(new(maximizePosition.x, minimizeHeight, maximizePosition.z), minimizeTween.Duration, minimizeTween);
 
-            lotsManager.SetLotsActive(false);
+            combatManager.SetLotsActive(false);
         }
         else
         {
             void enableLots()
             {
-                if (lotsManager.Roll == 0)
+                if (combatManager.Roll == 0)
                     return;
 
-                lotsManager.SetLotsActive(true);
+                combatManager.SetLotsActive(true);
             }
 
             lotsUI.DoTweenPositionNonAlloc(maximizePosition, minimizeTween.Duration, minimizeTween).SetOnComplete(enableLots);

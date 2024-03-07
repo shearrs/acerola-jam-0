@@ -1,12 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Lots Action", menuName = "Turn/Lots")]
-public class LotsAction : TurnAction
+[CreateAssetMenu(fileName = "New Player Action", menuName = "Turn/Player")]
+public class PlayerAction : TurnAction
 {
+    public Action SelectedAction { get; set; }
+
+    // set the name somewhere
+
     protected override void PerformInternal(Turn turn)
     {
-        Debug.Log("apply lots");
+        SelectedAction?.Invoke();
+    }
+
+    public void SetName(string name)
+    {
+        actionName = name;
     }
 }

@@ -17,13 +17,13 @@ public class LotsButton : MonoBehaviour
     private Color originalTextColor;
     private Image image;
     private Button button;
-    private LotsManager lotsManager;
+    private CombatManager combatManager;
 
     private bool confirmable = false;
 
     private void Start()
     {
-        lotsManager = LotsManager.Instance;
+        combatManager = CombatManager.Instance;
 
         image = GetComponent<Image>();
         button = GetComponent<Button>();
@@ -63,8 +63,8 @@ public class LotsButton : MonoBehaviour
     public void LotsAction()
     {
         if (confirmable)
-            lotsManager.ConfirmLots();
+            combatManager.ConfirmLots();
         else
-            lotsManager.ThrowLots();
+            combatManager.ThrowLots();
     }
 }

@@ -82,6 +82,14 @@ namespace Tweens
             return tween;
         }
 
+        public static Tween DoTweenRotationNonAlloc(this RectTransform transform, Quaternion to, float duration, Tween tween)
+        {
+            CreateTweenRotationNonAlloc(transform, to, duration, tween);
+            tween.Start();
+
+            return tween;
+        }
+
         public static Tween CreateTweenRotationNonAlloc(this Transform transform, Quaternion to, float duration, Tween tween)
         {
             Quaternion from = transform.rotation;
@@ -89,6 +97,17 @@ namespace Tweens
 
             UpdateTweenData(tween, duration, update);
             tween.SetOnComplete(() => transform.rotation = to);
+
+            return tween;
+        }
+
+        public static Tween CreateTweenRotationNonAlloc(this RectTransform transform, Quaternion to, float duration, Tween tween)
+        {
+            Quaternion from = transform.localRotation;
+            void update(float percentage) => transform.localRotation = Quaternion.LerpUnclamped(from, to, percentage);
+
+            UpdateTweenData(tween, duration, update);
+            tween.SetOnComplete(() => transform.localRotation = to);
 
             return tween;
         }

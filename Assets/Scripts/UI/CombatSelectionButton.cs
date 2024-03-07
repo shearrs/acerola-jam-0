@@ -8,18 +8,16 @@ public class CombatSelectionButton : MonoBehaviour
 {
     [SerializeField] private Color disabledColor;
     [SerializeField] private bool next;
-    private CombatUI combatUI;
+    private ActionUI combatUI;
     private Button button;
     private Image image;
     private Color initialColor;
-
-    private int Change => (next) ? 1 : -1;
 
     private void OnEnable()
     {
         if (combatUI == null)
         {
-            combatUI = UIManager.Instance.CombatUI;
+            combatUI = UIManager.Instance.ActionUI;
             image = GetComponent<Image>();
             button = GetComponent<Button>();
 
@@ -27,19 +25,18 @@ public class CombatSelectionButton : MonoBehaviour
         }
     }
 
-    public void UpdateIndex()
-    {
-        combatUI.UpdateEnemyPointer(Change);
-    }
-
     public void Enable()
     {
+        Debug.Log("enable");
+
         button.enabled = true;
         image.color = initialColor;
     }
 
     public void Disable()
     {
+        Debug.Log("disable");
+
         button.enabled = false;
         image.color = disabledColor;
     }
