@@ -29,24 +29,16 @@ public class SinUI : Singleton<SinUI>
 
     private SinImage GetSinImageForType(SinType type)
     {
-        switch (type)
+        return type switch
         {
-            case SinType.PRIDE:
-                return pride;
-            case SinType.GREED:
-                return greed;
-            case SinType.LUST:
-                return lust;
-            case SinType.ENVY:
-                return envy;
-            case SinType.GLUTTONY:
-                return gluttony;
-            case SinType.WRATH:
-                return wrath;
-            case SinType.SLOTH:
-                return sloth;
-            default:
-                return null;
-        }
+            SinType.PRIDE => pride,
+            SinType.GREED => greed,
+            SinType.LUST => lust,
+            SinType.ENVY => envy,
+            SinType.GLUTTONY => gluttony,
+            SinType.WRATH => wrath,
+            SinType.SLOTH => sloth,
+            _ => null,
+        };
     }
 }

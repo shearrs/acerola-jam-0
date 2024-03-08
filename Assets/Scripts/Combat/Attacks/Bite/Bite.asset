@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 11400000, guid: 913cce56c4e8cf548a8a9a1aec2255c2, type: 2}
   actionName: Bite
-  damage: 3
-  attackText: bites
+  damage: 0

@@ -9,9 +9,11 @@ public class DefenseDisplay : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI text;
 
+    public bool IsEnabled { get; set; } = false;
+
     public void UpdateDefense(int defense)
     {
-        if (defense == 0 && CombatManager.Instance.Phase != CombatPhase.TURN)
+        if (!IsEnabled)
         {
             image.gameObject.SetActive(false);
             text.text = "";

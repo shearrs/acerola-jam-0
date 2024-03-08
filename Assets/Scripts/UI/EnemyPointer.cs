@@ -50,7 +50,7 @@ public class EnemyPointer : MonoBehaviour
             transform.SetPositionAndRotation(position, rotation);
         else
         {
-            transform.DoTweenPositionNonAlloc(position, movementTween.Duration, movementTween);
+            transform.DoTweenPositionNonAlloc(position, movementTween.Duration, movementTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
             transform.DoTweenRotationNonAlloc(rotation, movementTween.Duration, rotationTween);
         }
     }

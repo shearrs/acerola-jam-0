@@ -35,6 +35,7 @@ public class LotsUI
         lotsContainer.localScale = Vector3.zero;
         lotsContainer.DoTweenScaleNonAlloc(targetScale, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(true));
         UpdateLotsButton(Level.Instance.Player.LotCapacity);
+        combatManager.DefenseDisplay.IsEnabled = false;
 
         maximizePosition = lotsUI.anchoredPosition3D;
     }

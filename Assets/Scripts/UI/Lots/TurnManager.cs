@@ -18,6 +18,7 @@ public class TurnManager
     {
         enabled = true;
         actionUI.SetActions(false);
+        actionUI.ToggleSelectionButtons(false);
     }
 
     public void ExitPhase()

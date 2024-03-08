@@ -16,6 +16,5 @@ public class Envy : Sin
 
     public override void Purify()
     {
-        throw new System.NotImplementedException();
     }
 }

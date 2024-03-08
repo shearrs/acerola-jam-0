@@ -38,18 +38,18 @@ public class EnemyIntent : MonoBehaviour
     public void SetAttack(int damage)
     {
         intentSprite.sprite = damageSprite;
-        intentText.text = "x" + damage;
+        intentText.text = "-" + damage;
     }
 
     public void SetDefense(int defense)
     {
         intentSprite.sprite = defenseSprite;
-        intentText.text = "x" + defense;
+        intentText.text = "+" + defense;
     }
 
     public void SetHeal(int heal)
     {
         intentSprite.sprite = healSprite;
-        intentText.text = "x" + heal;
+        intentText.text = "+" + heal;
     }
 }

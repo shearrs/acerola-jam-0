@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
     {
         Debug.Log(Name + " dies.");
 
-        Destroy(healthbar);
+        Destroy(healthbar.gameObject);
         Destroy(gameObject);
     }
 

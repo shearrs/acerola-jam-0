@@ -14,7 +14,6 @@ public class ActionUI
     [SerializeField] private CombatSelectionButton previousButton;
     [SerializeField] private CombatSelectionButton nextButton;
     [SerializeField] private PlayerHealthbar healthbar;
-    [SerializeField] private DefenseDisplay defenseDisplay;
 
     [Header("Pointer")]
     [SerializeField] private EnemyPointer enemyPointerPrefab;
@@ -27,7 +26,6 @@ public class ActionUI
     private Player player;
 
     public EnemyPointer Pointer => enemyPointer;
-    public DefenseDisplay DefenseDisplay => defenseDisplay;
 
     public void Initialize()
     {
@@ -48,6 +46,7 @@ public class ActionUI
         enemyPointer.StartCombat(battle);
 
         combatImages.gameObject.SetActive(true);
+        ToggleSelectionButtons(true);
         UpdateSelectionButtons();
         SetActions(true);
         enemyPointer.Enable();
@@ -94,6 +93,12 @@ public class ActionUI
         player.EnemyIndex += change;
         UpdateSelectionButtons();
         enemyPointer.SetPosition();
+    }
+
+    public void ToggleSelectionButtons(bool active)
+    {
+        nextButton.gameObject.SetActive(active);
+        previousButton.gameObject.SetActive(active);
     }
 
     private void UpdateSelectionButtons()

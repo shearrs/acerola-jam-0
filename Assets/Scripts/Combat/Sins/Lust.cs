@@ -6,7 +6,6 @@ public class Lust : Sin
 {
     public override void ApplyEffect()
     {
-        SinUI.Instance.ActivateUI(SinType.LUST);
     }
 
     public override SinType GetSinType()

@@ -29,6 +29,7 @@ namespace Tweens
         private Action<float> Update;
         private List<Action> OnCompletes;
 
+        public EasingFunctions.EasingFunction EasingFunction => easingFunction;
         public float Duration { get => duration; private set => duration = value; }
         public float TimePassed { get; private set; } = 0;
         public float Percentage

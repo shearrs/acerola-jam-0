@@ -59,6 +59,15 @@ public class LotsManager
         player.Defense = 0;
         CreateLots(player.LotCapacity);
         lotsUI.ToggleMinimize(false);
+
+        if (player.HasSin(SinType.GLUTTONY) && lotsBox.LotsCount > 0)
+        {
+            int random = Random.Range(0, lotsBox.LotsCount);
+            SinUI.Instance.ActivateUI(SinType.GLUTTONY);
+
+            lotsBox.ReleaseLot(lotsBox.Lots[random], true);
+            lotsBox.SortLots();
+        }
     }
 
     public void ExitPhase()

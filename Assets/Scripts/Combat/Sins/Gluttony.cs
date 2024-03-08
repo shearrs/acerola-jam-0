@@ -6,7 +6,6 @@ public class Gluttony : Sin
 {
     public override void ApplyEffect()
     {
-        SinUI.Instance.ActivateUI(SinType.GLUTTONY);
     }
 
     public override SinType GetSinType()
@@ -16,6 +15,5 @@ public class Gluttony : Sin
 
     public override void Purify()
     {
-        throw new System.NotImplementedException();
     }
 }

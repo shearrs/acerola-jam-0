@@ -36,4 +36,12 @@ public class CombatSelectionButton : MonoBehaviour
         button.enabled = false;
         image.color = disabledColor;
     }
+
+    public void UpdateIndex()
+    {
+        if (next)
+            combatUI.UpdateEnemyPointer(1);
+        else
+            combatUI.UpdateEnemyPointer(-1);
+    }
 }

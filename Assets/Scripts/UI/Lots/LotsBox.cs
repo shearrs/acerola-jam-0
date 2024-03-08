@@ -81,14 +81,24 @@ public class LotsBox : MonoBehaviour
         return count;
     }
 
-    public List<Lot> ReleaseLotsOfType(LotType type)
+    public List<Lot> ReleaseLotsOfType(LotType type, int amount = -1)
     {
-        List<Lot> typedLots = new(GetAmountOfType(type));
+        if (amount == -1)
+            amount = GetAmountOfType(type);
+        
+        List<Lot> typedLots = new(amount);
+        int counter = 0;
 
         foreach(Lot lot in lots)
         {
+            if (counter == amount)
+                break;
+
             if (lot.Type == type)
+            {
                 typedLots.Add(lot);
+                counter++;
+            }
         }
 
         foreach (Lot lot in typedLots)
@@ -105,7 +115,7 @@ public class LotsBox : MonoBehaviour
             lot.IsLocked = true;
     }
 
-    private void SortLots()
+    public void SortLots()
     {
         for (int i = 0; i < lots.Count; i++)
         {
@@ -123,7 +133,7 @@ public class LotsBox : MonoBehaviour
 
     private void GenerateSin()
     {
-        ReleaseLotsOfType(LotType.TEMPTATION);
+        ReleaseLotsOfType(LotType.TEMPTATION, 3);
 
         Sin sin = null;
         SinType type = GetRandomSin();
@@ -151,14 +161,12 @@ public class LotsBox : MonoBehaviour
                 sin = new Sloth();
                 break;
         }
-        
+
         Level.Instance.Player.AddSin(sin);
     }
 
     private SinType GetRandomSin()
     {
-        return SinType.LUST;
-
         Player player = Level.Instance.Player;
 
         List<SinType> sins = new(7)
@@ -172,12 +180,9 @@ public class LotsBox : MonoBehaviour
             SinType.SLOTH
         };
 
-        for (int i = 0; i < 7; i++)
+        foreach(Sin sin in player.Sins)
         {
-            if (player.HasSin(sins[i]))
-                sins.RemoveAt(i);
-
-            i--;
+            sins.Remove(sin.GetSinType());
         }
 
         int sinIndex = Random.Range(0, sins.Count);

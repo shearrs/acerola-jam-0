@@ -14,6 +14,7 @@ public class CombatManager : Singleton<CombatManager>
     [SerializeField] private PlayerActionManager actionManager;
     [SerializeField] private TurnManager turnManager;
     [SerializeField] private LotsBox lotsBox;
+    [SerializeField] private DefenseDisplay defenseDisplay;
 
     [Header("Combat Settings")]
     [SerializeField] private float timeBetweenTurns;
@@ -24,6 +25,7 @@ public class CombatManager : Singleton<CombatManager>
     public int Roll => lotsManager.Roll;
     public Lot HoveredLot { get => lotsManager.HoveredLot; set => lotsManager.HoveredLot = value; }
     public LotsBox LotsBox => lotsBox;
+    public DefenseDisplay DefenseDisplay => defenseDisplay;
     public CombatPhase Phase { get; private set; }
 
     private void Start()

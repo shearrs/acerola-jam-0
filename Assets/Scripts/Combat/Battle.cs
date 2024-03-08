@@ -94,6 +94,21 @@ public class Battle
         return enemy;
     }
 
+    public Enemy GetRandomEnemy(int exclusionIndex)
+    {
+        List<Enemy> possibleEnemies = new List<Enemy>(enemies.Count - 1);
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (i != exclusionIndex)
+                possibleEnemies.Add(enemies[i]);
+        }
+
+        int random = Random.Range(0, possibleEnemies.Count);
+
+        return possibleEnemies[random];
+    }
+
     private bool AllTurnsSubmitted()
     {
         if (player.Turn == null)

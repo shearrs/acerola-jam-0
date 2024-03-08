@@ -34,35 +34,14 @@ public class Player : MonoBehaviour, ICombatEntity
         {
             defense = value;
             Debug.Log("update defense: " + defense);
-            actionUI.DefenseDisplay.UpdateDefense(defense);
+            CombatManager.Instance.DefenseDisplay.UpdateDefense(defense);
         }
     }
     public Battle Battle { get; set; }
     public Turn Turn { get; set; }
     public Animator Animator => animator;
     public int Speed { get => combatSpeed; set => combatSpeed = value; }
-    private int enemyIndex;
-    public int EnemyIndex 
-    { 
-        get
-        {
-            if (HasSin(SinType.LUST))
-            {
-                int choice = Random.Range(0, 4);
-
-                if (choice == 0)
-                {
-                    SinUI.Instance.ActivateUI(SinType.LUST);
-                    return Random.Range(0, Battle.Enemies.Count);
-                }
-                else
-                    return enemyIndex;
-            }
-            else
-                return enemyIndex;
-        }
-        set => enemyIndex = value;
-    }
+    public int EnemyIndex { get; set; }
     public bool IsDead { get; private set; } = false;
     public int MaxHealth => maxHealth;
     public int LotCapacity 
@@ -70,7 +49,12 @@ public class Player : MonoBehaviour, ICombatEntity
         get => lotCapacity;
         set => lotCapacity = Mathf.Max(2, value);
     }
+    public bool PurifyingSin { get; set; }
+    public Sin SelectedSin { get; set; }
+    public int SelectedHeal { get; set; }
     public GameObject Staff => staff;
+    public List<Sin> Sins => sins;
+    public int SinCount => sins.Count;
 
     private void Awake()
     {
@@ -186,11 +170,6 @@ public class Player : MonoBehaviour, ICombatEntity
         SinUI.Instance.AddSin(sin.GetSinType());
         sins.Add(sin);
         sin.ApplyEffect();
-    }
-
-    public void TestSins()
-    {
-        RemoveSin(sins[0]);
     }
 
     public void RemoveSin(Sin sin)
