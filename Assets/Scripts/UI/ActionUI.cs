@@ -41,8 +41,6 @@ public class ActionUI
 
     public void Enable()
     {
-        Debug.Log("enable");
-
         battle = player.Battle;
 
         enemyPointer.StartCombat(battle);
@@ -55,7 +53,6 @@ public class ActionUI
 
     public void Disable()
     {
-        Debug.Log("disable");
         enemyPointer.CombatEnded();
 
         combatImages.gameObject.SetActive(false);

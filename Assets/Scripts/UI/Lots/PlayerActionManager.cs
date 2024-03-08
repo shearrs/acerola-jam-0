@@ -46,35 +46,35 @@ public class PlayerActionManager
 
     public void ChooseTurn(PlayerTurnType type)
     {
-        string animation = "";
         string name = "";
         Action selectedAction = null;
+        Action<Action> selectedVisual = null;
         Turn turn = new(player, null, playerAction);
 
         switch(type)
         {
             case PlayerTurnType.STAFF:
-                animation = "Attack";
                 name = "Staff";
                 Enemy enemy = Battle.GetEnemy(player.EnemyIndex);
                 selectedAction = () => Staff(enemy);
+                selectedVisual = (onComplete) => ActionVisual("Attack", onComplete);
                 turn.Target = enemy;
                 break;
             case PlayerTurnType.DEFEND:
-                animation = "Defend";
                 name = "Defend";
                 selectedAction = Defend;
+                selectedVisual = (onComplete) => ActionVisual("Defend", onComplete);
                 turn.Target = player;
                 break;
             case PlayerTurnType.PETITION:
-                animation = "Petition";
                 name = "Petition";
                 selectedAction = Petition;
+                selectedVisual = PetitionVisual;
                 turn.Target = player;
                 break;
         }
 
-        playerVisual.SelectedVisual = (onComplete) => player.Animator.PlayAndNotify(player, animation, onComplete);
+        playerVisual.SelectedVisual = selectedVisual;
         playerAction.SelectedAction = selectedAction;
         playerAction.SetName(name);
         player.Turn = turn;
@@ -97,5 +97,25 @@ public class PlayerActionManager
     private void Petition()
     {
         // deal with temptation
+        player.Staff.SetActive(true);
+        int holiness = lotsBox.ReleaseLotsOfType(LotType.HOLY).Count;
+
+        if (holiness >= 3)
+        {
+            player.TestSins();
+        }
+        else
+            player.Heal(holiness);
+    }
+
+    private void ActionVisual(string animation, Action onComplete)
+    {
+        player.Animator.PlayAndNotify(player, animation, onComplete);
+    }
+
+    private void PetitionVisual(Action onComplete)
+    {
+        player.Staff.SetActive(false);
+        ActionVisual("Petition", onComplete);
     }
 }

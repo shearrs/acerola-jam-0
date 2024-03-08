@@ -26,10 +26,12 @@ public class Turn
     {
         if (User != null)
         {
-            Debug.Log(User.Name + " used " + action.Name);
+            string text = User.Name + " used " + action.Name;
 
             if (Target != null)
-                Debug.Log(" on " + Target.Name);
+                text += " on " + Target.Name;
+
+            Debug.Log(text);
         }
 
         action.Perform(this);

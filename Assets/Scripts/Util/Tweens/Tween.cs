@@ -174,9 +174,9 @@ namespace Tweens
 
         private void PlayOnCompletes()
         {
-            foreach (Action action in OnCompletes)
+            for (int i = 0; i < OnCompletes.Count; i++)
             {
-                action?.Invoke();
+                OnCompletes[i]?.Invoke();
             }
         }
 

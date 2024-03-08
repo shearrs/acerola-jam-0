@@ -61,11 +61,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             OrientedPoint sample = path.GetBezierPoint(progress);
             Vector3 position = sample.position;
 
-            transform.SetPositionAndRotation
-                (
-                position, 
-                Quaternion.Euler(verticalRotations * progress, 0, horizontalRotations * progress)
-                );
+            transform.position = position;
+            transform.localRotation = Quaternion.Euler(verticalRotations * progress, 0, horizontalRotations * progress);
 
             progress += Time.deltaTime * speed;
 
@@ -73,11 +70,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
 
         Vector3 finalPosition = path.GetBezierPoint(1).position;
-        transform.SetPositionAndRotation
-            (
-                finalPosition,
-                Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z)
-            );
+        transform.position = finalPosition;
+        transform.localRotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
 
         if (onComplete)
             combatManager.SelectLots();

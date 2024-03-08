@@ -208,6 +208,7 @@ namespace Tweens
             tween.Stop();
             tween.SetDuration(duration);
             tween.SetOnComplete(null);
+            tween.SetEasingFunction(EasingFunctions.EasingFunction.LINEAR);
             tween.SetUpdate(update);
         }
     }

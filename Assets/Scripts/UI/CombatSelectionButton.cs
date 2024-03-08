@@ -27,16 +27,12 @@ public class CombatSelectionButton : MonoBehaviour
 
     public void Enable()
     {
-        Debug.Log("enable");
-
         button.enabled = true;
         image.color = initialColor;
     }
 
     public void Disable()
     {
-        Debug.Log("disable");
-
         button.enabled = false;
         image.color = disabledColor;
     }

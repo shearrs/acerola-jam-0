@@ -8,8 +8,6 @@ public class PlayerAction : TurnAction
 {
     public Action SelectedAction { get; set; }
 
-    // set the name somewhere
-
     protected override void PerformInternal(Turn turn)
     {
         SelectedAction?.Invoke();

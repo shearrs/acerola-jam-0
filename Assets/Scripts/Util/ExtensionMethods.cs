@@ -16,12 +16,12 @@ public static class ExtensionMethods
 
         animator.Play(animationName);
 
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName(animationName))
+        while (!animator.IsPlaying(animationName))
             yield return null;
 
         length = animator.GetCurrentAnimatorStateInfo(0).length;
 
-        while (time < length || animator.IsInTransition(0))
+        while ((animator.IsPlaying(animationName) && time < length) || animator.IsInTransition(0))
         {
             time = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
 
@@ -29,5 +29,10 @@ public static class ExtensionMethods
         }
 
         onComplete?.Invoke();
+    }
+
+    public static bool IsPlaying(this Animator animator, string animationName)
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).IsName(animationName);
     }
 }

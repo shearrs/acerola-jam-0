@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LotsBox : MonoBehaviour
 {
+    [Header("Positioning")]
     [SerializeField] private Vector3 start;
     [SerializeField] private Vector3 rotation;
     [SerializeField] private int lotsPerRow;
@@ -14,6 +14,16 @@ public class LotsBox : MonoBehaviour
 
     public List<Lot> Lots => lots;
     public int LotsCount => lots.Count;
+
+    public void Empty()
+    {
+        int count = lots.Count;
+
+        for (int i = 0; i < count; i++)
+        {
+            ReleaseLot(lots[0], true);
+        }
+    }
 
     public void KeepLot(Lot lot)
     {
@@ -33,16 +43,16 @@ public class LotsBox : MonoBehaviour
 
     public void KeepFinalLots(List<Lot> lots)
     {
-        int count = lots.Count;
-
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < lots.Count; i++)
         {
-            KeepLot(lots[0]);
-            lots[0].IsLocked = true;
-            lots.RemoveAt(0);
+            KeepLot(lots[i]);
+            lots[i].IsLocked = true;
         }
 
         LockLots();
+
+        if (GetAmountOfType(LotType.TEMPTATION) >= 3)
+            GenerateSin();
     }
 
     public void ReleaseLot(Lot lot, bool retire = false)
@@ -108,5 +118,14 @@ public class LotsBox : MonoBehaviour
                 Quaternion.Euler(rotation)
                 );
         }
+    }
+
+    private void GenerateSin()
+    {
+        // randomize value
+        Debug.Log("generate sin");
+        ReleaseLotsOfType(LotType.TEMPTATION);
+
+        Level.Instance.Player.AddSin(new Greed());
     }
 }

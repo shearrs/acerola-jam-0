@@ -16,13 +16,14 @@ public class Enemy : MonoBehaviour, ICombatEntity
     [SerializeField] private string enemyName;
     [SerializeField] private int maxHealth;
     [SerializeField] private int speed;
-    [SerializeField] private Attack[] attacks;
+    [SerializeField] private TurnAction[] actions;
 
     public string Name => enemyName;
     public int Speed => speed;
 
     public Battle Battle { get; set; }
     public int Health { get; set; }
+    public int Defense { get; set; }
     public Turn Turn { get; set; }
     public Animator Animator => animator;
     public float PointerOffset => pointerOffset;
@@ -63,8 +64,10 @@ public class Enemy : MonoBehaviour, ICombatEntity
 
     public void ChooseTurn()
     {
-        Attack attack = attacks[0];
-        Turn = new(this, Level.Instance.Player, attack);
+        int index = Random.Range(0, actions.Length);
+
+        TurnAction action = actions[index];
+        Turn = new(this, Level.Instance.Player, action);
 
         Battle.SubmitTurn(Turn);
     }

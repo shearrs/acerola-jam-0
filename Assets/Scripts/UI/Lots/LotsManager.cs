@@ -15,7 +15,7 @@ public class LotsManager
     [Header("Setup")]
     [SerializeField] private List<Spline> splines;
     private readonly List<Spline> currentSplines = new();
-    private readonly List<Lot> lots = new();
+    [SerializeField] private List<Lot> lots = new();
     private readonly List<Lot> reserveLots = new();
 
     private LotsUI lotsUI;
@@ -56,7 +56,9 @@ public class LotsManager
         lotsUI.Enable();
         Roll = 0;
 
+        player.Defense = 0;
         CreateLots(player.LotCapacity);
+        lotsUI.ToggleMinimize(false);
     }
 
     public void ExitPhase()
@@ -65,8 +67,9 @@ public class LotsManager
             return;
 
         CombatManager.Instance.StopCoroutine(selectCoroutine);
+        ResetSplines();
         lotsUI.Disable();
-        enabled = true;
+        enabled = false;
     }
 
     public void ThrowLots()
@@ -83,6 +86,7 @@ public class LotsManager
         for (int i = 1; i < lots.Count; i++)
         {
             lots[i].gameObject.SetActive(true);
+
             lots[i].Throw(GetSpline());
         }
 
@@ -92,6 +96,7 @@ public class LotsManager
     public void ConfirmLots()
     {
         lotsBox.KeepFinalLots(lots);
+        lots.Clear();
         lotsUI.Disable();
 
         CombatManager.Instance.EnterPhase(CombatPhase.ACTION);
@@ -147,7 +152,7 @@ public class LotsManager
                     {
                         lotsBox.ReleaseLot(HoveredLot);
                         HoveredLot.transform.localPosition = HoveredLot.OriginalPosition;
-                        HoveredLot.transform.rotation = HoveredLot.OriginalRotation;
+                        HoveredLot.transform.localRotation = HoveredLot.OriginalRotation;
 
                         lots.Add(HoveredLot);
                     }
@@ -172,14 +177,16 @@ public class LotsManager
 
         for (int j = 0; j < reserve; j++)
         {
+            if (amount == 0)
+                return;
+
             Lot lot = reserveLots[0];
             lot.gameObject.SetActive(false);
             lots.Add(lot);
 
             reserveLots.RemoveAt(0);
+            amount--;
         }
-
-        amount -= reserve;
 
         for (int i = 0; i < amount; i++)
         {

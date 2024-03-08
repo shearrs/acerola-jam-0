@@ -41,10 +41,10 @@ public class CombatManager : Singleton<CombatManager>
         {
             startButton.gameObject.SetActive(true);
             lotsBox.gameObject.SetActive(true);
+            lotsManager.LotsParent.gameObject.SetActive(true);
         }
 
         uiManager.ToggleBar(true, onComplete, true);
-        lotsManager.LotsParent.gameObject.SetActive(true);
     }
 
     public void Disable()
@@ -54,6 +54,7 @@ public class CombatManager : Singleton<CombatManager>
         lotsManager.ExitPhase();
         actionManager.ExitPhase();
         turnManager.ExitPhase();
+        lotsBox.Empty();
         lotsBox.gameObject.SetActive(false);
         lotsManager.LotsParent.gameObject.SetActive(false);
     }

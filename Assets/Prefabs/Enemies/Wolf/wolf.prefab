@@ -115,8 +115,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 1214505425332324166}
   healthbar: {fileID: 4343318688308913498, guid: ad72d89b4cd85624ea5b732d46635778, type: 3}
-  healthbarOffset: {x: 0, y: 3.25, z: 0}
-  pointerOffset: 2.5
+  healthbarOffset: {x: 0, y: 3, z: 0}
+  pointerOffset: 2.25
   enemyName: Wolf
   maxHealth: 3
   speed: 3
