@@ -14,4 +14,5 @@ public interface ICombatEntity
 
     public void Heal(int heal);
     public void Damage(int damage);
+    public void OnExecutingTurn();
 }

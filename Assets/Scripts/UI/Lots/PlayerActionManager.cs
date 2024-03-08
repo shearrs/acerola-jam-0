@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static UnityEngine.GraphicsBuffer;
 
 [Serializable]
 public class PlayerActionManager
@@ -33,7 +32,6 @@ public class PlayerActionManager
         player.Turn = turn;
 
         actionUI.Enable();
-        Battle.StartTurns();
     }
 
     public void ExitPhase()

@@ -382,6 +382,8 @@ MonoBehaviour:
   animator: {fileID: 1439312017396543897}
   maxHealth: 10
   combatSpeed: 5
+  lotCapacity: 4
+  staff: {fileID: 8022714779218519417}
 --- !u!1001 &4048098295348733483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -565,5 +567,10 @@ PrefabInstance:
 --- !u!4 &7214124735203442627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: ddba2b3c982121e4b8d66c35d280b183, type: 3}
+  m_PrefabInstance: {fileID: 7176205922834159656}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8022714779218519417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ddba2b3c982121e4b8d66c35d280b183, type: 3}
   m_PrefabInstance: {fileID: 7176205922834159656}
   m_PrefabAsset: {fileID: 0}

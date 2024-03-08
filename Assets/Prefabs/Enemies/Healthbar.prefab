@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthTick: {fileID: 6671404246589227260, guid: 142673aaef757bc47beb306bfe61b8a3, type: 3}
-  distanceBetween: 0.35
-  tickSpawnDelay: 0.1
+  distanceBetween: 0.365
+  amountPerRow: 5
+  tickSpawnDelay: 0.15

@@ -20,6 +20,8 @@ public class CombatEncounter : Encounter
 
         combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
+
+        battle.StartTurns();
     }
 
     private Vector3[] GetRelativePositions()

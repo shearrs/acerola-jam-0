@@ -34,6 +34,7 @@ public class Turn
             Debug.Log(text);
         }
 
+        User.OnExecutingTurn();
         action.Perform(this);
     }
 }

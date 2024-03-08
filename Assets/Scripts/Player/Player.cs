@@ -155,4 +155,8 @@ public class Player : MonoBehaviour, ICombatEntity
         SinUI.Instance.RemoveSin(sin);
         sin.Purify();
     }
+
+    public void OnExecutingTurn()
+    {
+    }
 }

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
     [Header("References")]
     [SerializeField] private Animator animator;
     [SerializeField] private Healthbar healthbar;
+    [SerializeField] private EnemyIntent intent;
     [SerializeField] private Vector3 healthbarOffset;
     [SerializeField] private float pointerOffset;
     private readonly Tween shakeTween = new();
@@ -50,6 +51,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
         {
             Battle.Enemies.Remove(this);
             IsDead = true;
+
             shakeTween.SetOnComplete(Die);
         }
     }
@@ -62,11 +64,20 @@ public class Enemy : MonoBehaviour, ICombatEntity
         Destroy(gameObject);
     }
 
-    public void ChooseTurn()
+    private TurnAction GetAction()
     {
         int index = Random.Range(0, actions.Length);
+        return actions[index];
+    }
 
-        TurnAction action = actions[index];
+    public void ChooseTurn()
+    {
+        TurnAction action = GetAction();
+        intent.Enable();
+
+        if (action is Attack attack)
+            intent.SetAttack(attack.Damage);
+
         Turn = new(this, Level.Instance.Player, action);
 
         Battle.SubmitTurn(Turn);
@@ -87,5 +98,10 @@ public class Enemy : MonoBehaviour, ICombatEntity
 
         if (Health > maxHealth)
             Health = maxHealth;
+    }
+
+    public void OnExecutingTurn()
+    {
+        intent.Disable();
     }
 }
