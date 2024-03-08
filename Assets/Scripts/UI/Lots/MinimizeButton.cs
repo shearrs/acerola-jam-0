@@ -36,17 +36,26 @@ public class MinimizeButton : MonoBehaviour
         rect.rotation = Quaternion.Euler(90, 0, 0);
     }
 
-    public void Enable()
+    public void Enable(bool tween = true)
     {
-        rect.DoTweenPositionNonAlloc(openPosition, movementTween.Duration, movementTween).SetOnComplete(() => button.enabled = true);
-        rect.DoTweenRotationNonAlloc(Quaternion.Euler(0, 0, 0), movementTween.Duration, rotationTween);
+        if (tween)
+        {
+            rect.DoTweenPositionNonAlloc(openPosition, movementTween.Duration, movementTween).SetOnComplete(() => button.enabled = true);
+            rect.DoTweenRotationNonAlloc(Quaternion.Euler(0, 0, 0), movementTween.Duration, rotationTween);
+        }
+        else
+            button.enabled = true;
     }
 
-    public void Disable()
+    public void Disable(bool tween = true)
     {
         button.enabled = false;
-        rect.DoTweenPositionNonAlloc(closedPosition, movementTween.Duration, movementTween);
-        rect.DoTweenRotationNonAlloc(Quaternion.Euler(90, 0, 0), movementTween.Duration, rotationTween);
+
+        if (tween)
+        {
+            rect.DoTweenPositionNonAlloc(closedPosition, movementTween.Duration, movementTween);
+            rect.DoTweenRotationNonAlloc(Quaternion.Euler(90, 0, 0), movementTween.Duration, rotationTween);
+        }
     }
 
     public void ToggleMinimize()

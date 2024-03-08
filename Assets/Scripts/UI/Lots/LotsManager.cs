@@ -77,6 +77,7 @@ public class LotsManager
         if (selectCoroutine != null)
             CombatManager.Instance.StopCoroutine(selectCoroutine);
 
+        lotsUI.MinimizeButton.Disable(false);
         lotsUI.SetLotsButtonActive(false);
 
         ResetSplines();
@@ -106,6 +107,7 @@ public class LotsManager
     {
         lotsUI.SelectLots();
         SetLotTypes();
+        lotsUI.MinimizeButton.Enable(false);
 
         if (Roll < MAX_ROLLS)
         {

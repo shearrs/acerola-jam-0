@@ -6,12 +6,16 @@ public class Greed : Sin
 {
     public override void ApplyEffect()
     {
-        Level.Instance.Player.LotCapacity--;
-        Debug.Log("applying greed");
+        SinUI.Instance.ActivateUI(SinType.GREED);
+    }
+
+    public override SinType GetSinType()
+    {
+        return SinType.GREED;
     }
 
     public override void Purify()
     {
-        Level.Instance.Player.LotCapacity++;
+        throw new System.NotImplementedException();
     }
 }

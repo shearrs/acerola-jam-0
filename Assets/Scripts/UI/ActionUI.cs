@@ -14,6 +14,7 @@ public class ActionUI
     [SerializeField] private CombatSelectionButton previousButton;
     [SerializeField] private CombatSelectionButton nextButton;
     [SerializeField] private PlayerHealthbar healthbar;
+    [SerializeField] private DefenseDisplay defenseDisplay;
 
     [Header("Pointer")]
     [SerializeField] private EnemyPointer enemyPointerPrefab;
@@ -26,6 +27,7 @@ public class ActionUI
     private Player player;
 
     public EnemyPointer Pointer => enemyPointer;
+    public DefenseDisplay DefenseDisplay => defenseDisplay;
 
     public void Initialize()
     {

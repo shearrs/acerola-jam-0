@@ -24,6 +24,8 @@ public class LotsUI
     [SerializeField] private Vector3 targetScale;
     [SerializeField] private Tween minimizeTween;
 
+    public MinimizeButton MinimizeButton => minimizeButton;
+
     public void Enable()
     {
         if (combatManager == null)

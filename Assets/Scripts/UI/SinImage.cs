@@ -11,6 +11,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private float enableTime;
     [SerializeField] private float disableTime;
     [SerializeField] private Color holyColor;
+    [SerializeField] private Color highlightColor;
     [SerializeField] private Image symbolImage;
     [SerializeField] private Image highlightImage;
     [SerializeField] private Tooltip toolTip;
@@ -26,6 +27,17 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         symbolInitialColor = symbolImage.color;
         highlightInitialColor = highlightImage.color;
         rect = GetComponent<RectTransform>();
+    }
+
+    public void OnActivation()
+    {
+        UIManager.Instance.Shake(rect, .5f);
+        rect.DoTweenScaleNonAlloc(Vector3.one * 1.5f, 0.2f, tween).SetOnComplete(() => Invoke(nameof(UnTweenActivation), 0.1f));
+    }
+
+    private void UnTweenActivation()
+    {
+        rect.DoTweenScaleNonAlloc(Vector3.one, 0.15f, tween);
     }
 
     public void Enable()
@@ -59,10 +71,12 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         toolTip.Enable();
+        highlightImage.color = highlightColor;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         toolTip.Disable();
+        highlightImage.color = highlightInitialColor;
     }
 }

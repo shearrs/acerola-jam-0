@@ -19,18 +19,28 @@ public class Player : MonoBehaviour, ICombatEntity
     [SerializeField] private int lotCapacity;
     [SerializeField] private GameObject staff;
     private UIManager uiManager;
-    private ActionUI combatUI;
+    private ActionUI actionUI;
     private readonly List<Sin> sins = new();
 
     private readonly int isWalkingID = PlayerAnimationData.IsWalking;
 
     public string Name => "Shepherd";
     public int Health { get; private set; }
-    public int Defense { get; set; }
+    private int defense;
+    public int Defense
+    {
+        get => defense;
+        set
+        {
+            defense = value;
+            Debug.Log("update defense: " + defense);
+            actionUI.DefenseDisplay.UpdateDefense(defense);
+        }
+    }
     public Battle Battle { get; set; }
     public Turn Turn { get; set; }
     public Animator Animator => animator;
-    public int Speed => combatSpeed;
+    public int Speed { get => combatSpeed; set => combatSpeed = value; }
     public int EnemyIndex { get; set; }
     public bool IsDead { get; private set; } = false;
     public int MaxHealth => maxHealth;
@@ -49,7 +59,7 @@ public class Player : MonoBehaviour, ICombatEntity
     private void Start()
     {
         uiManager = UIManager.Instance;
-        combatUI = uiManager.ActionUI;
+        actionUI = uiManager.ActionUI;
     }
 
     public void Move()
@@ -90,8 +100,10 @@ public class Player : MonoBehaviour, ICombatEntity
 
     public void Damage(int damage)
     {
+        int originalDamage = damage;
+
         damage = Mathf.Max(0, damage - Defense);
-        Defense = Mathf.Max(0, Defense - damage);
+        Defense = Mathf.Max(0, Defense - originalDamage);
 
         Health -= damage;
 
@@ -100,7 +112,7 @@ public class Player : MonoBehaviour, ICombatEntity
         else
         {
             CameraManager.Instance.Shake();
-            combatUI.OnPlayerHealthChanged(-damage);
+            actionUI.OnPlayerHealthChanged(-damage);
         }
     }
 
@@ -120,25 +132,37 @@ public class Player : MonoBehaviour, ICombatEntity
             Health = maxHealth;
         }
 
-        combatUI.OnPlayerHealthChanged(heal);
+        actionUI.OnPlayerHealthChanged(heal);
     }
 
-    public int GetAmountOfSin(Sin type)
+    public bool HasSin(SinType type)
     {
-        int count = 0;
-
         foreach (Sin sin in sins)
         {
-            if (sin.GetType() == type.GetType())
-                count++;
+            if (sin.GetSinType() == type)
+                return true;
         }
 
-        return count;
+        return false;
+    }
+
+    public Sin GetSin(SinType type)
+    {
+        foreach (Sin sin in sins)
+        {
+            if (sin.GetSinType() == type)
+                return sin;
+        }
+
+        return null;
     }
 
     public void AddSin(Sin sin)
     {
-        SinUI.Instance.AddSin(sin);
+        if (sin == null)
+            return;
+
+        SinUI.Instance.AddSin(sin.GetSinType());
         sins.Add(sin);
         sin.ApplyEffect();
     }
@@ -152,7 +176,7 @@ public class Player : MonoBehaviour, ICombatEntity
     {
         Debug.Log("remove sin");
         sins.Remove(sin);
-        SinUI.Instance.RemoveSin(sin);
+        SinUI.Instance.RemoveSin(sin.GetSinType());
         sin.Purify();
     }
 

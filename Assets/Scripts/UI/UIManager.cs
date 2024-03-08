@@ -125,15 +125,20 @@ namespace CustomUI
             return tween;
         }
 
-        public Tween Shake(RectTransform element, float duration = -1)
+        public Tween Shake(RectTransform element, float duration = -1, float amount = -1)
         {
             Vector2 originalPosition = element.anchoredPosition;
+
             if (duration == -1)
                 duration = defaultUIData.ShakeDuration;
 
+            if (amount == -1)
+                amount = defaultUIData.ShakeAmount;
+
+
             Tween tween = TweenManager.DoTweenCustomNonAlloc
                 (
-                (percentage) => ShakeUpdate(element, originalPosition, percentage, duration),
+                (percentage) => ShakeUpdate(element, originalPosition, percentage, amount),
                 duration, 
                 GetTween()
                 )

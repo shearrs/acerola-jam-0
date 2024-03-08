@@ -83,6 +83,10 @@ public class PlayerActionManager
     private void Staff(Enemy target)
     {
         int damage = lotsBox.ReleaseLotsOfType(LotType.DAMAGE).Count;
+
+        Wrath wrath = (Wrath)player.GetSin(SinType.WRATH);
+        wrath?.DamagePlayer();
+
         target.Damage(damage);
     }
 

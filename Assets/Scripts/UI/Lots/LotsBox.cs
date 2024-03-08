@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.HighDefinition;
 
 public class LotsBox : MonoBehaviour
 {
@@ -122,10 +123,65 @@ public class LotsBox : MonoBehaviour
 
     private void GenerateSin()
     {
-        // randomize value
-        Debug.Log("generate sin");
         ReleaseLotsOfType(LotType.TEMPTATION);
 
-        Level.Instance.Player.AddSin(new Greed());
+        Sin sin = null;
+        SinType type = GetRandomSin();
+        switch (type)
+        {
+            case SinType.PRIDE:
+                sin = new Pride();
+                break;
+            case SinType.GREED:
+                sin = new Greed();
+                break;
+            case SinType.LUST:
+                sin = new Lust();
+                break;
+            case SinType.ENVY:
+                sin = new Envy();
+                break;
+            case SinType.GLUTTONY:
+                sin = new Gluttony();
+                break;
+            case SinType.WRATH:
+                sin = new Wrath();
+                break;
+            case SinType.SLOTH:
+                sin = new Sloth();
+                break;
+        }
+        
+        Level.Instance.Player.AddSin(sin);
+    }
+
+    private SinType GetRandomSin()
+    {
+        return SinType.WRATH;
+
+        Player player = Level.Instance.Player;
+
+        List<SinType> sins = new(7)
+        {
+            SinType.PRIDE,
+            SinType.GREED,
+            SinType.LUST,
+            SinType.ENVY,
+            SinType.GLUTTONY,
+            SinType.WRATH,
+            SinType.SLOTH
+        };
+
+        for (int i = 0; i < 7; i++)
+        {
+            if (player.HasSin(sins[i]))
+                sins.RemoveAt(i);
+
+            i--;
+        }
+
+        int sinIndex = Random.Range(0, sins.Count);
+
+        return sins[sinIndex];
     }
 }
