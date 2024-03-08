@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Heal", menuName = "Turn/Heal")]
-public class Heal : TurnAction
+public class HealAction : TurnAction
 {
-    [SerializeField] private int healAmount;
+    [SerializeField] private int heal;
+
+    public int Heal => heal;
 
     protected override void PerformInternal(Turn turn)
     {
-        turn.Target.Heal(healAmount);
-        Debug.Log(turn.Target.Name + " healed " + healAmount + " health.");
+        turn.Target.Heal(heal);
+        Debug.Log(turn.Target.Name + " healed " + heal + " health.");
     }
 }

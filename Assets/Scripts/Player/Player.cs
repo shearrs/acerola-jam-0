@@ -41,7 +41,28 @@ public class Player : MonoBehaviour, ICombatEntity
     public Turn Turn { get; set; }
     public Animator Animator => animator;
     public int Speed { get => combatSpeed; set => combatSpeed = value; }
-    public int EnemyIndex { get; set; }
+    private int enemyIndex;
+    public int EnemyIndex 
+    { 
+        get
+        {
+            if (HasSin(SinType.LUST))
+            {
+                int choice = Random.Range(0, 4);
+
+                if (choice == 0)
+                {
+                    SinUI.Instance.ActivateUI(SinType.LUST);
+                    return Random.Range(0, Battle.Enemies.Count);
+                }
+                else
+                    return enemyIndex;
+            }
+            else
+                return enemyIndex;
+        }
+        set => enemyIndex = value;
+    }
     public bool IsDead { get; private set; } = false;
     public int MaxHealth => maxHealth;
     public int LotCapacity 

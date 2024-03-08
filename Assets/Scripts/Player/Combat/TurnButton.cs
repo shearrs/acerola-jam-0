@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TurnButton : MonoBehaviour
 {
-    [SerializeField] private Attack attack;
+    [SerializeField] private AttackAction attack;
 
     public void SubmitTurn()
     {

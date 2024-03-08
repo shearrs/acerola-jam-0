@@ -6,7 +6,7 @@ public interface ICombatEntity
 {
     public int MaxHealth { get; }
     public int Health { get; }
-    public int Defense { get; }
+    public int Defense { get; set; }
     public string Name { get; }
     public int Speed { get; }
     public bool IsDead { get; }

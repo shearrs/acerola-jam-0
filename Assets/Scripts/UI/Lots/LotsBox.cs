@@ -157,7 +157,7 @@ public class LotsBox : MonoBehaviour
 
     private SinType GetRandomSin()
     {
-        return SinType.WRATH;
+        return SinType.LUST;
 
         Player player = Level.Instance.Player;
 

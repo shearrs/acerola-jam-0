@@ -75,8 +75,12 @@ public class Enemy : MonoBehaviour, ICombatEntity
         TurnAction action = GetAction();
         intent.Enable();
 
-        if (action is Attack attack)
+        if (action is AttackAction attack)
             intent.SetAttack(attack.Damage);
+        else if (action is DefendAction defense)
+            intent.SetDefense(defense.Defense);
+        else if (action is HealAction heal)
+            intent.SetHeal(heal.Heal);
 
         Turn = new(this, Level.Instance.Player, action);
 

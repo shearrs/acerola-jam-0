@@ -79,7 +79,14 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void RandomizeType()
     {
-        int typeIndex = Random.Range(0, 9);
+        int lowRange;
+
+        if (Level.Instance.Player.HasSin(SinType.ENVY))
+            lowRange = -2;
+        else
+            lowRange = 0;
+
+        int typeIndex = Random.Range(lowRange, 9);
 
         Type = GetTypeForIndex(typeIndex);
         SetColor();
@@ -87,7 +94,10 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private LotType GetTypeForIndex(int index)
     {
-        if (index == 0)
+        if (index < 0)
+            SinUI.Instance.ActivateUI(SinType.ENVY);
+
+        if (index <= 0)
             return LotType.TEMPTATION;
         else if (index == 7)
             return LotType.HOLY;
