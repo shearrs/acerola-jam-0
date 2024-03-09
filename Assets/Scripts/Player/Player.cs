@@ -21,7 +21,6 @@ public class Player : MonoBehaviour, ICombatEntity
     private UIManager uiManager;
     private ActionUI actionUI;
     private readonly List<Sin> sins = new();
-
     private readonly int isWalkingID = PlayerAnimationData.IsWalking;
 
     public string Name => "Shepherd";
@@ -33,7 +32,6 @@ public class Player : MonoBehaviour, ICombatEntity
         set
         {
             defense = value;
-            Debug.Log("update defense: " + defense);
             CombatManager.Instance.DefenseDisplay.UpdateDefense(defense);
         }
     }
@@ -55,6 +53,10 @@ public class Player : MonoBehaviour, ICombatEntity
     public GameObject Staff => staff;
     public List<Sin> Sins => sins;
     public int SinCount => sins.Count;
+    public int StaffStrength { get; private set; } = 1;
+    public int DefendStrength { get; private set; } = 1;
+    public int HealStrength { get; private set; } = 1;
+
 
     private void Awake()
     {
@@ -140,6 +142,36 @@ public class Player : MonoBehaviour, ICombatEntity
         actionUI.OnPlayerHealthChanged(heal);
     }
 
+    public int GetStrengthForType(PlayerTurnType type)
+    {
+        return type switch
+        {
+            PlayerTurnType.STAFF => StaffStrength,
+            PlayerTurnType.DEFEND => DefendStrength,
+            PlayerTurnType.PETITION => HealStrength,
+            _ => -1,
+        };
+    }
+
+    public void UpgradeAction(PlayerTurnType type)
+    {
+        switch (type)
+        {
+            case PlayerTurnType.STAFF:
+                actionUI.UpgradeActionButton(0);
+                StaffStrength++;
+                break;
+            case PlayerTurnType.DEFEND:
+                actionUI.UpgradeActionButton(1);
+                DefendStrength++;
+                break;
+            case PlayerTurnType.PETITION:
+                actionUI.UpgradeActionButton(2);
+                HealStrength++;
+                break;
+        }
+    }
+
     public bool HasSin(SinType type)
     {
         foreach (Sin sin in sins)
@@ -165,6 +197,9 @@ public class Player : MonoBehaviour, ICombatEntity
     public void AddSin(Sin sin)
     {
         if (sin == null)
+            return;
+
+        if (HasSin(sin.GetSinType()))
             return;
 
         SinUI.Instance.AddSin(sin.GetSinType());

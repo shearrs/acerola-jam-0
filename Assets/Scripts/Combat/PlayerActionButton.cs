@@ -7,8 +7,9 @@ using UnityEngine.UI;
 
 public enum PlayerTurnType { STAFF, DEFEND, PETITION }
 
-public class PlayerActionButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class PlayerActionButton : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private PlayerTurnType turnType;
     [SerializeField] private Color disabledImageColor;
     [SerializeField] private Color disabledTextColor;
@@ -19,6 +20,12 @@ public class PlayerActionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
     private Image image;
     private TextMeshProUGUI text;
     private CombatManager combatManager;
+
+    [Header("Upgrades")]
+    [SerializeField] private Material bronzeMaterial;
+    [SerializeField] private Material silverMaterial;
+    [SerializeField] private Material goldMaterial;
+    private int level = 0;
 
     private void OnEnable()
     {
@@ -38,7 +45,7 @@ public class PlayerActionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         image.color = originalImageColor;
         text.color = originalTextColor;
         button.enabled = true;
-        counterText.text = "x" + CombatManager.Instance.LotsBox.GetAmountOfType(GetLotType());
+        counterText.text = "x" + CombatManager.Instance.LotsBox.GetAmountOfType(GetLotType()) + " x" + Level.Instance.Player.GetStrengthForType(turnType);
     }
 
     public void Disable()
@@ -54,6 +61,16 @@ public class PlayerActionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
         combatManager.ChooseTurn(turnType);
     }
 
+    public void Upgrade()
+    {
+        level++;
+
+        if (level == 1)
+            text.fontSharedMaterial = silverMaterial;
+        else if (level == 2)
+            text.fontSharedMaterial = goldMaterial;
+    }
+
     private LotType GetLotType()
     {
         switch(turnType)
@@ -67,18 +84,5 @@ public class PlayerActionButton : MonoBehaviour, IPointerEnterHandler, IPointerE
             default:
                 return LotType.DAMAGE;
         }
-    }
-
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        if (turnType == PlayerTurnType.DEFEND)
-        {
-
-        }
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        
     }
 }

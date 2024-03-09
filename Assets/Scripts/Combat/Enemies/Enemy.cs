@@ -24,7 +24,16 @@ public class Enemy : MonoBehaviour, ICombatEntity
 
     public Battle Battle { get; set; }
     public int Health { get; set; }
-    public int Defense { get; set; }
+    private int defense = 0;
+    public int Defense 
+    { 
+        get => defense; 
+        set
+        {
+            defense = Mathf.Max(0, value);
+            healthbar.UpdateDefense(defense);
+        }
+    }
     public Turn Turn { get; set; }
     public Animator Animator => animator;
     public float PointerOffset => pointerOffset;
@@ -43,6 +52,10 @@ public class Enemy : MonoBehaviour, ICombatEntity
 
     public void Damage(int damage)
     {
+        int initialDamage = damage;
+        damage = Mathf.Max(0, damage - Defense);
+        Defense -= initialDamage;
+
         Health -= damage;
         healthbar.Damage(damage);
         transform.Shake(0.2f, 0.25f, shakeTween);
@@ -73,17 +86,26 @@ public class Enemy : MonoBehaviour, ICombatEntity
     public void ChooseTurn()
     {
         TurnAction action = GetAction();
+        Turn turn = new(this, null, action);
         intent.Enable();
 
         if (action is AttackAction attack)
+        {
             intent.SetAttack(attack.Damage);
+            turn.Target = Level.Instance.Player;
+        }
         else if (action is DefendAction defense)
+        {
             intent.SetDefense(defense.Defense);
+            turn.Target = this;
+        }
         else if (action is HealAction heal)
+        {
             intent.SetHeal(heal.Heal);
+            turn.Target = this;
+        }
 
-        Turn = new(this, Level.Instance.Player, action);
-
+        Turn = turn;
         Battle.SubmitTurn(Turn);
     }
 
@@ -98,14 +120,21 @@ public class Enemy : MonoBehaviour, ICombatEntity
 
     public void Heal(int heal)
     {
+        if (Health == maxHealth)
+            return;
+
+        int previousHealth = Health;
         Health += heal;
 
         if (Health > maxHealth)
             Health = maxHealth;
+
+        healthbar.Heal(Health - previousHealth);
     }
 
     public void OnExecutingTurn()
     {
+        Defense = 0;
         intent.Disable();
     }
 }

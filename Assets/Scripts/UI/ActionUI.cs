@@ -80,6 +80,11 @@ public class ActionUI
         }
     }
 
+    public void UpgradeActionButton(int index)
+    {
+        playerActions[index].Upgrade();
+    }
+
     public void OnPlayerHealthChanged(int change)
     {
         if (change < 0)

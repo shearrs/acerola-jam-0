@@ -382,7 +382,7 @@ MonoBehaviour:
   animator: {fileID: 1439312017396543897}
   maxHealth: 10
   combatSpeed: 5
-  lotCapacity: 4
+  lotCapacity: 6
   staff: {fileID: 8022714779218519417}
 --- !u!1001 &4048098295348733483
 PrefabInstance:

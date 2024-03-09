@@ -11,6 +11,7 @@ public class LotsBox : MonoBehaviour
     [SerializeField] private int lotsPerRow;
     [SerializeField] private Vector3 horizontalPadding;
     [SerializeField] private Vector3 verticalPadding;
+    [SerializeField] private int maxLots;
     private readonly List<Lot> lots = new();
 
     public List<Lot> Lots => lots;
@@ -28,6 +29,15 @@ public class LotsBox : MonoBehaviour
 
     public void KeepLot(Lot lot)
     {
+        if (LotsCount >= maxLots)
+        {
+            lot.IsKept = false;
+            lot.IsLocked = false;
+            CombatManager.Instance.RetireLot(lot);
+
+            return;
+        }
+
         lot.OriginalPosition = lot.transform.localPosition;
         lot.OriginalRotation = lot.transform.localRotation;
 
@@ -46,8 +56,8 @@ public class LotsBox : MonoBehaviour
     {
         for (int i = 0; i < lots.Count; i++)
         {
-            KeepLot(lots[i]);
             lots[i].IsLocked = true;
+            KeepLot(lots[i]);
         }
 
         LockLots();

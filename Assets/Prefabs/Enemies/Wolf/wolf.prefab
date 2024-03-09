@@ -182,6 +182,7 @@ MonoBehaviour:
   maxHealth: 3
   speed: 3
   actions:
+  - {fileID: 11400000, guid: d1991db91f144954a9072d98c7029873, type: 2}
   - {fileID: 11400000, guid: 06331a552801f2645834528201dfb780, type: 2}
 --- !u!95 &7493667867696682291
 Animator:

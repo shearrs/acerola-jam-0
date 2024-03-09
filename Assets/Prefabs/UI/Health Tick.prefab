@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6603625504339380488}
   - component: {fileID: 6671404246589227260}
   m_Layer: 0
-  m_Name: Tick
+  m_Name: Health Tick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,3 +100,4 @@ MonoBehaviour:
   spawnDuration: 0.2
   shakeAmount: 0.15
   shakeDuration: 0.2
+  deadColor: {r: 0, g: 0, b: 0, a: 1}

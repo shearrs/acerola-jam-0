@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a82c0a16df62b44994a0f6399681693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthTick: {fileID: 6671404246589227260, guid: 142673aaef757bc47beb306bfe61b8a3, type: 3}
+  healthTickPrefab: {fileID: 6671404246589227260, guid: 142673aaef757bc47beb306bfe61b8a3, type: 3}
+  defenseTickPrefab: {fileID: 6150809082362622451, guid: 35414fc0e3bc75d4fbbe9d13c17a6844, type: 3}
   distanceBetween: 0.365
   amountPerRow: 5
   tickSpawnDelay: 0.15
