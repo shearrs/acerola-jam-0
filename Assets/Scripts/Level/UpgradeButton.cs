@@ -22,11 +22,20 @@ public class UpgradeButton : MonoBehaviour
 
             int level;
             if (upgradeTarget == PlayerTurnType.STAFF)
+            {
+                text.text = "STAFF";
                 level = Level.Instance.Player.StaffStrength;
+            }
             else if (upgradeTarget == PlayerTurnType.DEFEND)
+            {
+                text.text = "DEFEND";
                 level = Level.Instance.Player.DefendStrength;
+            }
             else
+            {
+                text.text = "PETITION";
                 level = Level.Instance.Player.HealStrength;
+            }
 
             if (level == 0)
                 text.fontSharedMaterial = bronzeMaterial;
@@ -40,5 +49,6 @@ public class UpgradeButton : MonoBehaviour
     public void SelectUpgrade()
     {
         Level.Instance.Player.UpgradeAction(upgradeTarget);
+        UpgradeUI.Instance.Disable();
     }
 }

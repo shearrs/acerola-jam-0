@@ -53,10 +53,18 @@ public class LotsManager
     {
         enabled = true;
 
-        lotsUI.Enable();
         Roll = 0;
 
-        player.Defense = 0;
+        if (player.HasSin(SinType.SLOTH))
+        {
+            player.Defense -= player.DefenseToRemove;
+            player.DefenseToRemove = player.Defense;
+        }
+        else
+            player.Defense = 0;
+
+        lotsUI.Enable();
+
         CreateLots(player.LotCapacity);
         lotsUI.ToggleMinimize(false);
 

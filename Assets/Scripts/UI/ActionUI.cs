@@ -108,6 +108,13 @@ public class ActionUI
 
     private void UpdateSelectionButtons()
     {
+        if (battle.Enemies.Count <= 1)
+        {
+            nextButton.Disable();
+            previousButton.Disable();
+            return;
+        }
+
         if (player.EnemyIndex + 1 >= battle.Enemies.Count)
             nextButton.Disable();
         else

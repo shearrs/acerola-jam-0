@@ -101,7 +101,8 @@ public class PlayerActionManager
     private void Staff(Enemy target)
     {
         int damage = lotsBox.ReleaseLotsOfType(LotType.DAMAGE).Count;
-
+        damage *= player.StaffStrength;
+        
         Wrath wrath = (Wrath)player.GetSin(SinType.WRATH);
         wrath?.DamagePlayer();
 
@@ -111,6 +112,8 @@ public class PlayerActionManager
     private void Defend()
     {
         int defense = lotsBox.ReleaseLotsOfType(LotType.PROTECTION).Count;
+        defense *= player.DefendStrength;
+
         CombatManager.Instance.DefenseDisplay.IsEnabled = defense > 0;
         player.Defense += defense;
     }
@@ -160,7 +163,7 @@ public class PlayerActionManager
         }
         else
         {
-            player.Heal(player.SelectedHeal);
+            player.Heal(player.SelectedHeal * player.HealStrength);
             player.SelectedHeal = 0;
         }
 

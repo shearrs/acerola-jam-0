@@ -59,6 +59,8 @@ public class CombatManager : Singleton<CombatManager>
         lotsBox.Empty();
         lotsBox.gameObject.SetActive(false);
         lotsManager.LotsParent.gameObject.SetActive(false);
+        DefenseDisplay.IsEnabled = false;
+        DefenseDisplay.UpdateDefense(0);
     }
 
     public void EnterPhase(CombatPhase phase)

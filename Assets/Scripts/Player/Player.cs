@@ -31,6 +31,12 @@ public class Player : MonoBehaviour, ICombatEntity
         get => defense;
         set
         {
+            if (value < defense)
+            {
+                DefenseToRemove -= (defense - value);
+                DefenseToRemove = Mathf.Max(0, DefenseToRemove);
+            }
+
             defense = value;
             CombatManager.Instance.DefenseDisplay.UpdateDefense(defense);
         }
@@ -56,6 +62,7 @@ public class Player : MonoBehaviour, ICombatEntity
     public int StaffStrength { get; private set; } = 1;
     public int DefendStrength { get; private set; } = 1;
     public int HealStrength { get; private set; } = 1;
+    public int DefenseToRemove { get; set; }
 
 
     private void Awake()
@@ -89,12 +96,15 @@ public class Player : MonoBehaviour, ICombatEntity
             previousPosition = transform.position;
             transform.position = position;
 
-            moveDirection = (transform.position - previousPosition);
+            moveDirection = transform.position - previousPosition;
             moveDirection.y = 0;
             moveDirection.Normalize();
 
-            Quaternion rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-            transform.rotation = rotation;
+            if (moveDirection != transform.forward)
+            {
+                Quaternion rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
+                transform.rotation = rotation;
+            }
 
             progress += Time.deltaTime * speed;
 

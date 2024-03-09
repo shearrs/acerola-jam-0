@@ -5,6 +5,14 @@ using UnityEngine;
 
 public class UpgradeEncounter : Encounter
 {
+    [SerializeField] private bool blessed;
+    private UpgradeUI upgradeUI;
+
+    private void Start()
+    {
+        upgradeUI = UpgradeUI.Instance;
+    }
+
     public override void Enter()
     {
         List<PlayerTurnType> upgradeTypes = GetValidUpgradeTypes();
@@ -16,13 +24,21 @@ public class UpgradeEncounter : Encounter
         }
 
         int index1 = Random.Range(0, upgradeTypes.Count);
-        UpgradeUI.Instance.UpgradeButton1.UpgradeTarget = upgradeTypes[index1];
+        upgradeUI.UpgradeButton1.UpgradeTarget = upgradeTypes[index1];
         upgradeTypes.RemoveAt(index1);
 
-        int index2 = Random.Range(0, upgradeTypes.Count);
-        UpgradeUI.Instance.UpgradeButton2.UpgradeTarget = upgradeTypes[index2];
-        upgradeTypes.RemoveAt(index2);
-        // make ui appear
+        if (upgradeTypes.Count == 0)
+            upgradeUI.HasTwoOptions = false;
+        else
+        {
+            int index2 = Random.Range(0, upgradeTypes.Count);
+            upgradeUI.UpgradeButton2.UpgradeTarget = upgradeTypes[index2];
+            upgradeTypes.RemoveAt(index2);
+
+            upgradeUI.HasTwoOptions = true;
+        }
+
+        upgradeUI.Enable(blessed);
     }
 
     private List<PlayerTurnType> GetValidUpgradeTypes()

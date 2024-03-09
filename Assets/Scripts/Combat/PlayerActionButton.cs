@@ -45,7 +45,7 @@ public class PlayerActionButton : MonoBehaviour
         image.color = originalImageColor;
         text.color = originalTextColor;
         button.enabled = true;
-        counterText.text = "x" + CombatManager.Instance.LotsBox.GetAmountOfType(GetLotType()) + " x" + Level.Instance.Player.GetStrengthForType(turnType);
+        counterText.text = "x" + (CombatManager.Instance.LotsBox.GetAmountOfType(GetLotType()) * Level.Instance.Player.GetStrengthForType(turnType));
     }
 
     public void Disable()
@@ -64,6 +64,9 @@ public class PlayerActionButton : MonoBehaviour
     public void Upgrade()
     {
         level++;
+
+        if (text == null)
+            text = GetComponentInChildren<TextMeshProUGUI>();
 
         if (level == 1)
             text.fontSharedMaterial = silverMaterial;

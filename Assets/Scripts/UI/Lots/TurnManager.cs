@@ -19,6 +19,9 @@ public class TurnManager
         enabled = true;
         actionUI.SetActions(false);
         actionUI.ToggleSelectionButtons(false);
+
+        if (Level.Instance.Player.HasSin(SinType.SLOTH))
+            SinUI.Instance.ActivateUI(SinType.SLOTH);
     }
 
     public void ExitPhase()
