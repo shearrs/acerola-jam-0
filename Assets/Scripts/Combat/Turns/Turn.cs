@@ -12,7 +12,7 @@ public class Turn
 
     public ICombatEntity User { get => user; set => user = value; }
     public ICombatEntity Target { get => target; set => target = value; }
-    public TurnAction Action => action;
+    public TurnAction Action { get => action; set => action = value; }
     public bool Finished { get; set; }
 
     public Turn(ICombatEntity user, ICombatEntity target, TurnAction action)

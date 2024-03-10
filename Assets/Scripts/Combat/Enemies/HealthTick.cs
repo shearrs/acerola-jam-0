@@ -10,10 +10,26 @@ public class HealthTick : MonoBehaviour
     [SerializeField] private float shakeAmount;
     [SerializeField] private float shakeDuration;
     [SerializeField] private Color deadColor;
+    [SerializeField] private Color livingColor;
+    [SerializeField] private Color corruptColor;
     private SpriteRenderer spriteRenderer;
 
     private readonly Tween growTween = new();
     private readonly Tween shakeTween = new();
+
+    private bool alive;
+    private bool corruptHeart = false;
+    public bool CorruptHeart 
+    {
+        get => corruptHeart;
+        set
+        {
+            if (value)
+                spriteRenderer.color = corruptColor;
+
+            corruptHeart = value;
+        }
+    }
 
     private void Awake()
     {
@@ -25,17 +41,35 @@ public class HealthTick : MonoBehaviour
         Vector3 scale = transform.localScale;
         transform.localScale = Vector3.zero;
         transform.DoTweenScaleNonAlloc(scale, spawnDuration, growTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+
+        alive = true;
     }
 
     public void Heal()
     {
-        spriteRenderer.color = Color.white;
+        if (!alive)
+            spriteRenderer.color = livingColor;
+        else
+            spriteRenderer.color = corruptColor;
+
+        alive = true;
         transform.DoTweenScaleNonAlloc(Vector3.one * 1.25f, 0.15f, growTween).SetOnComplete(() => transform.DoTweenScaleNonAlloc(Vector3.one, 0.15f, growTween));
     }
 
     public void Damage()
     {
-        spriteRenderer.color = deadColor;
-        transform.Shake(shakeAmount, shakeDuration, shakeTween);
+        if (CorruptHeart)
+        {
+            spriteRenderer.color = livingColor;
+            CorruptHeart = false;
+        }
+        else
+        {
+            spriteRenderer.color = deadColor;
+            alive = false;
+        }
+
+        if (!shakeTween.IsPlaying)
+            transform.Shake(shakeAmount, shakeDuration, shakeTween);
     }
 }

@@ -22,14 +22,44 @@ public class UpgradeUI : Singleton<UpgradeUI>
     {
         void onComplete()
         {
+            CombatManager.Instance.LotsBox.gameObject.SetActive(true);
             upgradeButton1.gameObject.SetActive(true);
-            upgradeButton2.gameObject.SetActive(true);
+
+            if (HasTwoOptions)
+                upgradeButton2.gameObject.SetActive(true);
+
+            // if player has greed, disable one of the buttons
+            // tell the button to do its thang
+            if (Level.Instance.Player.HasSin(SinType.GREED) && HasTwoOptions)
+            {
+                SinUI.Instance.ActivateUI(SinType.GREED);
+
+                int random = Random.Range(0, 2);
+
+                if (random == 0)
+                {
+                    upgradeButton1.Enable();
+                    upgradeButton2.Disable(true);
+                }
+                else
+                {
+                    upgradeButton1.Disable(true);
+                    upgradeButton2.Enable();
+                }
+            }
+            else
+            {
+                upgradeButton1.Enable();
+
+                if (HasTwoOptions)
+                    upgradeButton2.Enable();
+            }
 
             if (blessed)
             {
                 blessedText.gameObject.SetActive(true);
                 blessedText.rectTransform.localScale = Vector3.zero;
-                blessedText.rectTransform.DoTweenScaleNonAlloc(Vector3.one, 0.3f, tween2).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+                blessedText.rectTransform.DoTweenScaleNonAlloc(Vector3.one, 0.1f, tween2).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
             }
         }
 
@@ -48,6 +78,7 @@ public class UpgradeUI : Singleton<UpgradeUI>
     {
         UIManager uiManager = UIManager.Instance;
 
+        CombatManager.Instance.LotsBox.gameObject.SetActive(false);
         upgradeButton1.gameObject.SetActive(false);
         upgradeButton2.gameObject.SetActive(false);
         container.DoTweenScaleNonAlloc(Vector3.zero, 0.5f, tween1).SetOnComplete(() => container.gameObject.SetActive(false)).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK);

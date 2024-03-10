@@ -88,3 +88,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c56111da696b464a9c1ff271ddf9042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 2116015370361343788}
+  livingColor: {r: 0.99215686, g: 1, b: 0, a: 1}
+  deadColor: {r: 0, g: 0, b: 0, a: 1}
+  spawnDuration: 0.2
+  shakeAmount: 1
+  shakeDuration: 0.2

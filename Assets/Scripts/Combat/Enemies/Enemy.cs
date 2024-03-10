@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using Tweens;
 
-public class Enemy : MonoBehaviour, ICombatEntity
+public abstract class Enemy : MonoBehaviour, ICombatEntity
 {
     [Header("References")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private Healthbar healthbar;
-    [SerializeField] private EnemyIntent intent;
-    [SerializeField] private Vector3 healthbarOffset;
-    [SerializeField] private float pointerOffset;
-    private readonly Tween shakeTween = new();
+    [SerializeField] protected Animator animator;
+    [SerializeField] protected Healthbar healthbar;
+    [SerializeField] protected EnemyIntent intent;
+    [SerializeField] protected Vector3 healthbarOffset;
+    [SerializeField] protected float pointerOffset;
+    protected readonly Tween shakeTween = new();
+    protected Player player;
 
     [Header("Stats")]
-    [SerializeField] private string enemyName;
-    [SerializeField] private int maxHealth;
-    [SerializeField] private int speed;
-    [SerializeField] private TurnAction[] actions;
+    [SerializeField] protected string enemyName;
+    [SerializeField] protected int maxHealth;
+    [SerializeField] protected int speed;
+    [SerializeField] protected TurnAction[] actions;
+    protected int turnCounter = 0;
 
     public string Name => enemyName;
     public int Speed => speed;
@@ -41,16 +43,18 @@ public class Enemy : MonoBehaviour, ICombatEntity
     public Vector3 BattlePosition { get; set; }
     public int MaxHealth => maxHealth;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Health = maxHealth;
 
         Matrix4x4 matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
         healthbar = Instantiate(healthbar, matrix.MultiplyPoint3x4(healthbarOffset), Quaternion.identity);
         healthbar.GenerateHealth(Health);
+
+        player = Level.Instance.Player;
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
         int initialDamage = damage;
         damage = Mathf.Max(0, damage - Defense);
@@ -69,7 +73,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
         }
     }
 
-    private void Die()
+    protected virtual void Die()
     {
         Debug.Log(Name + " dies.");
 
@@ -77,36 +81,37 @@ public class Enemy : MonoBehaviour, ICombatEntity
         Destroy(gameObject);
     }
 
-    private TurnAction GetAction()
-    {
-        int index = Random.Range(0, actions.Length);
-        return actions[index];
-    }
+    protected abstract Turn ChooseTurnInternal();
 
     public void ChooseTurn()
     {
-        TurnAction action = GetAction();
-        Turn turn = new(this, null, action);
+        Turn turn = ChooseTurnInternal();
         intent.Enable();
 
-        if (action is AttackAction attack)
+        switch(turn.Action)
         {
-            intent.SetAttack(attack.Damage);
-            turn.Target = Level.Instance.Player;
+            case AttackAction attack:
+                intent.SetAttack(attack.Damage);
+                break;
+            case DefendAction defense:
+                intent.SetDefense(defense.Defense);
+                break;
+            case HealAction heal:
+                intent.SetHeal(heal.Heal);
+                break;
+            case SinAction:
+                intent.SetSin();
+                break;
+            case WaitAction:
+                intent.SetWait();
+                break;
+            default:
+                break;
         }
-        else if (action is DefendAction defense)
-        {
-            intent.SetDefense(defense.Defense);
-            turn.Target = this;
-        }
-        else if (action is HealAction heal)
-        {
-            intent.SetHeal(heal.Heal);
-            turn.Target = this;
-        }
-
+        
         Turn = turn;
         Battle.SubmitTurn(Turn);
+        turnCounter++;
     }
 
     private void OnDrawGizmosSelected()
@@ -118,7 +123,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
         Gizmos.DrawWireCube(transform.position + healthbarOffset, new(3, 1, 0.05f));
     }
 
-    public void Heal(int heal)
+    public virtual void Heal(int heal)
     {
         if (Health == maxHealth)
             return;
@@ -132,7 +137,7 @@ public class Enemy : MonoBehaviour, ICombatEntity
         healthbar.Heal(Health - previousHealth);
     }
 
-    public void OnExecutingTurn()
+    public virtual void OnExecutingTurn()
     {
         Defense = 0;
         intent.Disable();

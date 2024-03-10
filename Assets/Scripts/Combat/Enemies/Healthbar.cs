@@ -14,21 +14,32 @@ public class Healthbar : MonoBehaviour
     [Header("Tweens")]
     [SerializeField] private float tickSpawnDelay;
 
+    private int maxHealth;
+    private int currentHealth;
+    private bool corrupt;
     private DefenseTick defenseTick;
     private readonly List<HealthTick> livingTicks = new();
     private readonly List<HealthTick> deadTicks = new();
 
     public void Damage(int change)
     {
-        if (change > livingTicks.Count)
-            change = livingTicks.Count;
+        if (change > currentHealth)
+            change = currentHealth;
+
+        currentHealth -= change;
 
         for (int i = 0; i < change; i++)
         {
             HealthTick tick = livingTicks[^1];
+            bool corrupt = tick.CorruptHeart;
+
             tick.Damage();
-            livingTicks.RemoveAt(livingTicks.Count - 1);
-            deadTicks.Add(tick);
+
+            if (!corrupt)
+            {
+                livingTicks.RemoveAt(livingTicks.Count - 1);
+                deadTicks.Add(tick);
+            }
 
             if (livingTicks.Count == 0)
                 break;
@@ -37,8 +48,23 @@ public class Healthbar : MonoBehaviour
 
     public void Heal(int change)
     {
-        if (change > deadTicks.Count)
-            change = deadTicks.Count;
+        if (change > maxHealth)
+            change = maxHealth - currentHealth;
+
+        currentHealth += change;
+        int initialChange = change;
+
+        if (corrupt)
+        {
+            change /= 2;
+
+            if (!livingTicks[^1].CorruptHeart)
+            {
+                livingTicks[^1].CorruptHeart = true;
+                change--;
+                initialChange--;
+            }
+        }
 
         for (int i = 0; i < change; i++)
         {
@@ -47,13 +73,29 @@ public class Healthbar : MonoBehaviour
             deadTicks.RemoveAt(deadTicks.Count - 1);
             livingTicks.Add(tick);
 
+            if (corrupt)
+                tick.CorruptHeart = true;
+
             if (deadTicks.Count == 0)
-                break;
+                return;
+        }
+
+        // integer division could make us heal one less
+        if (initialChange > change)
+        {
+            HealthTick tick = deadTicks[^1];
+            tick.Heal();
+            deadTicks.RemoveAt(deadTicks.Count - 1);
+            livingTicks.Add(tick);
         }
     }
 
     public void GenerateHealth(int health)
     {
+        maxHealth = health;
+        currentHealth = health;
+        corrupt = maxHealth > 10;
+
         Vector3 direction = (Level.Instance.Player.transform.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
 
@@ -64,13 +106,17 @@ public class Healthbar : MonoBehaviour
         StartCoroutine(IEAddTicks(firstPosition, health));
     }
 
-    private IEnumerator IEAddTicks(Vector3 start, int num)
+    private IEnumerator IEAddTicks(Vector3 start, int health)
     {
         Vector3 horizontalStep = distanceBetween * -transform.right;
         Vector3 verticalStep = distanceBetween * transform.up;
         WaitForSeconds wait = new(tickSpawnDelay);
 
-        for (int i = 0; i < num; i++)
+        // if we have greater than 10 health, then only produce half the max health and turn all the hearts into corrupt hearts
+        if (corrupt)
+            health /= 2;
+
+        for (int i = 0; i < health; i++)
         {
             int row = i / amountPerRow;
             int index = i - (row * amountPerRow);
@@ -82,10 +128,10 @@ public class Healthbar : MonoBehaviour
 
         Vector3 defensePosition;
 
-        if (num > amountPerRow)
+        if (health > amountPerRow)
             defensePosition = start + ((amountPerRow + 1) * horizontalStep);
         else
-            defensePosition = start + (num * horizontalStep);
+            defensePosition = start + (health * horizontalStep);
 
         defenseTick = Instantiate(defenseTickPrefab, defensePosition, transform.rotation, transform);
     }
@@ -100,6 +146,8 @@ public class Healthbar : MonoBehaviour
 
         livingTicks.Add(tick);
         tick.Spawn();
+
+        tick.CorruptHeart = corrupt;
     }
 
     public void UpdateDefense(int defense) => defenseTick.UpdateDefense(defense);

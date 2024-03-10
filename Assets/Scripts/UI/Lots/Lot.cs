@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Tweens;
+using CustomUI;
 
 public enum LotType { DAMAGE, PROTECTION, HOLY, TEMPTATION };
 
@@ -11,6 +12,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private Image lotImage;
     [SerializeField] private Image highlightImage;
+    [SerializeField] private Image shadowImage;
+    [SerializeField] private float startingShadowDistance;
     private CombatManager combatManager;
 
     [Header("Type Colors")]
@@ -55,7 +58,9 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         float verticalRotations = Random.Range(1, 5) * 360;
         float horizontalRotations = Random.Range(1, 3) * 180;
         float speed = Random.Range(1.5f, 2.25f);
-        
+
+        shadowImage.gameObject.SetActive(true);
+
         while (progress <= 1)
         {
             OrientedPoint sample = path.GetBezierPoint(progress);
@@ -63,6 +68,13 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             transform.position = position;
             transform.localRotation = Quaternion.Euler(verticalRotations * progress, 0, horizontalRotations * progress);
+
+            RectTransform shadowRect = shadowImage.rectTransform;
+
+            shadowRect.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * 1.5f, progress);
+            float scaleFactor = UIManager.Instance.Canvas.transform.localScale.x;
+            float distance = (1 - progress) * (startingShadowDistance * scaleFactor);
+            shadowRect.position = transform.position + distance * Camera.main.transform.forward;
 
             progress += Time.deltaTime * speed;
 
@@ -72,6 +84,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         Vector3 finalPosition = path.GetBezierPoint(1).position;
         transform.position = finalPosition;
         transform.localRotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
+        shadowImage.gameObject.SetActive(false);
 
         if (onComplete)
             combatManager.SelectLots();

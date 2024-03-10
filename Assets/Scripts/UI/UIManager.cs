@@ -16,6 +16,7 @@ namespace CustomUI
         public UIData DefaultUIData => defaultUIData;
 
         [Header("Elements")]
+        [SerializeField] private Canvas canvas;
         [SerializeField] private RectTransform bottomBar;
         [SerializeField] private Vector3 bbTargetPosition;
         [SerializeField] private PlayerHealthbar healthbar;
@@ -26,6 +27,7 @@ namespace CustomUI
         [SerializeField] private ActionUI actionUI;
         [SerializeField] private LotsUI lotsUI;
 
+        public Canvas Canvas => canvas;
         public ShepherdPortrait Portrait => portrait;
         public ActionUI ActionUI => actionUI;
         public LotsUI LotsUI => lotsUI;

@@ -33,13 +33,15 @@ public class MinimizeButton : MonoBehaviour
         upArrow.gameObject.SetActive(false);
         downArrow.gameObject.SetActive(true);
         rect.anchoredPosition3D = closedPosition;
-        rect.rotation = Quaternion.Euler(90, 0, 0);
+        rect.localRotation = Quaternion.Euler(90, 0, 0);
     }
 
     public void Enable(bool tween = true)
     {
         if (tween)
         {
+            rect.anchoredPosition3D = closedPosition;
+            rect.localRotation = Quaternion.Euler(90, 0, 0);
             rect.DoTweenPositionNonAlloc(openPosition, movementTween.Duration, movementTween).SetOnComplete(() => button.enabled = true);
             rect.DoTweenRotationNonAlloc(Quaternion.Euler(0, 0, 0), movementTween.Duration, rotationTween);
         }

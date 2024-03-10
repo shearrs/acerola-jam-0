@@ -13,6 +13,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private float disableTime;
     [SerializeField] private Color holyColor;
     [SerializeField] private Color highlightColor;
+    [SerializeField] private Color activeHighlightColor;
     [SerializeField] private Image symbolImage;
     [SerializeField] private Image highlightImage;
     [SerializeField] private Tooltip toolTip;
@@ -33,13 +34,27 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnActivation()
     {
-        UIManager.Instance.Shake(rect, .5f);
-        rect.DoTweenScaleNonAlloc(Vector3.one * 1.5f, 0.3f, tween).SetOnComplete(() => Invoke(nameof(UnTweenActivation), 0.25f));
+        UIManager.Instance.Shake(rect, .75f);
+        float duration = 0.3f;
+        rect.DoTweenScaleNonAlloc(Vector3.one * 1.5f, 0.3f, tween).SetOnComplete(() => Invoke(nameof(UnTweenActivation), 0.5f));
+
+        void colorUpdate(float percentage)
+        {
+            highlightImage.color = Color.Lerp(highlightInitialColor, activeHighlightColor, percentage);
+        }
+        TweenManager.DoTweenCustomNonAlloc(colorUpdate, duration, tween2);
     }
 
     private void UnTweenActivation()
     {
-        rect.DoTweenScaleNonAlloc(Vector3.one, 0.15f, tween);
+        float duration = 0.25f;
+        rect.DoTweenScaleNonAlloc(Vector3.one, duration, tween);
+
+        void colorUpdate(float percentage)
+        {
+            highlightImage.color = Color.Lerp(activeHighlightColor, highlightInitialColor, percentage);
+        }
+        TweenManager.DoTweenCustomNonAlloc(colorUpdate, duration, tween2);
     }
 
     public void Enable()
@@ -94,6 +109,9 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (!selected)
             toolTip.Enable();
+
+        if (tween.IsPlaying)
+            return;
 
         highlightImage.color = highlightColor;
         selected = true;

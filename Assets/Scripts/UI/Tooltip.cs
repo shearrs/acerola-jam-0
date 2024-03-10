@@ -18,11 +18,11 @@ public class Tooltip : MonoBehaviour
         gameObject.SetActive(true);
 
         rect.localScale = Vector3.zero;
-        rect.DoTweenScaleNonAlloc(Vector3.one, 0.4f, tween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+        rect.DoTweenScaleNonAlloc(Vector3.one, 0.125f, tween);
     }
 
     public void Disable()
     {
-        rect.DoTweenScaleNonAlloc(Vector3.zero, 0.15f, tween).SetOnComplete(() => gameObject.SetActive(false));
+        rect.DoTweenScaleNonAlloc(Vector3.zero, 0.1f, tween).SetOnComplete(() => gameObject.SetActive(false));
     }
 }

@@ -12,13 +12,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: Intent
       objectReference: {fileID: 0}
+    - target: {fileID: 2279320323153440973, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
+      propertyPath: m_Size.x
+      value: 1.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279320323153440973, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
+      propertyPath: m_Size.y
+      value: 2.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279320323153440973, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2279320323153440973, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7477413950330131751, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7477413950330131751, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.625
+      value: 3.25
       objectReference: {fileID: 0}
     - target: {fileID: 7477413950330131751, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -83,27 +99,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -4.917742
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.00000023841858
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.4338231
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       propertyPath: m_LocalRotation.w
@@ -146,10 +162,10 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6727189609511943787}
+      addedObject: {fileID: 7493667867696682291}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7493667867696682291}
+      addedObject: {fileID: 8416455029858051225}
   m_SourcePrefab: {fileID: 100100000, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
 --- !u!4 &8433921590108666904 stripped
 Transform:
@@ -161,29 +177,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 910f4649da0230e46bfe66716ea7aa80, type: 3}
   m_PrefabInstance: {fileID: 8251147009710480371}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6727189609511943787
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9097446811649238690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 575d1f2f840e70149b6b3a60fccac6fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 7493667867696682291}
-  healthbar: {fileID: 4343318688308913498, guid: ad72d89b4cd85624ea5b732d46635778, type: 3}
-  intent: {fileID: 6456584046191396792}
-  healthbarOffset: {x: 0, y: 2.5, z: 0}
-  pointerOffset: 2
-  enemyName: Wolf
-  maxHealth: 3
-  speed: 3
-  actions:
-  - {fileID: 11400000, guid: d1991db91f144954a9072d98c7029873, type: 2}
-  - {fileID: 11400000, guid: 06331a552801f2645834528201dfb780, type: 2}
 --- !u!95 &7493667867696682291
 Animator:
   serializedVersion: 5
@@ -205,3 +198,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8416455029858051225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9097446811649238690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d076b00f1de38c749a5cf6056db34eb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7493667867696682291}
+  healthbar: {fileID: 4343318688308913498, guid: ad72d89b4cd85624ea5b732d46635778, type: 3}
+  intent: {fileID: 6456584046191396792}
+  healthbarOffset: {x: 0, y: 2.5, z: 0}
+  pointerOffset: 2
+  enemyName: Wolf
+  maxHealth: 3
+  speed: 3
+  actions:
+  - {fileID: 11400000, guid: 06331a552801f2645834528201dfb780, type: 2}
+  - {fileID: 11400000, guid: d1991db91f144954a9072d98c7029873, type: 2}

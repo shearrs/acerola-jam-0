@@ -11,7 +11,10 @@ public class EnemyIntent : MonoBehaviour
     [SerializeField] private Sprite damageSprite;
     [SerializeField] private Sprite defenseSprite;
     [SerializeField] private Sprite healSprite;
-    private Tween tween = new();
+    [SerializeField] private Sprite sinSprite;
+    [SerializeField] private Sprite waitSprite;
+    [SerializeField] private Sprite attackAndDefenseSprite;
+    private readonly Tween tween = new();
 
     public void Enable()
     {
@@ -51,5 +54,23 @@ public class EnemyIntent : MonoBehaviour
     {
         intentSprite.sprite = healSprite;
         intentText.text = "+" + heal;
+    }
+
+    public void SetSin()
+    {
+        intentSprite.sprite = sinSprite;
+        intentText.text = "+ SIN";
+    }
+
+    public void SetWait()
+    {
+        intentSprite.sprite = waitSprite;
+        intentText.text = "";
+    }
+
+    public void SetAttackAndDefense(int attack, int defense)
+    {
+        intentSprite.sprite = attackAndDefenseSprite;
+        intentText.text = "-" + attack + "\n" + "+" + defense; 
     }
 }

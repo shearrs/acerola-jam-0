@@ -40,9 +40,6 @@ public class DefenseTick : MonoBehaviour
 
     public void UpdateDefense(int defense)
     {
-        Debug.Log("update defense: " + defense);
-        Debug.Log("enabled: " + isEnabled);
-
         if (this.defense > defense)
             transform.Shake(shakeAmount, shakeDuration, shakeTween);
 

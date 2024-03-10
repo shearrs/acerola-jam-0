@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerHealthbar : MonoBehaviour
 {
     [SerializeField] private PlayerHeart playerHeart;
-    private readonly List<PlayerHeart> hearts = new();
+    private readonly List<PlayerHeart> livingHearts = new();
+    private readonly List<PlayerHeart> deadHearts = new();
 
     [Header("Positioning")]
     [SerializeField] private Vector2 startPosition;
@@ -26,7 +27,7 @@ public class PlayerHealthbar : MonoBehaviour
 
         PlayerHeart first = Instantiate(playerHeart, transform);
         first.RectTransform.anchoredPosition = startPosition;
-        hearts.Add(first);
+        livingHearts.Add(first);
 
         AddHearts(player.Health - 1);
     }
@@ -34,46 +35,61 @@ public class PlayerHealthbar : MonoBehaviour
     public void UpdateHealth()
     {
         int health = player.Health;
-        int change = health - hearts.Count;
+        int change = health - livingHearts.Count;
+
+        Debug.Log("change: " + change);
 
         if (change > 0)
-            AddHearts(change);
+            HealHearts(change);
         else if (change < 0)
-            RemoveHearts(change);
+            DamageHearts(-change);
+    }
+
+    private void HealHearts(int amount)
+    {
+        if (amount > deadHearts.Count)
+            amount = deadHearts.Count;
+
+        for (int i = 0; i < amount; i++)
+        {
+            PlayerHeart heart = deadHearts[^1];
+            heart.Heal();
+            deadHearts.RemoveAt(deadHearts.Count - 1);
+            livingHearts.Add(heart);
+        }
+    }
+
+    private void DamageHearts(int amount)
+    {
+        if (amount > livingHearts.Count)
+            amount = livingHearts.Count;
+
+        for (int i = 0; i < amount; i++)
+        {
+            PlayerHeart heart = livingHearts[^1];
+            heart.Damage();
+            livingHearts.RemoveAt(livingHearts.Count - 1);
+            deadHearts.Add(heart);
+        }
     }
 
     private void AddHearts(int change)
     {
-        int row = hearts.Count / heartsPerRow;
+        int row = livingHearts.Count / heartsPerRow;
 
         for (int i = 0; i < change; i++)
         {
             PlayerHeart heart = Instantiate(playerHeart, transform);
             Vector2 position = startPosition;
-            position.x += (hearts.Count - (row * heartsPerRow)) * horizontalPadding;
+            position.x += (livingHearts.Count - (row * heartsPerRow)) * horizontalPadding;
             position.y -= row * verticalPadding;
 
             heart.RectTransform.anchoredPosition = position;
 
-            hearts.Add(heart);
+            livingHearts.Add(heart);
 
-            if (hearts.Count - (row * heartsPerRow) >= heartsPerRow)
+            if (livingHearts.Count - (row * heartsPerRow) >= heartsPerRow)
                 row++;
-        }
-    }
-
-    private void RemoveHearts(int change)
-    {
-        change = Mathf.Abs(change);
-
-        for (int i = 0; i < change; i++)
-        {
-            if (hearts.Count == 0)
-                return;
-
-            PlayerHeart heart = hearts[^1];
-            hearts.RemoveAt(hearts.Count - 1);
-            Destroy(heart.gameObject);
         }
     }
 }

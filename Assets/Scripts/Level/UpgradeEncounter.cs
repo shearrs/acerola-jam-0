@@ -38,6 +38,9 @@ public class UpgradeEncounter : Encounter
             upgradeUI.HasTwoOptions = true;
         }
 
+        if (blessed)
+            Level.Instance.Player.LotCapacity++;
+
         upgradeUI.Enable(blessed);
     }
 

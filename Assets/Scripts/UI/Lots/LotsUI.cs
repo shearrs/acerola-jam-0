@@ -11,7 +11,6 @@ public class LotsUI
     [SerializeField] private RectTransform lotsUI;
     [SerializeField] private RectTransform lotsContainer;
     [SerializeField] private LotsButton lotsButton;
-    [SerializeField] private LotsBox lotsBox;
     [SerializeField] private MinimizeButton minimizeButton;
 
     [Header("Minimizing")]

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.HighDefinition;
 
 public class LotsBox : MonoBehaviour
 {
@@ -177,8 +176,6 @@ public class LotsBox : MonoBehaviour
 
     private SinType GetRandomSin()
     {
-        return SinType.SLOTH;
-
         Player player = Level.Instance.Player;
 
         List<SinType> sins = new(7)

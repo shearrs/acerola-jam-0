@@ -6,7 +6,6 @@ public class Greed : Sin
 {
     public override void ApplyEffect()
     {
-        SinUI.Instance.ActivateUI(SinType.GREED);
     }
 
     public override SinType GetSinType()
@@ -16,6 +15,5 @@ public class Greed : Sin
 
     public override void Purify()
     {
-        throw new System.NotImplementedException();
     }
 }

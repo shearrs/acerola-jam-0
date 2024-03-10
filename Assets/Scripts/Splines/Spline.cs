@@ -49,6 +49,49 @@ public class Spline : MonoBehaviour
         return CalculateBezierPoint(start, end, newT);
     }
 
+    public float GetCurrentSplineDistanceRatio(float t)
+    {
+        float newT = t * BezierCount;
+        int index = (int)newT;
+
+        if (index == BezierCount)
+        {
+            index = BezierCount - 1;
+        }
+
+        ControlPoint start = controlPoints[index];
+        ControlPoint end = controlPoints[index + 1];
+
+        float localDistance = 0;
+        int steps = 10;
+        float step = 1f / steps;
+
+        for (int i = 0; i < steps; i++)
+        {
+            float percent = i * step;
+            Vector3 firstPoint = CalculateBezierPoint(start, end, percent).position;
+            Vector3 secondPoint = CalculateBezierPoint(start, end, percent + step).position;
+            localDistance += Vector3.Distance(firstPoint, secondPoint);
+        }
+
+        float totalDistance = 0;
+        steps = 20;
+        step = 1f / steps;
+
+        for (int j = 0; j < steps; j++)
+        {
+            float percent = j * step;
+            Vector3 firstPoint = GetBezierPoint(percent).position;
+            Vector3 secondPoint = GetBezierPoint(percent + step).position;
+            totalDistance += Vector3.Distance(firstPoint, secondPoint);
+        }
+
+        Debug.Log("total: " + totalDistance);
+        Debug.Log("local: " + localDistance);
+
+        return 1 - (localDistance / totalDistance);
+    }
+
     public Vector3 GetStartTangentPoint(ControlPoint start) => start.LocalToWorldPosition(Vector3.forward * start.Scale.z);
     public Vector3 GetEndTangentPoint(ControlPoint end) => end.LocalToWorldPosition(Vector3.back * end.Scale.z);
 

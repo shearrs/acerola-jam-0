@@ -9,8 +9,9 @@ public class Player : MonoBehaviour, ICombatEntity
     [SerializeField, Range(0, 1)] private float speed = 1;
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;
-    private Vector3 previousPosition;
-    private Vector3 moveDirection;
+
+    [SerializeField] private Spline spline;
+    [SerializeField, Range(0, 1)] private float t;
 
     [Header("Combat")]
     [SerializeField] private Animator animator;
@@ -90,29 +91,24 @@ public class Player : MonoBehaviour, ICombatEntity
         while (progress < 1)
         {
             OrientedPoint sample = path.GetBezierPoint(progress);
+
             Vector3 position = sample.position;
             position.y += bobbingHeight * Mathf.Sin(progress * bobbingFrequency);
 
-            previousPosition = transform.position;
-            transform.position = position;
-
-            moveDirection = transform.position - previousPosition;
-            moveDirection.y = 0;
-            moveDirection.Normalize();
-
-            if (moveDirection != transform.forward)
-            {
-                Quaternion rotation = Quaternion.LookRotation(moveDirection, Vector3.up);
-                transform.rotation = rotation;
-            }
-
-            progress += Time.deltaTime * speed;
+            transform.SetPositionAndRotation(position, sample.rotation);
+            float distanceScale = path.GetCurrentSplineDistanceRatio(progress);
+            Debug.Log(distanceScale);
+            progress += Time.deltaTime * (speed * distanceScale);
 
             yield return null;
         }
 
         animator.SetBool(isWalkingID, false);
         Level.Instance.StartEncounter();
+
+        Transform encounter = Level.Instance.CurrentEncounter.transform;
+        transform.position = encounter.position;
+        transform.rotation = encounter.rotation;
     }
 
     public void Damage(int damage)
@@ -227,5 +223,14 @@ public class Player : MonoBehaviour, ICombatEntity
 
     public void OnExecutingTurn()
     {
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (spline == null)
+            return;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(spline.GetBezierPoint(t).position, 0.5f);
     }
 }

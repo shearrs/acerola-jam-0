@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae73d161133be8849956b8e3238bd1a0, type: 3}
-  m_Name: Test Defense
+  m_Script: {fileID: 11500000, guid: 3ce0140f945327641ba73e96aee837ce, type: 3}
+  m_Name: Pentagram Attack
   m_EditorClassIdentifier: 
-  visual: {fileID: 11400000, guid: 913cce56c4e8cf548a8a9a1aec2255c2, type: 2}
-  actionName: Defend
-  defense: 2
+  visual: {fileID: 0}
+  actionName: Pentagram
+  sinTypes: 0500000002000000

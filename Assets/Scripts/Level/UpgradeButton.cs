@@ -1,12 +1,21 @@
+using CustomUI;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Tweens;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeButton : MonoBehaviour
 {
     [SerializeField] private PlayerTurnType upgradeTarget;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private Image image;
+    [SerializeField] private Button button;
+    [SerializeField] private Color disabledImageColor;
+    [SerializeField] private Color disabledTextColor;
+    private Color originalImageColor;
+    private Color originalTextColor;
 
     [Header("Materials")]
     [SerializeField] private Material bronzeMaterial;
@@ -46,9 +55,33 @@ public class UpgradeButton : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        originalImageColor = image.color;
+        originalTextColor = text.color;
+    }
+
     public void SelectUpgrade()
     {
         Level.Instance.Player.UpgradeAction(upgradeTarget);
         UpgradeUI.Instance.Disable();
+    }
+
+    public void Enable()
+    {
+        button.enabled = true;
+        image.color = originalImageColor;
+        text.color = originalTextColor;
+    }
+
+    public void Disable(bool colorChange = false)
+    {
+        button.enabled = false;
+
+        if (colorChange)
+        {
+            image.color = disabledImageColor;
+            text.color = disabledTextColor;
+        }
     }
 }
