@@ -15,5 +15,9 @@ public class StartButton : MonoBehaviour
     {
         combatManager.EnterPhase(CombatPhase.LOTS);
         gameObject.SetActive(false);
+
+        AudioManager audioManager = AudioManager.Instance;
+        audioManager.ButtonSound();
+        audioManager.PlaySong(audioManager.BattleMusic);
     }
 }

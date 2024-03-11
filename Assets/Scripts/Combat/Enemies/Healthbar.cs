@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Tweens;
 using UnityEngine;
 
 public class Healthbar : MonoBehaviour
@@ -10,16 +11,29 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private DefenseTick defenseTickPrefab;
     [SerializeField] private float distanceBetween;
     [SerializeField] private int amountPerRow;
+    [SerializeField] private AudioSource audioSource;
 
     [Header("Tweens")]
     [SerializeField] private float tickSpawnDelay;
 
+    private Tween growTween = new();
     private int maxHealth;
     private int currentHealth;
     private bool corrupt;
     private DefenseTick defenseTick;
     private readonly List<HealthTick> livingTicks = new();
     private readonly List<HealthTick> deadTicks = new();
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
+        transform.DoTweenScaleNonAlloc(Vector3.one, .4f, growTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+    }
+
+    public void Disable()
+    {
+        transform.DoTweenScaleNonAlloc(Vector3.zero, .2f, growTween).SetOnComplete(() => gameObject.SetActive(false));
+    }
 
     public void Damage(int change)
     {
@@ -121,9 +135,19 @@ public class Healthbar : MonoBehaviour
             int row = i / amountPerRow;
             int index = i - (row * amountPerRow);
 
-            AddTick(start + (index * horizontalStep) + (row * verticalStep));
+            audioSource.pitch = 0.6f;
+            audioSource.Play();
+            HealthTick tick = AddTick(start + (index * horizontalStep) + (row * verticalStep));
 
             yield return wait;
+
+            if (corrupt)
+            {
+                audioSource.pitch = 0.25f;
+                audioSource.Play();
+                tick.CorruptHeart = corrupt;
+                yield return wait;
+            }
         }
 
         Vector3 defensePosition;
@@ -136,7 +160,7 @@ public class Healthbar : MonoBehaviour
         defenseTick = Instantiate(defenseTickPrefab, defensePosition, transform.rotation, transform);
     }
 
-    private void AddTick(Vector3 position)
+    private HealthTick AddTick(Vector3 position)
     {
         HealthTick tick = Instantiate(
                 healthTickPrefab,
@@ -147,7 +171,7 @@ public class Healthbar : MonoBehaviour
         livingTicks.Add(tick);
         tick.Spawn();
 
-        tick.CorruptHeart = corrupt;
+        return tick;
     }
 
     public void UpdateDefense(int defense) => defenseTick.UpdateDefense(defense);

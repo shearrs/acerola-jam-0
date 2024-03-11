@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Ram : Enemy
 {
+    [SerializeField] private Transform pentagram;
+    [SerializeField] private AudioSource audioSource;
+
+    public Transform Pentagram => pentagram;
+
     // 0 is attack
     // 1 is wait
     // 2 is demon act
@@ -16,17 +21,23 @@ public class Ram : Enemy
             turn.Action = actions[0];
             turn.Target = player;
         }
-        else if (turnCounter == 4)
+        else if (turnCounter == 3)
         {
             turn.Action = actions[1];
             turn.Target = this;
         }    
-        else if (turnCounter == 5)
+        else if (turnCounter == 4)
         {
             turn.Action = actions[2];
             turn.Target = player;
         }
 
         return turn;
+    }
+
+    public void PentagramSound()
+    {
+        audioSource.pitch = Random.Range(1, 1.25f);
+        audioSource.Play();
     }
 }

@@ -10,11 +10,12 @@ public class HealthTick : MonoBehaviour
     [SerializeField] private float shakeAmount;
     [SerializeField] private float shakeDuration;
     [SerializeField] private Color deadColor;
-    [SerializeField] private Color livingColor;
-    [SerializeField] private Color corruptColor;
+    [SerializeField] private Transform corruptOverlay;
     private SpriteRenderer spriteRenderer;
 
     private readonly Tween growTween = new();
+    private readonly Tween corruptTween1 = new();
+    private readonly Tween corruptTween2 = new();
     private readonly Tween shakeTween = new();
 
     private bool alive;
@@ -25,7 +26,7 @@ public class HealthTick : MonoBehaviour
         set
         {
             if (value)
-                spriteRenderer.color = corruptColor;
+                EnableCorruptHeart();
 
             corruptHeart = value;
         }
@@ -48,9 +49,9 @@ public class HealthTick : MonoBehaviour
     public void Heal()
     {
         if (!alive)
-            spriteRenderer.color = livingColor;
+            spriteRenderer.color = Color.white;
         else
-            spriteRenderer.color = corruptColor;
+            EnableCorruptHeart();
 
         alive = true;
         transform.DoTweenScaleNonAlloc(Vector3.one * 1.25f, 0.15f, growTween).SetOnComplete(() => transform.DoTweenScaleNonAlloc(Vector3.one, 0.15f, growTween));
@@ -60,8 +61,7 @@ public class HealthTick : MonoBehaviour
     {
         if (CorruptHeart)
         {
-            spriteRenderer.color = livingColor;
-            CorruptHeart = false;
+            DisableCorruptHeart();
         }
         else
         {
@@ -71,5 +71,18 @@ public class HealthTick : MonoBehaviour
 
         if (!shakeTween.IsPlaying)
             transform.Shake(shakeAmount, shakeDuration, shakeTween);
+    }
+
+    private void EnableCorruptHeart()
+    {
+        corruptOverlay.gameObject.SetActive(true);
+        corruptOverlay.localScale = Vector3.zero;
+        corruptOverlay.DoTweenScaleNonAlloc(Vector3.one * 1.3f, 0.15f, corruptTween1).SetOnComplete(() => corruptOverlay.DoTweenScaleNonAlloc(Vector3.one * 1.2f, 0.15f, corruptTween2));
+    }
+
+    private void DisableCorruptHeart()
+    {
+        CorruptHeart = false;
+        corruptOverlay.DoTweenScaleNonAlloc(Vector3.zero, 0.15f, corruptTween1).SetOnComplete(() => corruptOverlay.gameObject.SetActive(false));
     }
 }

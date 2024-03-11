@@ -1,15 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Tweens;
 using CustomUI;
 
 public enum LotType { DAMAGE, PROTECTION, HOLY, TEMPTATION };
 
 public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    [Header("Images")]
     [SerializeField] private Image lotImage;
     [SerializeField] private Image highlightImage;
     [SerializeField] private Image shadowImage;
@@ -22,6 +21,10 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private Color holyColor;
     [SerializeField] private Color temptationColor;
     private int previousChildIndex;
+
+    [Header("Audio")]
+    [SerializeField] private AudioClip collisionSound;
+    [SerializeField] private AudioSource audioSource;
 
     private bool isKept = false;
     private bool keptHighlightPrevent = false;
@@ -81,6 +84,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             yield return null;
         }
 
+        Invoke(nameof(PlayCollisionSound), Random.Range(0, 0.1f));
+
         Vector3 finalPosition = path.GetBezierPoint(1).position;
         transform.position = finalPosition;
         transform.localRotation = Quaternion.Euler(0, 0, transform.rotation.eulerAngles.z);
@@ -88,6 +93,15 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (onComplete)
             combatManager.SelectLots();
+    }
+
+    private void PlayCollisionSound()
+    {
+        if (audioSource.clip != collisionSound)
+            audioSource.clip = collisionSound;
+
+        AudioManager.RandomizePitch(audioSource, 1.15f, 1.75f);
+        audioSource.Play();
     }
 
     public void RandomizeType()
@@ -148,6 +162,9 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (enable)
         {
+            audioSource.pitch = 2.5f;
+            audioSource.PlayOneShot(collisionSound, 0.4f);
+
             previousChildIndex = transform.GetSiblingIndex();
             alpha = 255;
             BringToFront();

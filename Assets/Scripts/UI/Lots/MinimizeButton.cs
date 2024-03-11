@@ -64,6 +64,9 @@ public class MinimizeButton : MonoBehaviour
     {
         isMinimized = !isMinimized;
 
+        AudioManager.Instance.UISource.pitch = (isMinimized) ? 0.75f : 1;
+        AudioManager.Instance.ButtonSound(2, false, 0.45f);
+
         if (isMinimized)
         {
             downArrow.gameObject.SetActive(false);

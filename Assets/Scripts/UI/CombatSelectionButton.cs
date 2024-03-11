@@ -40,8 +40,16 @@ public class CombatSelectionButton : MonoBehaviour
     public void UpdateIndex()
     {
         if (next)
+        {
             combatUI.UpdateEnemyPointer(1);
+            AudioManager.Instance.UISource.pitch = 1;
+        }
         else
+        {
             combatUI.UpdateEnemyPointer(-1);
+            AudioManager.Instance.UISource.pitch = 0.75f;
+        }
+
+        AudioManager.Instance.ButtonSound(2, false, 0.45f);
     }
 }

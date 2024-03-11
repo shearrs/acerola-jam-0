@@ -11,6 +11,7 @@ public class LotsManager
     [Header("References")]
     [SerializeField] private Lot lotPrefab;
     [SerializeField] private RectTransform lotsParent;
+    [SerializeField] private AudioClip selectSound;
 
     [Header("Setup")]
     [SerializeField] private List<Spline> splines;
@@ -160,6 +161,9 @@ public class LotsManager
                 {
                     if (!HoveredLot.IsKept)
                     {
+                        AudioManager.RandomizePitch(null, 1, 1.15f);
+                        AudioManager.Instance.PlaySound(selectSound);
+
                         lotsBox.KeepLot(HoveredLot);
 
                         if (Roll == MAX_ROLLS)
@@ -169,6 +173,9 @@ public class LotsManager
                     }
                     else
                     {
+                        AudioManager.RandomizePitch(null, 1, 1.15f);
+                        AudioManager.Instance.PlaySound(selectSound);
+
                         lotsBox.ReleaseLot(HoveredLot);
                         HoveredLot.transform.localPosition = HoveredLot.OriginalPosition;
                         HoveredLot.transform.localRotation = HoveredLot.OriginalRotation;

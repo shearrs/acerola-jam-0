@@ -66,6 +66,8 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         rect.localScale = Vector3.zero;
         rect.DoTweenScaleNonAlloc(Vector3.one, enableTime, tween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+
+        AudioManager.Instance.SinSound();
     }
 
     public void Disable()
@@ -82,6 +84,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         }
 
         TweenManager.DoTweenCustomNonAlloc(ColorUpdate, disableTime, tween).SetOnComplete(scaleTween);
+        AudioManager.Instance.PurifySound();
     }
 
     private void Update()

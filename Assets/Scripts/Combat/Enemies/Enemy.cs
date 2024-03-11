@@ -42,6 +42,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
     public bool IsDead { get; set; }
     public Vector3 BattlePosition { get; set; }
     public int MaxHealth => maxHealth;
+    public Healthbar Healthbar => healthbar;
 
     protected virtual void Awake()
     {

@@ -28,6 +28,7 @@ public class LotsButton : MonoBehaviour
         image = GetComponent<Image>();
         button = GetComponent<Button>();
 
+
         originalImageColor = image.color;
         originalTextColor = text.color;
     }
@@ -62,6 +63,8 @@ public class LotsButton : MonoBehaviour
 
     public void LotsAction()
     {
+        AudioManager.Instance.ButtonSound();
+
         if (confirmable)
             combatManager.ConfirmLots();
         else

@@ -9,6 +9,7 @@ public class AttackAction : TurnAction
 
     protected override void PerformInternal(Turn turn)
     {
+        AudioManager.Instance.HitSound();
         turn.Target.Damage(damage);
         Debug.Log("It did " + damage + " damage.");
     }
