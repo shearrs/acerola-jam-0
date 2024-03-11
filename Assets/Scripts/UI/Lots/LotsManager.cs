@@ -123,6 +123,9 @@ public class LotsManager
 
     public void SelectLots()
     {
+        if (player.HasSin(SinType.PRIDE))
+            SinUI.Instance.ActivateUI(SinType.PRIDE);
+
         lotsUI.SelectLots();
         SetLotTypes();
         lotsUI.MinimizeButton.Enable(false);

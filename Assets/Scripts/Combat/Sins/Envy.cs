@@ -6,7 +6,6 @@ public class Envy : Sin
 {
     public override void ApplyEffect()
     {
-        SinUI.Instance.ActivateUI(SinType.ENVY);
     }
 
     public override SinType GetSinType()

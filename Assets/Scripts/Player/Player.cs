@@ -92,14 +92,14 @@ public class Player : MonoBehaviour, ICombatEntity
         {
             OrientedPoint sample = path.GetBezierPoint(progress);
 
+            float distanceScale = path.GetCurrentSplineDistanceRatio(progress);
             Vector3 position = sample.position;
-            position.y += bobbingHeight * Mathf.Sin(progress * bobbingFrequency);
+            position.y += bobbingHeight * Mathf.Sin(progress * bobbingFrequency / distanceScale);
             Vector3 sampleRotation = sample.rotation.eulerAngles;
             Quaternion rotation = Quaternion.Euler(0, sampleRotation.y, sampleRotation.z);
 
             transform.SetPositionAndRotation(position, rotation);
 
-            float distanceScale = path.GetCurrentSplineDistanceRatio(progress);
             Debug.Log(distanceScale);
             progress += Time.deltaTime * (speed * distanceScale);
 

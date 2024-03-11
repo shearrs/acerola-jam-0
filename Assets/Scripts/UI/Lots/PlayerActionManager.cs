@@ -64,7 +64,7 @@ public class PlayerActionManager
                 selectedVisual = (onComplete) => ActionVisual("Defend", onComplete);
                 turn.Target = player;
                 break;
-            case PlayerTurnType.PETITION:
+            case PlayerTurnType.PETITION: // rather than actually setting petition here, just open the petition menu and that will set the player action
                 name = "Petition";
                 selectedAction = Petition;
                 selectedVisual = PetitionVisual;

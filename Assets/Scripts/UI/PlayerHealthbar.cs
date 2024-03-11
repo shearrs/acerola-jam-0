@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealthbar : MonoBehaviour
 {
     [SerializeField] private PlayerHeart playerHeart;
+    [SerializeField] private AudioSource audioSource;
     private readonly List<PlayerHeart> livingHearts = new();
     private readonly List<PlayerHeart> deadHearts = new();
 
@@ -13,6 +14,7 @@ public class PlayerHealthbar : MonoBehaviour
     [SerializeField] private float horizontalPadding;
     [SerializeField] private float verticalPadding;
     [SerializeField] private int heartsPerRow;
+    [SerializeField] private float heartSpawnDelay;
     private Player player;
 
     private void Awake()
@@ -47,16 +49,7 @@ public class PlayerHealthbar : MonoBehaviour
 
     private void HealHearts(int amount)
     {
-        if (amount > deadHearts.Count)
-            amount = deadHearts.Count;
-
-        for (int i = 0; i < amount; i++)
-        {
-            PlayerHeart heart = deadHearts[^1];
-            heart.Heal();
-            deadHearts.RemoveAt(deadHearts.Count - 1);
-            livingHearts.Add(heart);
-        }
+        StartCoroutine(IEHealHearts(amount));
     }
 
     private void DamageHearts(int amount)
@@ -90,6 +83,26 @@ public class PlayerHealthbar : MonoBehaviour
 
             if (livingHearts.Count - (row * heartsPerRow) >= heartsPerRow)
                 row++;
+        }
+    }
+
+    private IEnumerator IEHealHearts(int amount)
+    {
+        WaitForSeconds wait = new(heartSpawnDelay);
+
+        if (amount > deadHearts.Count)
+            amount = deadHearts.Count;
+
+        for (int i = 0; i < amount; i++)
+        {
+            PlayerHeart heart = deadHearts[^1];
+            heart.Heal();
+            deadHearts.RemoveAt(deadHearts.Count - 1);
+            livingHearts.Add(heart);
+
+            audioSource.Play();
+
+            yield return wait;
         }
     }
 }
