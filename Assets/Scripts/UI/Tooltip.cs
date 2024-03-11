@@ -6,7 +6,6 @@ using TMPro;
 
 public class Tooltip : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI text;
     private readonly Tween tween = new();
     private RectTransform rect;
 
@@ -25,7 +24,6 @@ public class Tooltip : MonoBehaviour
 
     public void Disable()
     {
-
         rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.1f, tween).SetOnComplete(() => gameObject.SetActive(false));
     }
 }

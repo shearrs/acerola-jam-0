@@ -7,7 +7,6 @@ using TMPro;
 
 public class UpgradeUI : Singleton<UpgradeUI>
 {
-    [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private RectTransform container;
     [SerializeField] private UpgradeButton upgradeButton1;
     [SerializeField] private UpgradeButton upgradeButton2;
@@ -25,7 +24,6 @@ public class UpgradeUI : Singleton<UpgradeUI>
         {
             CombatManager.Instance.LotsBox.gameObject.SetActive(true);
             upgradeButton1.gameObject.SetActive(true);
-            title.gameObject.SetActive(true);
 
             if (HasTwoOptions)
                 upgradeButton2.gameObject.SetActive(true);

@@ -5611,7 +5611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1889680275064263940, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1932947224200965865, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: text
@@ -5625,6 +5625,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 3068074874803124432, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 0.13
+      objectReference: {fileID: 0}
     - target: {fileID: 3068074874803124432, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag
       value: -1
