@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e969e92967e58e44a8f62484777ff6c6
+guid: f81b5446833226b459790075c2489139
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: bark
-    second: {fileID: 2100000, guid: b643c57318fb2f3468f6310338f6117a, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: branch
-    second: {fileID: 2100000, guid: 5d3c0b1c4fb77c5418baac4878774147, type: 2}
+      name: fence
+    second: {fileID: 2100000, guid: 76c98f4f333c9064288c7955de56bc47, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +40,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.4
+    globalScale: 0.85
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -100,7 +95,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.4
+    globalScale: 0.0085
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e969e92967e58e44a8f62484777ff6c6
+guid: bc40277a884c65e46bfc36dfcce56412
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: bark
-    second: {fileID: 2100000, guid: b643c57318fb2f3468f6310338f6117a, type: 2}
+      name: mushroom
+    second: {fileID: 2100000, guid: e4b1f0b64b9d6724bbd6821eddeb3620, type: 2}
   - first:
-      type: UnityEngine:Material
+      type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: branch
-    second: {fileID: 2100000, guid: 5d3c0b1c4fb77c5418baac4878774147, type: 2}
+      name: mushroom_dithered
+    second: {fileID: 2800000, guid: f4429469be7c7694b806c668878b9e16, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -45,7 +45,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.4
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -100,7 +100,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.4
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

@@ -10,9 +10,6 @@ public class Player : MonoBehaviour, ICombatEntity
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;
 
-    [SerializeField] private Spline spline;
-    [SerializeField, Range(0, 1)] private float t;
-
     [Header("Combat")]
     [SerializeField] private Animator animator;
     [SerializeField] private int maxHealth;
@@ -96,7 +93,7 @@ public class Player : MonoBehaviour, ICombatEntity
             Vector3 position = sample.position;
             position.y += bobbingHeight * Mathf.Sin(progress * bobbingFrequency / distanceScale);
             Vector3 sampleRotation = sample.rotation.eulerAngles;
-            Quaternion rotation = Quaternion.Euler(0, sampleRotation.y, sampleRotation.z);
+            Quaternion rotation = Quaternion.Euler(0, sampleRotation.y, 0);
 
             transform.SetPositionAndRotation(position, rotation);
 
@@ -226,14 +223,5 @@ public class Player : MonoBehaviour, ICombatEntity
 
     public void OnExecutingTurn()
     {
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (spline == null)
-            return;
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(spline.GetBezierPoint(t).position, 0.5f);
     }
 }
