@@ -27,12 +27,13 @@ public class Healthbar : MonoBehaviour
     public void Enable()
     {
         gameObject.SetActive(true);
+        transform.localScale = TweenManager.TWEEN_ZERO;
         transform.DoTweenScaleNonAlloc(Vector3.one, .4f, growTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
     }
 
     public void Disable()
     {
-        transform.DoTweenScaleNonAlloc(Vector3.zero, .2f, growTween).SetOnComplete(() => gameObject.SetActive(false));
+        transform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, .2f, growTween).SetOnComplete(() => gameObject.SetActive(false));
     }
 
     public void Damage(int change)

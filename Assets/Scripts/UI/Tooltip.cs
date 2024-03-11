@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Tweens;
+using TMPro;
 
 public class Tooltip : MonoBehaviour
 {
+    [SerializeField] private TextMeshProUGUI text;
     private readonly Tween tween = new();
     private RectTransform rect;
 
@@ -17,12 +19,13 @@ public class Tooltip : MonoBehaviour
     {
         gameObject.SetActive(true);
 
-        rect.localScale = Vector3.zero;
+        rect.localScale = TweenManager.TWEEN_ZERO;
         rect.DoTweenScaleNonAlloc(Vector3.one, 0.125f, tween);
     }
 
     public void Disable()
     {
-        rect.DoTweenScaleNonAlloc(Vector3.zero, 0.1f, tween).SetOnComplete(() => gameObject.SetActive(false));
+
+        rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.1f, tween).SetOnComplete(() => gameObject.SetActive(false));
     }
 }

@@ -91,7 +91,7 @@ namespace CustomUI
                 return null;
 
             element.gameObject.SetActive(true);
-            element.localScale = uiData.InitialOpenScale;
+            element.localScale = TweenManager.TWEEN_ZERO;
             Tween tween = element
                 .DoTweenScaleNonAlloc(Vector3.one, uiData.OpenDuration, GetTween())
                 .SetEasingFunction(uiData.OpenEasingFunction);

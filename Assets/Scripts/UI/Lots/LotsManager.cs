@@ -161,8 +161,8 @@ public class LotsManager
                 {
                     if (!HoveredLot.IsKept)
                     {
-                        AudioManager.RandomizePitch(null, 1, 1.15f);
-                        AudioManager.Instance.PlaySound(selectSound);
+                        AudioManager.RandomizePitch(null, 1, 1.25f);
+                        AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.KeepLot(HoveredLot);
 
@@ -173,13 +173,15 @@ public class LotsManager
                     }
                     else
                     {
-                        AudioManager.RandomizePitch(null, 1, 1.15f);
-                        AudioManager.Instance.PlaySound(selectSound);
+                        AudioManager.RandomizePitch(null, 1, 1.25f);
+                        AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.ReleaseLot(HoveredLot);
-                        HoveredLot.transform.localPosition = HoveredLot.OriginalPosition;
-                        HoveredLot.transform.localRotation = HoveredLot.OriginalRotation;
-
+                        HoveredLot.transform.SetLocalPositionAndRotation
+                            (
+                            HoveredLot.OriginalPosition, 
+                            HoveredLot.OriginalRotation
+                            );
                         lots.Add(HoveredLot);
                     }
 

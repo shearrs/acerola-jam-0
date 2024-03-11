@@ -21,7 +21,7 @@ public class DefenseTick : MonoBehaviour
     {
         sprite.gameObject.SetActive(true);
         text.gameObject.SetActive(true);
-        transform.localScale = Vector3.zero;
+        transform.localScale = TweenManager.TWEEN_ZERO;
         transform.DoTweenScaleNonAlloc(Vector3.one, spawnDuration, growTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
         isEnabled = true;
     }
@@ -34,7 +34,7 @@ public class DefenseTick : MonoBehaviour
             text.gameObject.SetActive(false);
         }
 
-        transform.DoTweenScaleNonAlloc(Vector3.zero, shakeDuration, growTween).SetOnComplete(onComplete);
+        transform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, shakeDuration, growTween).SetOnComplete(onComplete);
         isEnabled = false;
     }
 

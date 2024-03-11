@@ -127,12 +127,12 @@ public class AudioManager : Singleton<AudioManager>
         if (index == 1)
         {
             uiSource.pitch = 2.5f;
-            uiSource.PlayOneShot(highlightSound1, 0.4f);
+            uiSource.PlayOneShot(highlightSound1, 0.25f);
         }
         else
         {
             uiSource.pitch = 0.75f;
-            uiSource.PlayOneShot(highlightSound2, 0.4f);
+            uiSource.PlayOneShot(highlightSound2, 0.25f);
         }
     }
 
@@ -143,12 +143,12 @@ public class AudioManager : Singleton<AudioManager>
             if (randomize)
                 RandomizePitch(uiSource, 1.25f, 2);
 
-            uiSource.PlayOneShot(buttonSound1, volumeScale);
+            uiSource.PlayOneShot(buttonSound1, .5f);
         }
         else if (index == 2) // high blip
         {
             if (randomize)
-                RandomizePitch(uiSource, 0.75f, 1.25f);
+                RandomizePitch(uiSource, 0.95f, 1.25f);
 
             uiSource.PlayOneShot(buttonSound2, volumeScale);
         }

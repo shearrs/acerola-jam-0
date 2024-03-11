@@ -31,7 +31,7 @@ public class PlayerHeart : MonoBehaviour
     private void OnEnable()
     {
         Vector3 scale = rect.localScale;
-        rect.localScale = Vector3.zero;
+        rect.localScale = TweenManager.TWEEN_ZERO;
         rect.DoTweenScaleNonAlloc(scale, spawnDuration, tween1).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
     }
 

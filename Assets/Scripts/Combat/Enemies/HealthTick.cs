@@ -40,7 +40,7 @@ public class HealthTick : MonoBehaviour
     public void Spawn()
     {
         Vector3 scale = transform.localScale;
-        transform.localScale = Vector3.zero;
+        transform.localScale = TweenManager.TWEEN_ZERO;
         transform.DoTweenScaleNonAlloc(scale, spawnDuration, growTween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
 
         alive = true;
@@ -76,13 +76,13 @@ public class HealthTick : MonoBehaviour
     private void EnableCorruptHeart()
     {
         corruptOverlay.gameObject.SetActive(true);
-        corruptOverlay.localScale = Vector3.zero;
+        corruptOverlay.localScale = TweenManager.TWEEN_ZERO;
         corruptOverlay.DoTweenScaleNonAlloc(Vector3.one * 1.3f, 0.15f, corruptTween1).SetOnComplete(() => corruptOverlay.DoTweenScaleNonAlloc(Vector3.one * 1.2f, 0.15f, corruptTween2));
     }
 
     private void DisableCorruptHeart()
     {
         CorruptHeart = false;
-        corruptOverlay.DoTweenScaleNonAlloc(Vector3.zero, 0.15f, corruptTween1).SetOnComplete(() => corruptOverlay.gameObject.SetActive(false));
+        corruptOverlay.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.15f, corruptTween1).SetOnComplete(() => corruptOverlay.gameObject.SetActive(false));
     }
 }

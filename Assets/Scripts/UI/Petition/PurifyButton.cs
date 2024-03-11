@@ -45,7 +45,7 @@ public class PurifyButton : MonoBehaviour
 
     public void SubmitAction()
     {
-        AudioManager.Instance.ButtonSound(3);
+        AudioManager.Instance.ButtonSound(2);
         petitionManager.SelectMenuOption(heal);
     }
 }

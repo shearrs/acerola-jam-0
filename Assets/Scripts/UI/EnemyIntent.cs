@@ -19,7 +19,7 @@ public class EnemyIntent : MonoBehaviour
     public void Enable()
     {
         gameObject.SetActive(true);
-        transform.localScale = Vector3.zero;
+        transform.localScale = TweenManager.TWEEN_ZERO;
         transform.DoTweenScaleNonAlloc(Vector3.one, 0.25f, tween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
 
         Vector3 direction = (Level.Instance.Player.transform.position - transform.position).normalized;
@@ -35,7 +35,7 @@ public class EnemyIntent : MonoBehaviour
             intentText.text = "";
         }
 
-        transform.DoTweenScaleNonAlloc(Vector3.zero, 0.25f, tween).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK).SetOnComplete(onComplete);
+        transform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.25f, tween).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK).SetOnComplete(onComplete);
     }
 
     public void SetAttack(int damage)

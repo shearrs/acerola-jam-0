@@ -7,6 +7,7 @@ using TMPro;
 
 public class UpgradeUI : Singleton<UpgradeUI>
 {
+    [SerializeField] private TextMeshProUGUI title;
     [SerializeField] private RectTransform container;
     [SerializeField] private UpgradeButton upgradeButton1;
     [SerializeField] private UpgradeButton upgradeButton2;
@@ -24,6 +25,7 @@ public class UpgradeUI : Singleton<UpgradeUI>
         {
             CombatManager.Instance.LotsBox.gameObject.SetActive(true);
             upgradeButton1.gameObject.SetActive(true);
+            title.gameObject.SetActive(true);
 
             if (HasTwoOptions)
                 upgradeButton2.gameObject.SetActive(true);
@@ -58,7 +60,7 @@ public class UpgradeUI : Singleton<UpgradeUI>
             if (blessed)
             {
                 blessedText.gameObject.SetActive(true);
-                blessedText.rectTransform.localScale = Vector3.zero;
+                blessedText.rectTransform.localScale = TweenManager.TWEEN_ZERO;
                 blessedText.rectTransform.DoTweenScaleNonAlloc(Vector3.one, 0.1f, tween2).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
             }
         }
@@ -69,7 +71,7 @@ public class UpgradeUI : Singleton<UpgradeUI>
             blessedText.gameObject.SetActive(false);
 
         container.gameObject.SetActive(true);
-        container.localScale = Vector3.zero;
+        container.localScale = TweenManager.TWEEN_ZERO;
         container.DoTweenScaleNonAlloc(Vector3.one, uiManager.DefaultUIData.MoveDuration, tween1).SetOnComplete(onComplete).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
         uiManager.ToggleBar(true);
     }
@@ -81,7 +83,7 @@ public class UpgradeUI : Singleton<UpgradeUI>
         CombatManager.Instance.LotsBox.gameObject.SetActive(false);
         upgradeButton1.gameObject.SetActive(false);
         upgradeButton2.gameObject.SetActive(false);
-        container.DoTweenScaleNonAlloc(Vector3.zero, 0.5f, tween1).SetOnComplete(() => container.gameObject.SetActive(false)).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK);
+        container.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.5f, tween1).SetOnComplete(() => container.gameObject.SetActive(false)).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK);
         uiManager.ToggleBar(false, () => Level.Instance.EndEncounter());
     }
 }

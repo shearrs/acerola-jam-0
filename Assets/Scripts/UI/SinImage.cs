@@ -64,7 +64,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         symbolImage.color = symbolInitialColor;
         highlightImage.color = highlightInitialColor;
 
-        rect.localScale = Vector3.zero;
+        rect.localScale = TweenManager.TWEEN_ZERO;
         rect.DoTweenScaleNonAlloc(Vector3.one, enableTime, tween).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
 
         AudioManager.Instance.SinSound();
@@ -75,7 +75,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         UIManager.Instance.Shake(rect, disableTime);
         void scaleTween()
         {
-            rect.DoTweenScaleNonAlloc(Vector3.zero, 0.15f, tween2).SetOnComplete(() => gameObject.SetActive(false));
+            rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.15f, tween2).SetOnComplete(() => gameObject.SetActive(false));
 
             Player player = Level.Instance.Player;
 

@@ -16,7 +16,7 @@ public class PurifyMenu : MonoBehaviour
     public void Enable()
     {
         gameObject.SetActive(true);
-        rect.localScale = Vector3.zero;
+        rect.localScale = TweenManager.TWEEN_ZERO;
         rect.DoTweenScaleNonAlloc(Vector3.one, 0.2f, tween);
         Level.Instance.Player.PurifyingSin = true;
     }
@@ -28,7 +28,7 @@ public class PurifyMenu : MonoBehaviour
             gameObject.SetActive(false);
         }
 
-        rect.DoTweenScaleNonAlloc(Vector3.zero, 0.2f, tween).SetOnComplete(onComplete);
+        rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.2f, tween).SetOnComplete(onComplete);
 
         Player player = Level.Instance.Player;
         player.PurifyingSin = false;

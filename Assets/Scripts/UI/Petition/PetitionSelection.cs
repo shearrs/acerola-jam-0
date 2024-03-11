@@ -9,18 +9,13 @@ public class PetitionSelection : MonoBehaviour
     [SerializeField] private PurifyButton purifyButton;
     [SerializeField] private Vector3 startPosition;
     private Vector3 openPosition;
-    private Tween tween = new();
+    private readonly Tween tween = new();
     private RectTransform rect;
 
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
         openPosition = rect.anchoredPosition3D;
-    }
-
-    private void Start()
-    {
-
     }
 
     public void Enable()

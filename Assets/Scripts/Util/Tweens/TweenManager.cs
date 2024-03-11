@@ -5,6 +5,8 @@ namespace Tweens
 {
     public static class TweenManager
     {
+        public static Vector3 TWEEN_ZERO = Vector3.one * 0.001f;
+
         #region Transforms
 
         #region Positions

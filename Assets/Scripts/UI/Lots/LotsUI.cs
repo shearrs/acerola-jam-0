@@ -31,7 +31,7 @@ public class LotsUI
             combatManager = CombatManager.Instance;
 
         lotsContainer.gameObject.SetActive(true);
-        lotsContainer.localScale = Vector3.zero;
+        lotsContainer.localScale = TweenManager.TWEEN_ZERO;
         lotsContainer.DoTweenScaleNonAlloc(targetScale, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(true));
         UpdateLotsButton(Level.Instance.Player.LotCapacity);
 
@@ -48,7 +48,7 @@ public class LotsUI
     public void Disable()
     {
         lotsButton.gameObject.SetActive(false);
-        lotsContainer.DoTweenScaleNonAlloc(Vector3.zero, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(false));
+        lotsContainer.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, scaleTween.Duration, scaleTween).SetOnComplete(() => OnTweenComplete(false));
     }
 
     public void SelectLots()
