@@ -63,6 +63,7 @@ public class UpgradeButton : MonoBehaviour
 
     public void SelectUpgrade()
     {
+        AudioManager.Instance.ButtonSound(2, false, 0.45f);
         Level.Instance.Player.UpgradeAction(upgradeTarget);
         UpgradeUI.Instance.Disable();
     }

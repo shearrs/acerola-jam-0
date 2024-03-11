@@ -16,7 +16,7 @@ public class Ram : Enemy
     {
         Turn turn = new(this, null, null);
 
-        if (turnCounter <= 2 || turnCounter > 5)
+        if (turnCounter <= 2 || turnCounter > 4)
         {
             turn.Action = actions[0];
             turn.Target = player;

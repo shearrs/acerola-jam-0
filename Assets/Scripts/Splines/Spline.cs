@@ -51,6 +51,9 @@ public class Spline : MonoBehaviour
 
     public float GetCurrentSplineDistanceRatio(float t)
     {
+        if (BezierCount == 1)
+            return 1;
+
         float newT = t * BezierCount;
         int index = (int)newT;
 

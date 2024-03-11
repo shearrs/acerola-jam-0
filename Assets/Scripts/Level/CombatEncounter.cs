@@ -18,6 +18,7 @@ public class CombatEncounter : Encounter
         if (combatManager == null)
             combatManager = CombatManager.Instance;
 
+        AudioManager.Instance.PlaySong(null, 1.25f);
         combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
 

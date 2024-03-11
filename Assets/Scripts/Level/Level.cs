@@ -13,6 +13,7 @@ public class Level : Singleton<Level>
     [Header("Environment")]
     [SerializeField] private Volume defaultVolume;
     [SerializeField] private Volume stormVolume;
+    private AudioManager audioManager;
 
     public Encounter CurrentEncounter => encounters[0];
     public Player Player => player;
@@ -20,6 +21,10 @@ public class Level : Singleton<Level>
     public void Start()
     {
         player.Move();
+        audioManager = AudioManager.Instance;
+
+        audioManager.PlaySong(audioManager.AmbientMusic);
+        audioManager.PlayAmbience(audioManager.AmbientForest);
     }
 
     public void StartEncounter()
@@ -31,6 +36,7 @@ public class Level : Singleton<Level>
     public void EndEncounter()
     {
         UIManager.Instance.EndEncounter();
+        AudioManager.Instance.PlaySong(AudioManager.Instance.AmbientMusic);
         encounters.RemoveAt(0);
 
         if (!Player.IsDead)

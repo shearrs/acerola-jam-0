@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8680209486731700433
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6319240685401176474}
+  - component: {fileID: 7300452535509405309}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6319240685401176474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8680209486731700433}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7300452535509405309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8680209486731700433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 808d0d48fce305940b2ed4ee56482722, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiSource: {fileID: 0}
+  musicSource: {fileID: 0}
+  ambientSource: {fileID: 0}
+  buttonSound1: {fileID: 8300000, guid: e17648f14870d05478d6e471b29bf331, type: 3}
+  buttonSound2: {fileID: 8300000, guid: 9f101343e4a9c354990bd2f398aff327, type: 3}
+  buttonSound3: {fileID: 8300000, guid: bac7890dedca9a348bc0d736bb842da3, type: 3}
+  sinSound: {fileID: 8300000, guid: 7cac72ea7c443444eaee8bdcd3cc5f07, type: 3}
+  purifySound: {fileID: 8300000, guid: f9a244959024a9c4eafc0d0ceca94423, type: 3}
+  hitSound: {fileID: 8300000, guid: e348a5e73d3ea7f4abb2b892ccd2f762, type: 3}
+  deathSound: {fileID: 8300000, guid: e9ba0119afe49ce48b684ef0eeb04679, type: 3}
+  highlightSound1: {fileID: 8300000, guid: 3d77ee54a39122b41836bccd94702bab, type: 3}
+  highlightSound2: {fileID: 8300000, guid: 9f101343e4a9c354990bd2f398aff327, type: 3}
+  songTransitionTime: 0.5
+  ambientMusic: {fileID: 8300000, guid: 124230f5aace1954a85c706396f6c40b, type: 3}
+  battleMusic: {fileID: 8300000, guid: 233facc8a870f134abe8cd3f65f1d980, type: 3}
+  ambientForest: {fileID: 8300000, guid: dd433e5f0c28b1e4baeab17b471ba634, type: 3}

@@ -49,6 +49,11 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         combatManager = CombatManager.Instance;
     }
 
+    private void OnDisable()
+    {
+        shadowImage.gameObject.SetActive(false);
+    }
+
     public void Throw(Spline path, bool notifyUI = false)
     {
         lotImage.color = Color.white;
@@ -162,8 +167,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (enable)
         {
-            audioSource.pitch = 2.5f;
-            audioSource.PlayOneShot(collisionSound, 0.4f);
+            AudioManager.Instance.HighlightSound();
 
             previousChildIndex = transform.GetSiblingIndex();
             alpha = 255;

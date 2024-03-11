@@ -67,11 +67,14 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
 
         if (Health <= 0)
         {
+            AudioManager.Instance.DeathSound();
             Battle.Enemies.Remove(this);
             IsDead = true;
 
             shakeTween.SetOnComplete(Die);
         }
+        else
+            AudioManager.Instance.HitSound();
     }
 
     protected virtual void Die()

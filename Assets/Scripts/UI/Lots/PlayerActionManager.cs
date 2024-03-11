@@ -107,8 +107,6 @@ public class PlayerActionManager
         wrath?.DamagePlayer();
 
         target.Damage(damage);
-
-        AudioManager.Instance.HitSound();
     }
 
     private void Defend()

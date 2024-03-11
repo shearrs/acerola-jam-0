@@ -116,6 +116,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (tween.IsPlaying)
             return;
 
+        AudioManager.Instance.HighlightSound(2);
         highlightImage.color = highlightColor;
         selected = true;
     }

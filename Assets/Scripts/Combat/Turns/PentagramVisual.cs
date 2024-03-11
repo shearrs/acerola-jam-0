@@ -43,8 +43,6 @@ public class PentagramVisual : TurnActionVisual
 
     private void Finish(Ram ram, Action onComplete)
     {
-        ram.PentagramSound();
-
         ram.Pentagram.gameObject.SetActive(false);
         ram.Healthbar.Enable();
 

@@ -58,6 +58,7 @@ public class PlayerActionButton : MonoBehaviour
     
     public void SubmitAction()
     {
+        AudioManager.Instance.ButtonSound();
         combatManager.ChooseTurn(turnType);
     }
 

@@ -135,7 +135,7 @@ public class Healthbar : MonoBehaviour
             int row = i / amountPerRow;
             int index = i - (row * amountPerRow);
 
-            audioSource.pitch = 0.6f;
+            audioSource.pitch = 0.8f;
             audioSource.Play();
             HealthTick tick = AddTick(start + (index * horizontalStep) + (row * verticalStep));
 
@@ -143,7 +143,7 @@ public class Healthbar : MonoBehaviour
 
             if (corrupt)
             {
-                audioSource.pitch = 0.25f;
+                audioSource.pitch = 0.4f;
                 audioSource.Play();
                 tick.CorruptHeart = corrupt;
                 yield return wait;
