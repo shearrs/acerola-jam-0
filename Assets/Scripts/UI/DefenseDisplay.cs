@@ -16,7 +16,7 @@ public class DefenseDisplay : MonoBehaviour
 
     public void UpdateDefense(int defense)
     {
-        if (!IsEnabled && image.gameObject.activeSelf)
+        if (!IsEnabled)
         {
             image.gameObject.SetActive(false);
             text.text = "";

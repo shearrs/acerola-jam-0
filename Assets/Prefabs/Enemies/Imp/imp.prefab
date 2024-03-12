@@ -5209,7 +5209,6 @@ MonoBehaviour:
   actions:
   - {fileID: 11400000, guid: 285dd2489f1971246bc83a8102cbae28, type: 2}
   - {fileID: 11400000, guid: f245bfc4b89dfb447920758f5f108e20, type: 2}
-  - {fileID: 11400000, guid: d2326a36fdef7ef4382b9ee6bb44b235, type: 2}
   - {fileID: 11400000, guid: 5a9b0877a57b0884b90bc3fa8dd97e1d, type: 2}
   brimstoneParticles: {fileID: 6604862425859271087}
   audioSource: {fileID: 2653695220679991696}

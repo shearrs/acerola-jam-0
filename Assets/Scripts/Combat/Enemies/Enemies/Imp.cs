@@ -6,21 +6,19 @@ public class Imp : Enemy
 {
     [SerializeField] private ParticleSystem brimstoneParticles;
     [SerializeField] private AudioSource audioSource;
+    int attackCounter = 0;
     int brimstoneCounter = 0;
 
     // 0 is attack
     // 1 is defend
-    // 2 is wait
-    // 3 is brimstone
+    // 2 is brimstone
     protected override Turn ChooseTurnInternal()
     {
         Turn turn = new(this, null, null);
 
         if (Health > MaxHealth / 2)
         {
-            int even = turnCounter % 2;
-
-            if (even == 0) // attack
+            if (attackCounter < 2) // attack
             {
                 turn.Action = actions[0];
                 turn.Target = player;
@@ -29,9 +27,10 @@ public class Imp : Enemy
             {
                 turn.Action = actions[1];
                 turn.Target = this;
+                attackCounter = 0;
             }
         }
-        else // half health, defend, wait, then brimstone
+        else // half health, defend, then brimstone
         {
             if (brimstoneCounter == 0)
             {
@@ -44,12 +43,6 @@ public class Imp : Enemy
                 turn.Action = actions[2];
                 turn.Target = this;
                 brimstoneCounter++;
-            }
-            else
-            {
-                turn.Action = actions[3];
-                turn.Target = player;
-                brimstoneCounter = 0;
             }
         }
 

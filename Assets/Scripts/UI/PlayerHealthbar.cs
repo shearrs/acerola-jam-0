@@ -39,8 +39,6 @@ public class PlayerHealthbar : MonoBehaviour
         int health = player.Health;
         int change = health - livingHearts.Count;
 
-        Debug.Log("change: " + change);
-
         if (change > 0)
             HealHearts(change);
         else if (change < 0)
