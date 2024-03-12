@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class Encounter : MonoBehaviour
 {
-    [SerializeField] private Spline path;
+    [SerializeField] private Path path;
 
-    public Spline Path => path;
+    public Path Path => path;
 
     public abstract void Enter();
 

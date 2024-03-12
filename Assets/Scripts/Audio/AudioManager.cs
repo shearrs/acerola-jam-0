@@ -21,6 +21,8 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip highlightSound1;
     [SerializeField] private AudioClip highlightSound2;
+    [SerializeField] private AudioClip lotSound;
+    [SerializeField] private AudioClip healthSound;
 
     [Header("Songs")]
     [SerializeField] private float songTransitionTime;
@@ -113,26 +115,38 @@ public class AudioManager : Singleton<AudioManager>
     public void SinSound()
     {
         RandomizePitch();
-        uiSource.PlayOneShot(sinSound, 0.2f);
+        uiSource.PlayOneShot(sinSound, 0.4f);
     }
 
     public void PurifySound()
     {
         uiSource.pitch = 1;
-        uiSource.PlayOneShot(purifySound, 0.2f);
+        uiSource.PlayOneShot(purifySound, 0.4f);
+    }
+
+    public void LotSound()
+    {
+        uiSource.pitch = 1;
+        uiSource.PlayOneShot(lotSound, 0.45f);
+    }
+
+    public void HealthSound()
+    {
+        uiSource.pitch = 1;
+        uiSource.PlayOneShot(healthSound, 0.3f);
     }
 
     public void HighlightSound(int index = 1)
     {
         if (index == 1)
         {
-            uiSource.pitch = 2.5f;
-            uiSource.PlayOneShot(highlightSound1, 0.25f);
+            uiSource.pitch = 3f;
+            uiSource.PlayOneShot(highlightSound1, 0.3f);
         }
         else
         {
             uiSource.pitch = 0.75f;
-            uiSource.PlayOneShot(highlightSound2, 0.25f);
+            uiSource.PlayOneShot(highlightSound2, 0.3f);
         }
     }
 

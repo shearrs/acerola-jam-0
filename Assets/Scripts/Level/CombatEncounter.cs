@@ -6,10 +6,14 @@ using UnityEngine;
 
 public class CombatEncounter : Encounter
 {
-    [SerializeField] private List<Enemy> enemies;
-    [SerializeField] private Vector3[] enemyPositions;
+    [Header("Combat")]
+    [SerializeField] private CombatDrop drop;
     [SerializeField] private Battle battle;
     private CombatManager combatManager;
+
+    [Header("Enemies")]
+    [SerializeField] private List<Enemy> enemies;
+    [SerializeField] private Vector3[] enemyPositions;
 
     public Battle Battle => battle;
 
@@ -79,8 +83,15 @@ public class CombatEncounter : Encounter
 
     protected override void EndEncounter()
     {
-        Level.Instance.EndEncounter();
         combatManager.Disable();
+
+        if (drop == CombatDrop.NONE)
+        {
+            Level.Instance.EndEncounter();
+            UIManager.Instance.ToggleBar(false, null, true);
+        }
+        else 
+            CombatDropUI.Instance.Enable(drop);
     }
 
     private static int OrderTurns(Turn turn1, Turn turn2)
@@ -97,11 +108,6 @@ public class CombatEncounter : Encounter
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, 1f);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
 
         foreach (Vector3 position in enemyPositions)
         {

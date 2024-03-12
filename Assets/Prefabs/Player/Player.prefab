@@ -305,7 +305,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 1000
-  field of view: 64
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -635,15 +635,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472152230212e3e43841d1974ea34835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.2
+  speed: 0
+  rotationSpeed: 5
   bobbingHeight: 0.05
-  bobbingFrequency: 50
-  spline: {fileID: 0}
-  t: 0
+  bobbingFrequency: 1
   animator: {fileID: 1439312017396543897}
   maxHealth: 10
   combatSpeed: 5
-  lotCapacity: 10
+  lotCapacity: 3
   staff: {fileID: 8022714779218519417}
 --- !u!1 &6488402379121508453
 GameObject:

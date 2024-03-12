@@ -51,8 +51,6 @@ public class CombatManager : Singleton<CombatManager>
 
     public void Disable()
     {
-        uiManager.ToggleBar(false, null, true);
-
         lotsManager.ExitPhase();
         actionManager.ExitPhase();
         turnManager.ExitPhase();

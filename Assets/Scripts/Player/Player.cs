@@ -2,11 +2,13 @@ using CustomUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, ICombatEntity
 {
     [Header("Movement")]
-    [SerializeField, Range(0, 1)] private float speed = 1;
+    [SerializeField, Range(0, 10)] private float speed = 1;
+    [SerializeField, Range(0, 10)] private float rotationSpeed;
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;
 
@@ -81,34 +83,48 @@ public class Player : MonoBehaviour, ICombatEntity
 
     private IEnumerator IEMove()
     {
-        Spline path = Level.Instance.CurrentEncounter.Path;
         animator.SetBool(isWalkingID, true);
-        float progress = 0;
 
-        while (progress < 1)
+        Path path = Level.Instance.CurrentEncounter.Path;
+
+        for (int waypointIndex = 0; waypointIndex < path.WaypointCount; waypointIndex++)
         {
-            OrientedPoint sample = path.GetBezierPoint(progress);
+            float percent = 0;
+            Vector3 target = path.GetPosition(waypointIndex);
 
-            float distanceScale = path.GetCurrentSplineDistanceRatio(progress);
-            Vector3 position = sample.position;
-            position.y += bobbingHeight * Mathf.Sin(progress * bobbingFrequency / distanceScale);
-            Vector3 sampleRotation = sample.rotation.eulerAngles;
-            Quaternion rotation = Quaternion.Euler(0, sampleRotation.y, 0);
+            while ((target - transform.position).sqrMagnitude > 0.1)
+            {
+                Vector3 position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+                position.y += bobbingHeight * Mathf.Sin(percent * bobbingFrequency);
 
-            transform.SetPositionAndRotation(position, rotation);
+                Vector3 direction = (position - transform.position).normalized;
+                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
+                rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 
-            Debug.Log(distanceScale);
-            progress += Time.deltaTime * (speed * distanceScale);
+                transform.SetPositionAndRotation(position, rotation);
+                yield return null;
+            }
+        }
+
+        animator.SetBool(isWalkingID, false);
+
+        // rotate to the encounter's rotation
+        float elapsedTime = 0;
+        Transform encounter = Level.Instance.CurrentEncounter.transform;
+        Quaternion startRotation = transform.rotation;
+        Quaternion endRotation = encounter.rotation;
+        while (elapsedTime < 1f)
+        {
+            transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime);
+
+            elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        animator.SetBool(isWalkingID, false);
         Level.Instance.StartEncounter();
 
-        Transform encounter = Level.Instance.CurrentEncounter.transform;
-        transform.position = encounter.position;
-        transform.rotation = encounter.rotation;
+        transform.SetPositionAndRotation(encounter.position, encounter.rotation);
     }
 
     public void Damage(int damage)
