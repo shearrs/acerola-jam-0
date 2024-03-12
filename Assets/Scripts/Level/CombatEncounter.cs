@@ -3,9 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class CombatEncounter : Encounter
 {
+    [SerializeField] private Volume combatFog;
+
     [Header("Combat")]
     [SerializeField] private CombatDrop drop;
     [SerializeField] private Battle battle;
@@ -38,6 +41,7 @@ public class CombatEncounter : Encounter
         combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
 
+        StartCoroutine(IEFog(true));
         battle.StartTurns();
     }
 
@@ -96,6 +100,7 @@ public class CombatEncounter : Encounter
     protected override void EndEncounter()
     {
         combatManager.Disable();
+        StartCoroutine(IEFog(false));
 
         if (drop == CombatDrop.NONE)
         {
@@ -114,6 +119,40 @@ public class CombatEncounter : Encounter
             return 1;
         else 
             return 0;
+    }
+
+    private IEnumerator IEFog(bool enable)
+    {
+        float start;
+        float end;
+
+        if (enable)
+        {
+            combatFog.gameObject.SetActive(true);
+            start = 0;
+            end = 1;
+        }
+        else
+        {
+            start = 1;
+            end = 0;
+        }
+
+        float elapsedTime = 0;
+        const float timeToFadeIn = 0.3f;
+
+        while(elapsedTime < timeToFadeIn)
+        {
+            float percentage = elapsedTime / timeToFadeIn;
+            combatFog.weight = Mathf.Lerp(start, end, percentage);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        if (!enable)
+            combatFog.gameObject.SetActive(false);
     }
 
     private void OnDrawGizmos()

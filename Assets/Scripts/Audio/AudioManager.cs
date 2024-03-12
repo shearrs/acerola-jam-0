@@ -147,7 +147,7 @@ public class AudioManager : Singleton<AudioManager>
         else
         {
             uiSource.pitch = 0.75f;
-            uiSource.PlayOneShot(highlightSound2, 0.3f);
+            uiSource.PlayOneShot(highlightSound2, 0.4f);
         }
     }
 
