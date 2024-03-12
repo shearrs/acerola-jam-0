@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Wolf : Enemy
 {
+    public override bool CorruptHealth => false;
+
     // 0 is attack
     // 1 is defend
     protected override Turn ChooseTurnInternal()
@@ -20,9 +22,9 @@ public class Wolf : Enemy
             lowRange = 0;
         }
 
-        int random = Random.Range(lowRange, 2);
+        int random = Random.Range(lowRange, 3);
 
-        if (random <= 0)
+        if (random <= 2)
         {
             turn.Action = actions[0];
             turn.Target = player;

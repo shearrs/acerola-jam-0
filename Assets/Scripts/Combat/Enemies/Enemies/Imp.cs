@@ -9,6 +9,8 @@ public class Imp : Enemy
     int attackCounter = 0;
     int brimstoneCounter = 0;
 
+    public override bool CorruptHealth => true;
+
     // 0 is attack
     // 1 is defend
     // 2 is brimstone
@@ -41,7 +43,7 @@ public class Imp : Enemy
             else if (brimstoneCounter == 1)
             {
                 turn.Action = actions[2];
-                turn.Target = this;
+                turn.Target = player;
                 brimstoneCounter++;
             }
         }

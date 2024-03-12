@@ -120,7 +120,8 @@ public class Player : MonoBehaviour, ICombatEntity
         Quaternion endRotation = encounter.rotation;
         while (elapsedTime < .4f)
         {
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime);
+            float percent = elapsedTime / .4f;
+            transform.rotation = Quaternion.Lerp(startRotation, endRotation, percent);
 
             elapsedTime += Time.deltaTime;
 

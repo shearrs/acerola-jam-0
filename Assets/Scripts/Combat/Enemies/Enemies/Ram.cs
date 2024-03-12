@@ -9,6 +9,8 @@ public class Ram : Enemy
 
     public Transform Pentagram => pentagram;
 
+    public override bool CorruptHealth => true;
+
     // 0 is attack
     // 1 is wait
     // 2 is demon act

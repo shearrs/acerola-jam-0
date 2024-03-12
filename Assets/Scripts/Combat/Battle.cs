@@ -6,10 +6,10 @@ using UnityEngine;
 public class Battle
 {
     [SerializeField] private List<Turn> turns = new();
-    private List<Enemy> enemies;
-    private Vector3[] positions;
-    private Player player;
-    private CombatEncounter encounter;
+    private readonly List<Enemy> enemies;
+    private readonly Vector3[] positions;
+    private readonly Player player;
+    private readonly CombatEncounter encounter;
 
     public List<Enemy> Enemies => enemies;
     public List<Turn> Turns => turns;
@@ -32,9 +32,12 @@ public class Battle
         {
             Vector3 direction = (player.transform.position - positions[i]).normalized;
 
-            enemies[i] = Object.Instantiate(enemies[i], positions[i], Quaternion.LookRotation(direction, Vector3.up));
-            enemies[i].Battle = this;
-            enemies[i].BattlePosition = positions[i];
+            Enemy enemy = enemies[i];
+
+            enemy.transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            enemy.Battle = this;
+            enemy.BattlePosition = positions[i];
+            enemy.Enable();
         }
     }
 

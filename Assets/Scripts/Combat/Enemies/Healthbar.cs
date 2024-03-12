@@ -12,6 +12,7 @@ public class Healthbar : MonoBehaviour
     [SerializeField] private float distanceBetween;
     [SerializeField] private int amountPerRow;
     [SerializeField] private AudioSource audioSource;
+    private bool corruptHealth;
 
     [Header("Tweens")]
     [SerializeField] private float tickSpawnDelay;
@@ -19,10 +20,11 @@ public class Healthbar : MonoBehaviour
     private Tween growTween = new();
     private int maxHealth;
     private int currentHealth;
-    private bool corrupt;
     private DefenseTick defenseTick;
     private readonly List<HealthTick> livingTicks = new();
     private readonly List<HealthTick> deadTicks = new();
+
+    public bool CorruptHealth { get => corruptHealth; set => corruptHealth = value; }
 
     public void Enable()
     {
@@ -69,7 +71,7 @@ public class Healthbar : MonoBehaviour
         currentHealth += change;
         int initialChange = change;
 
-        if (corrupt)
+        if (corruptHealth)
         {
             change /= 2;
 
@@ -88,7 +90,7 @@ public class Healthbar : MonoBehaviour
             deadTicks.RemoveAt(deadTicks.Count - 1);
             livingTicks.Add(tick);
 
-            if (corrupt)
+            if (corruptHealth)
                 tick.CorruptHeart = true;
 
             if (deadTicks.Count == 0)
@@ -109,7 +111,6 @@ public class Healthbar : MonoBehaviour
     {
         maxHealth = health;
         currentHealth = health;
-        corrupt = maxHealth > 10;
 
         Vector3 direction = (Level.Instance.Player.transform.position - transform.position).normalized;
         transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
@@ -128,7 +129,7 @@ public class Healthbar : MonoBehaviour
         WaitForSeconds wait = new(tickSpawnDelay);
 
         // if we have greater than 10 health, then only produce half the max health and turn all the hearts into corrupt hearts
-        if (corrupt)
+        if (corruptHealth)
             health /= 2;
 
         for (int i = 0; i < health; i++)
@@ -142,11 +143,11 @@ public class Healthbar : MonoBehaviour
 
             yield return wait;
 
-            if (corrupt)
+            if (corruptHealth)
             {
                 audioSource.pitch = 0.4f;
                 audioSource.Play();
-                tick.CorruptHeart = corrupt;
+                tick.CorruptHeart = true;
                 yield return wait;
             }
         }

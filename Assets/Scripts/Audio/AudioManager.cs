@@ -134,15 +134,15 @@ public class AudioManager : Singleton<AudioManager>
     public void HealthSound()
     {
         uiSource.pitch = 1;
-        uiSource.PlayOneShot(healthSound, 0.3f);
+        uiSource.PlayOneShot(healthSound, 1);
     }
 
     public void HighlightSound(int index = 1)
     {
         if (index == 1)
         {
-            uiSource.pitch = 3f;
-            uiSource.PlayOneShot(highlightSound1, 0.3f);
+            RandomizePitch(UISource, 1, 1.05f);
+            uiSource.PlayOneShot(highlightSound1, 0.4f);
         }
         else
         {

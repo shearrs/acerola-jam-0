@@ -106,4 +106,23 @@ public class CombatManager : Singleton<CombatManager>
     public void RetireLot(Lot lot) => lotsManager.RetireLot(lot);
 
     public void ChooseTurn(PlayerTurnType type) => actionManager.ChooseTurn(type);
+
+    public void PlayDeathParticles(ParticleSystem particles)
+    {
+        StartCoroutine(IEDeathParticles(particles));
+    }
+
+    private IEnumerator IEDeathParticles(ParticleSystem particles)
+    {
+        particles.transform.SetParent(transform);
+        particles.Play();
+
+        while (!particles.isPlaying)
+            yield return null;
+
+        while (particles.isPlaying)
+            yield return null;
+
+        Destroy(particles.gameObject);
+    }
 }

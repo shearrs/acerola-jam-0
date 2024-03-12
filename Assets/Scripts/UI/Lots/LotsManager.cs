@@ -7,6 +7,7 @@ using UnityEngine;
 public class LotsManager
 {
     private const int MAX_ROLLS = 3;
+    private const float PITCH_INCREMENT = 0.05f;
 
     [Header("References")]
     [SerializeField] private Lot lotPrefab;
@@ -156,6 +157,8 @@ public class LotsManager
 
     private IEnumerator IESelectLots()
     {
+        int lotsKept = 0;
+
         while (true)
         {
             if (HoveredLot != null)
@@ -164,7 +167,7 @@ public class LotsManager
                 {
                     if (!HoveredLot.IsKept)
                     {
-                        AudioManager.RandomizePitch(null, 0.85f, 1);
+                        AudioManager.Instance.UISource.pitch = 1 + lotsKept * PITCH_INCREMENT;
                         AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.KeepLot(HoveredLot);
@@ -173,10 +176,11 @@ public class LotsManager
                             HoveredLot.IsLocked = true;
 
                         lots.Remove(HoveredLot);
+                        lotsKept++;
                     }
                     else
                     {
-                        AudioManager.RandomizePitch(null, 0.85f, 1f);
+                        AudioManager.Instance.UISource.pitch = 0.9f + lotsKept * PITCH_INCREMENT;
                         AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.ReleaseLot(HoveredLot);
@@ -186,6 +190,7 @@ public class LotsManager
                             HoveredLot.OriginalRotation
                             );
                         lots.Add(HoveredLot);
+                        lotsKept--;
                     }
 
                     lotsUI.UpdateLotsButton(lots.Count);

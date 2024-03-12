@@ -174,7 +174,7 @@ public class LotsBox : MonoBehaviour
         Level.Instance.Player.AddSin(sin);
     }
 
-    private SinType GetRandomSin()
+    public SinType GetRandomSin()
     {
         Player player = Level.Instance.Player;
 

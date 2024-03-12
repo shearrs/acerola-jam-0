@@ -11,6 +11,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
     [SerializeField] protected EnemyIntent intent;
     [SerializeField] protected Vector3 healthbarOffset;
     [SerializeField] protected float pointerOffset;
+    [SerializeField] protected ParticleSystem spawnParticles;
     protected readonly Tween shakeTween = new();
     protected Player player;
 
@@ -48,13 +49,17 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
     public Vector3 BattlePosition { get; set; }
     public int MaxHealth => maxHealth;
     public Healthbar Healthbar => healthbar;
+    public abstract bool CorruptHealth { get; }
 
-    protected virtual void Awake()
+    public virtual void Enable()
     {
+        gameObject.SetActive(true);
+        spawnParticles.Play();
         Health = maxHealth;
 
         Matrix4x4 matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
         healthbar = Instantiate(healthbar, matrix.MultiplyPoint3x4(healthbarOffset), Quaternion.identity);
+        healthbar.CorruptHealth = CorruptHealth;
         healthbar.GenerateHealth(Health);
 
         player = Level.Instance.Player;
@@ -76,6 +81,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
             Battle.Enemies.Remove(this);
             IsDead = true;
 
+            CombatManager.Instance.PlayDeathParticles(spawnParticles);
             shakeTween.SetOnComplete(Die);
         }
         else

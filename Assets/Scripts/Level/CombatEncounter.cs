@@ -17,6 +17,18 @@ public class CombatEncounter : Encounter
 
     public Battle Battle => battle;
 
+    private void Awake()
+    {
+        // spawn enemies
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            Enemy enemy = Instantiate(enemies[i], transform.TransformPoint(enemyPositions[i]), Quaternion.identity, transform);
+            enemy.gameObject.SetActive(false);
+
+            enemies[i] = enemy;
+        }
+    }
+
     public override void Enter()
     {
         if (combatManager == null)
