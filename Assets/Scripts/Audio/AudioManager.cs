@@ -23,6 +23,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip highlightSound2;
     [SerializeField] private AudioClip lotSound;
     [SerializeField] private AudioClip healthSound;
+    [SerializeField] private AudioClip defenseSound;
 
     [Header("Songs")]
     [SerializeField] private float songTransitionTime;
@@ -150,19 +151,31 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
-    public void ButtonSound(int index = 1, bool randomize = true, float volumeScale = 1)
+    public void DefenseSound()
+    {
+        uiSource.pitch = 1f;
+        uiSource.PlayOneShot(defenseSound);
+    }
+
+    public void ButtonSound(int index = 1, bool randomize = true, float volumeScale = -1)
     {
         if (index == 1) // default, low, shaky
         {
             if (randomize)
                 RandomizePitch(uiSource, 1.25f, 2);
 
-            uiSource.PlayOneShot(buttonSound1, .5f);
+            if (volumeScale == -1)
+                volumeScale = 0.75f;
+
+            uiSource.PlayOneShot(buttonSound1, volumeScale);
         }
         else if (index == 2) // high blip
         {
             if (randomize)
                 RandomizePitch(uiSource, 0.95f, 1.25f);
+
+            if (volumeScale == -1)
+                volumeScale = 0.75f;
 
             uiSource.PlayOneShot(buttonSound2, volumeScale);
         }

@@ -56,6 +56,9 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: e9ba0119afe49ce48b684ef0eeb04679, type: 3}
   highlightSound1: {fileID: 8300000, guid: 3d77ee54a39122b41836bccd94702bab, type: 3}
   highlightSound2: {fileID: 8300000, guid: 9f101343e4a9c354990bd2f398aff327, type: 3}
+  lotSound: {fileID: 8300000, guid: 3d77ee54a39122b41836bccd94702bab, type: 3}
+  healthSound: {fileID: 8300000, guid: edaeea9cf9d55e844b0190a82131a896, type: 3}
+  defenseSound: {fileID: 8300000, guid: 3d324e85d55d3ff4aa56515ef4ea851a, type: 3}
   songTransitionTime: 0.5
   ambientMusic: {fileID: 8300000, guid: 124230f5aace1954a85c706396f6c40b, type: 3}
   battleMusic: {fileID: 8300000, guid: 233facc8a870f134abe8cd3f65f1d980, type: 3}

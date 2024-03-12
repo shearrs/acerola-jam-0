@@ -105,7 +105,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (audioSource.clip != collisionSound)
             audioSource.clip = collisionSound;
 
-        AudioManager.RandomizePitch(audioSource, 1.15f, 1.5f);
+        AudioManager.RandomizePitch(audioSource, 1f, 1.5f);
         audioSource.Play();
     }
 

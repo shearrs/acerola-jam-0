@@ -164,7 +164,7 @@ public class LotsManager
                 {
                     if (!HoveredLot.IsKept)
                     {
-                        AudioManager.RandomizePitch(null, 1, 1.25f);
+                        AudioManager.RandomizePitch(null, 0.85f, 1);
                         AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.KeepLot(HoveredLot);
@@ -176,7 +176,7 @@ public class LotsManager
                     }
                     else
                     {
-                        AudioManager.RandomizePitch(null, 1, 1.25f);
+                        AudioManager.RandomizePitch(null, 0.85f, 1f);
                         AudioManager.Instance.PlaySound(selectSound, 0.65f);
 
                         lotsBox.ReleaseLot(HoveredLot);

@@ -2,7 +2,6 @@ using CustomUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour, ICombatEntity
 {
@@ -35,6 +34,10 @@ public class Player : MonoBehaviour, ICombatEntity
             {
                 DefenseToRemove -= (defense - value);
                 DefenseToRemove = Mathf.Max(0, DefenseToRemove);
+            }
+            else if (value > defense)
+            {
+                AudioManager.Instance.DefenseSound();
             }
 
             defense = value;
@@ -86,22 +89,24 @@ public class Player : MonoBehaviour, ICombatEntity
         animator.SetBool(isWalkingID, true);
 
         Path path = Level.Instance.CurrentEncounter.Path;
+        float bobbingCounter = 0;
 
         for (int waypointIndex = 0; waypointIndex < path.WaypointCount; waypointIndex++)
         {
-            float percent = 0;
             Vector3 target = path.GetPosition(waypointIndex);
 
             while ((target - transform.position).sqrMagnitude > 0.1)
             {
                 Vector3 position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-                position.y += bobbingHeight * Mathf.Sin(percent * bobbingFrequency);
+                position.y += bobbingHeight * Mathf.Sin(bobbingCounter * bobbingFrequency);
 
                 Vector3 direction = (position - transform.position).normalized;
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
                 rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
 
                 transform.SetPositionAndRotation(position, rotation);
+
+                bobbingCounter += Time.deltaTime;
                 yield return null;
             }
         }

@@ -15,6 +15,8 @@ public class PlayerActionManager
     private ActionUI actionUI;
     private bool enabled = false;
 
+    private readonly int petitionID = Animator.StringToHash("Petition");
+
     public Battle Battle => player.Battle;
 
     public void Initialize()
@@ -138,7 +140,7 @@ public class PlayerActionManager
         Animator animator = player.Animator;
 
         player.Staff.SetActive(false);
-        animator.Play("Petition");
+        animator.Play(petitionID);
 
         while (!animator.IsPlaying("Petition"))
             yield return null;

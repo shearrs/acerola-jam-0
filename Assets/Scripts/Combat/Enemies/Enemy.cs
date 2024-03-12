@@ -32,6 +32,11 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
         get => defense; 
         set
         {
+            if (value > defense)
+            {
+                AudioManager.Instance.DefenseSound();
+            }
+
             defense = Mathf.Max(0, value);
             healthbar.UpdateDefense(defense);
         }

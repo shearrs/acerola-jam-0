@@ -154,7 +154,7 @@ public class Healthbar : MonoBehaviour
         Vector3 defensePosition;
 
         if (health > amountPerRow)
-            defensePosition = start + ((amountPerRow + 1) * horizontalStep);
+            defensePosition = start + (amountPerRow * horizontalStep);
         else
             defensePosition = start + (health * horizontalStep);
 
