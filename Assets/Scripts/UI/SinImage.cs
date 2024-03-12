@@ -97,7 +97,6 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             {
                 toolTip.Disable();
                 player.SelectedSin = player.GetSin(type);
-                PetitionManager.Instance.Disable();
             }
         }
     }

@@ -18,7 +18,6 @@ public class PurifyMenu : MonoBehaviour
         gameObject.SetActive(true);
         rect.localScale = TweenManager.TWEEN_ZERO;
         rect.DoTweenScaleNonAlloc(Vector3.one, 0.2f, tween);
-        Level.Instance.Player.PurifyingSin = true;
     }
 
     public void Disable() 

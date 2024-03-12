@@ -118,7 +118,7 @@ public class Player : MonoBehaviour, ICombatEntity
         Transform encounter = Level.Instance.CurrentEncounter.transform;
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = encounter.rotation;
-        while (elapsedTime < 1f)
+        while (elapsedTime < .4f)
         {
             transform.rotation = Quaternion.Lerp(startRotation, endRotation, elapsedTime);
 

@@ -18,6 +18,5 @@ public class PetitionCancelButton : ToggleableButton
     public override void OnClickedInternal()
     {
         petitionManager.Selection.Disable();
-        petitionManager.Disable();
     }
 }

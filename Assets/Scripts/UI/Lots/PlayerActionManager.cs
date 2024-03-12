@@ -67,11 +67,8 @@ public class PlayerActionManager
                 turn.Target = player;
                 break;
             case PlayerTurnType.PETITION: // rather than actually setting petition here, just open the petition menu and that will set the player action
-                name = "Petition";
-                selectedAction = PetitionAction;
-                selectedVisual = PetitionVisual;
-                turn.Target = player;
-                break;
+                PetitionManager.Instance.Selection.Enable();
+                return;
         }
 
         playerVisual.SelectedVisual = selectedVisual;
@@ -125,6 +122,17 @@ public class PlayerActionManager
         player.Animator.PlayAndNotify(player, animation, onComplete);
     }
 
+    public void Petition()
+    {
+        Turn turn = new(player, player, playerAction);
+
+        playerAction.SetName("Petition");
+        playerAction.SelectedAction = PetitionAction;
+        playerVisual.SelectedVisual = PetitionVisual;
+
+        Battle.SubmitTurn(turn);
+    }
+
     // open petition menu
     // if we select one of the options, make our action petition and visual petition and submit
     // if player is purifying sin, then open the purifying sin menu and do that
@@ -159,24 +167,27 @@ public class PlayerActionManager
         float speed = animator.speed;
         animator.speed = 0;
 
-        PetitionManager.Instance.Enable();
-
-        while (PetitionManager.Instance.IsEnabled) // while we are selecting what to do with our menu, wait
-            yield return null;
-
-        if (player.SelectedSin != null)
+        // if player selected to purify sin...
+        if (player.PurifyingSin)
         {
-            player.RemoveSin(player.SelectedSin);
+            PetitionManager.Instance.PurifyMenu.Enable(); // open the purify menu
+
+            while (player.SelectedSin == null) // while the player hasn't selected a sin, wait
+                yield return null;
+
+            player.RemoveSin(player.SelectedSin); // remove the sin
             lotsBox.ReleaseLotsOfType(LotType.HOLY, 3);
+
+            while (player.PurifyingSin) // while the player is still purifying that sin, wait
+                yield return null;
         }
-        else
+        else // player must have selected to heal
         {
             player.Heal(player.SelectedHeal * player.HealStrength);
             player.SelectedHeal = 0;
-        }
 
-        while (player.PurifyingSin)
-            yield return null;
+            yield return new WaitForSeconds(0.25f);
+        }
 
         animator.speed = speed;
 

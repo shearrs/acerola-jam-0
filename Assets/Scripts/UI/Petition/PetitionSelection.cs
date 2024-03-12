@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Tweens;
+using CustomUI;
 
 public class PetitionSelection : MonoBehaviour
 {
@@ -30,10 +31,8 @@ public class PetitionSelection : MonoBehaviour
                 purifyButton.Enable();
         }
 
+        UIManager.Instance.ActionUI.SetActions(false);
         gameObject.SetActive(true);
-        cancelButton.gameObject.SetActive(true);
-        healButton.gameObject.SetActive(true);
-        purifyButton.gameObject.SetActive(true);
         cancelButton.Disable();
         healButton.Disable();
         purifyButton.Disable();
@@ -43,6 +42,7 @@ public class PetitionSelection : MonoBehaviour
 
     public void Disable()
     {
+        UIManager.Instance.ActionUI.SetActions(true);
         healButton.Disable();
         purifyButton.Disable();
         cancelButton.Disable();

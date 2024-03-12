@@ -27,6 +27,7 @@ public class CombatManager : Singleton<CombatManager>
     public LotsBox LotsBox => lotsBox;
     public DefenseDisplay DefenseDisplay => defenseDisplay;
     public CombatPhase Phase { get; private set; }
+    public PlayerActionManager ActionManager => actionManager;
 
     private void Start()
     {
