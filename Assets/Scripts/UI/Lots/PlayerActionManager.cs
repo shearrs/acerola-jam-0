@@ -56,19 +56,19 @@ public class PlayerActionManager
             case PlayerTurnType.STAFF:
                 name = "Staff";
                 Enemy enemy = GetTarget();
-                selectedAction = () => Staff(enemy);
+                selectedAction = () => StaffAction(enemy);
                 selectedVisual = (onComplete) => ActionVisual("Attack", onComplete);
                 turn.Target = enemy;
                 break;
             case PlayerTurnType.DEFEND:
                 name = "Defend";
-                selectedAction = Defend;
+                selectedAction = DefendAction;
                 selectedVisual = (onComplete) => ActionVisual("Defend", onComplete);
                 turn.Target = player;
                 break;
             case PlayerTurnType.PETITION: // rather than actually setting petition here, just open the petition menu and that will set the player action
                 name = "Petition";
-                selectedAction = Petition;
+                selectedAction = PetitionAction;
                 selectedVisual = PetitionVisual;
                 turn.Target = player;
                 break;
@@ -100,7 +100,7 @@ public class PlayerActionManager
             return Battle.GetEnemy(player.EnemyIndex);
     }
 
-    private void Staff(Enemy target)
+    private void StaffAction(Enemy target)
     {
         int damage = lotsBox.ReleaseLotsOfType(LotType.DAMAGE).Count;
         damage *= player.StaffStrength;
@@ -111,7 +111,7 @@ public class PlayerActionManager
         target.Damage(damage);
     }
 
-    private void Defend()
+    private void DefendAction()
     {
         int defense = lotsBox.ReleaseLotsOfType(LotType.PROTECTION).Count;
         defense *= player.DefendStrength;
@@ -120,14 +120,19 @@ public class PlayerActionManager
         player.Defense += defense;
     }
 
-    private void Petition()
-    {
-        player.Staff.SetActive(true);
-    }
-
     private void ActionVisual(string animation, Action onComplete)
     {
         player.Animator.PlayAndNotify(player, animation, onComplete);
+    }
+
+    // open petition menu
+    // if we select one of the options, make our action petition and visual petition and submit
+    // if player is purifying sin, then open the purifying sin menu and do that
+    // else heal
+    // if we don't select one of the options, do nothing and return here
+    private void PetitionAction()
+    {
+        player.Staff.SetActive(true);
     }
 
     private void PetitionVisual(Action onComplete)
@@ -135,6 +140,7 @@ public class PlayerActionManager
         player.StartCoroutine(IEPetitionVisual(onComplete));
     }
 
+    // only do the animation when we actually perform the action
     private IEnumerator IEPetitionVisual(Action onComplete)
     {
         Animator animator = player.Animator;

@@ -23,6 +23,13 @@ public class UIData : ScriptableObject
     [SerializeField] private float shakeAmount;
     [SerializeField] private float shakeDuration;
 
+    [Header("Disabling")]
+    [SerializeField] private Color disabledImageColor;
+    [SerializeField] private Color disabledTextColor;
+
+    public Color DisabledImageColor => disabledImageColor;
+    public Color DisabledTextColor => disabledTextColor;
+
     public Vector3 InitialOpenScale => initialOpenScale;
     public float OpenDuration => openDuration;
     public EasingFunctions.EasingFunction OpenEasingFunction => openEasingFunction;

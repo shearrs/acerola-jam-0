@@ -7,6 +7,7 @@ public class PetitionSelection : MonoBehaviour
 {
     [SerializeField] private PurifyButton healButton;
     [SerializeField] private PurifyButton purifyButton;
+    [SerializeField] private PetitionCancelButton cancelButton;
     [SerializeField] private Vector3 startPosition;
     private Vector3 openPosition;
     private readonly Tween tween = new();
@@ -23,14 +24,17 @@ public class PetitionSelection : MonoBehaviour
         void onComplete()
         {
             healButton.Enable();
+            cancelButton.Enable();
 
             if (Level.Instance.Player.SinCount > 0 && PetitionManager.Instance.LotsBox.GetAmountOfType(LotType.HOLY) >= 3)
                 purifyButton.Enable();
         }
 
         gameObject.SetActive(true);
+        cancelButton.gameObject.SetActive(true);
         healButton.gameObject.SetActive(true);
         purifyButton.gameObject.SetActive(true);
+        cancelButton.Disable();
         healButton.Disable();
         purifyButton.Disable();
         rect.anchoredPosition3D = startPosition;
@@ -41,6 +45,7 @@ public class PetitionSelection : MonoBehaviour
     {
         healButton.Disable();
         purifyButton.Disable();
+        cancelButton.Disable();
         rect.DoTweenPositionNonAlloc(startPosition, 0.2f, tween).SetOnComplete(() => gameObject.SetActive(false));
     }
 }

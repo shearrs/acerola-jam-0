@@ -10,6 +10,8 @@ public class PetitionManager : Singleton<PetitionManager>
 
     public bool IsEnabled { get; private set; }
     public LotsBox LotsBox { get; private set; }
+
+    public PetitionSelection Selection => selectionMenu;
     public PurifyMenu PurifyMenu => purifyMenu;
 
     private void Start()
@@ -20,6 +22,7 @@ public class PetitionManager : Singleton<PetitionManager>
     public void Enable()
     {
         // enable petition selection
+        // use actionUI to disable actions
         selectionMenu.Enable();
 
         IsEnabled = true;

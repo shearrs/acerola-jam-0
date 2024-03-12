@@ -21,3 +21,5 @@ MonoBehaviour:
   moveEasingFunction: 0
   shakeAmount: 8
   shakeDuration: 0.25
+  disabledImageColor: {r: 0.7019608, g: 0.59607846, b: 0.59607846, a: 1}
+  disabledTextColor: {r: 1, g: 0.654902, b: 0.44705883, a: 0.25490198}
