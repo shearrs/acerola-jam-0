@@ -19,6 +19,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip sinSound;
     [SerializeField] private AudioClip purifySound;
     [SerializeField] private AudioClip hitSound;
+    [SerializeField] private AudioClip shieldSound;
     [SerializeField] private AudioClip deathSound;
     [SerializeField] private AudioClip highlightSound1;
     [SerializeField] private AudioClip highlightSound2;
@@ -111,6 +112,12 @@ public class AudioManager : Singleton<AudioManager>
     public void DeathSound()
     {
         uiSource.PlayOneShot(deathSound, 0.55f);
+    }
+
+    public void ShieldSound()
+    {
+        RandomizePitch(uiSource, 1, 1.25f);
+        uiSource.PlayOneShot(shieldSound, 0.5f);
     }
 
     public void HitSound()

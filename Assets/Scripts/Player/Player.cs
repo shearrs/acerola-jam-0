@@ -104,7 +104,8 @@ public class Player : MonoBehaviour, ICombatEntity
                 Vector3 direction = (position - transform.position).normalized;
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
                 rotation.x = 0;
-                rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed / distance * Time.deltaTime);
+                rotation.z = 0;
+                rotation = Quaternion.RotateTowards(transform.rotation, rotation, (rotationSpeed / distance) * Time.deltaTime);
 
                 transform.SetPositionAndRotation(position, rotation);
 
@@ -149,6 +150,11 @@ public class Player : MonoBehaviour, ICombatEntity
             Die();
         else
         {
+            if (damage == 0)
+                AudioManager.Instance.ShieldSound();
+            else
+                AudioManager.Instance.HitSound();
+
             CameraManager.Instance.Shake();
             actionUI.OnPlayerHealthChanged(-damage);
         }
@@ -156,6 +162,7 @@ public class Player : MonoBehaviour, ICombatEntity
 
     private void Die()
     {
+        AudioManager.Instance.DeathSound();
         CameraManager.Instance.Shake(0.1f, 2f);
         IsDead = true;
     }

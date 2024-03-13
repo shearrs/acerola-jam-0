@@ -24,6 +24,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private readonly Tween tween2 = new();
     private RectTransform rect;
     private bool selected = false;
+    private bool purifying = false;
 
     private void Awake()
     {
@@ -72,10 +73,17 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void Disable()
     {
+        purifying = true;
         UIManager.Instance.Shake(rect, disableTime);
         void scaleTween()
         {
-            rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.15f, tween2).SetOnComplete(() => gameObject.SetActive(false));
+            void notifyToStopPurifying()
+            {
+                gameObject.SetActive(false);
+                purifying = false;
+            }
+
+            rect.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.15f, tween2).SetOnComplete(notifyToStopPurifying);
 
             Player player = Level.Instance.Player;
 
@@ -109,7 +117,7 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!selected)
+        if (!purifying && !selected)
             toolTip.Enable();
 
         if (tween.IsPlaying)

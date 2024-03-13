@@ -19,7 +19,7 @@ public class Torch : MonoBehaviour
         while(true)
         {
             float elapsedTime = 0;
-            float range = Random.Range(lowRange, 10);
+            float range = Random.Range(lowRange, highRange);
             float startingRange = torchLight.range;
 
             while(elapsedTime < flickerTime)

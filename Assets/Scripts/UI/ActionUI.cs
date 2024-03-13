@@ -115,6 +115,9 @@ public class ActionUI
             return;
         }
 
+        if (player.EnemyIndex >= battle.Enemies.Count)
+            player.EnemyIndex = battle.Enemies.Count - 1;
+
         if (player.EnemyIndex + 1 >= battle.Enemies.Count)
             nextButton.Disable();
         else

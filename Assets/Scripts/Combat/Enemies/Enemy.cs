@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
     [SerializeField] protected Vector3 healthbarOffset;
     [SerializeField] protected float pointerOffset;
     [SerializeField] protected ParticleSystem spawnParticles;
+    [SerializeField] protected ParticleSystem deathParticles;
     protected readonly Tween shakeTween = new();
     protected Player player;
 
@@ -81,9 +82,11 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
             Battle.Enemies.Remove(this);
             IsDead = true;
 
-            CombatManager.Instance.PlayDeathParticles(spawnParticles);
+            CombatManager.Instance.PlayDeathParticles(deathParticles);
             shakeTween.SetOnComplete(Die);
         }
+        else if (damage == 0)
+            AudioManager.Instance.ShieldSound();
         else
             AudioManager.Instance.HitSound();
     }

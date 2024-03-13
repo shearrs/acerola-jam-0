@@ -530,6 +530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lot: 1
   highlight: {fileID: 6149821216092562238}
+  tweenTime: 0
 --- !u!1 &368178663706926028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7003,6 +7004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lot: 1
   highlight: {fileID: 2741949091168386808}
+  tweenTime: 0
 --- !u!1 &5677713707268192108
 GameObject:
   m_ObjectHideFlags: 0
@@ -9370,6 +9372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lot: 0
   highlight: {fileID: 6926970746136731775}
+  tweenTime: 0
 --- !u!1 &7312430529213550665
 GameObject:
   m_ObjectHideFlags: 0
@@ -9873,6 +9876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lot: 0
   highlight: {fileID: 6066400889046549011}
+  tweenTime: 0
 --- !u!1 &7694370902356884592
 GameObject:
   m_ObjectHideFlags: 0

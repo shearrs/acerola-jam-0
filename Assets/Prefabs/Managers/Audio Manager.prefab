@@ -50,11 +50,13 @@ MonoBehaviour:
   buttonSound1: {fileID: 8300000, guid: e17648f14870d05478d6e471b29bf331, type: 3}
   buttonSound2: {fileID: 8300000, guid: 9f101343e4a9c354990bd2f398aff327, type: 3}
   buttonSound3: {fileID: 8300000, guid: bac7890dedca9a348bc0d736bb842da3, type: 3}
+  encounterSound: {fileID: 8300000, guid: 0b1a7818683546f438dd23cc74d6d4ce, type: 3}
   sinSound: {fileID: 8300000, guid: 7cac72ea7c443444eaee8bdcd3cc5f07, type: 3}
   purifySound: {fileID: 8300000, guid: f9a244959024a9c4eafc0d0ceca94423, type: 3}
   hitSound: {fileID: 8300000, guid: e348a5e73d3ea7f4abb2b892ccd2f762, type: 3}
+  shieldSound: {fileID: 8300000, guid: a1d1cecf980c6b845a7e23ae4231fdc6, type: 3}
   deathSound: {fileID: 8300000, guid: e9ba0119afe49ce48b684ef0eeb04679, type: 3}
-  highlightSound1: {fileID: 8300000, guid: 3d77ee54a39122b41836bccd94702bab, type: 3}
+  highlightSound1: {fileID: 8300000, guid: a3e71c2d42c9a434ca068a3ed0b7c5c5, type: 3}
   highlightSound2: {fileID: 8300000, guid: 9f101343e4a9c354990bd2f398aff327, type: 3}
   lotSound: {fileID: 8300000, guid: 3d77ee54a39122b41836bccd94702bab, type: 3}
   healthSound: {fileID: 8300000, guid: edaeea9cf9d55e844b0190a82131a896, type: 3}
