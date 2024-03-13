@@ -97,19 +97,20 @@ public class Player : MonoBehaviour, ICombatEntity
         for (int waypointIndex = 0; waypointIndex < path.WaypointCount; waypointIndex++)
         {
             Vector3 target = path.GetPosition(waypointIndex);
-            float distance = (target - transform.position).magnitude;
+            Vector3 rotationTarget = (waypointIndex == path.WaypointCount - 1) ? target : path.GetPosition(waypointIndex + 1);
+
+            Vector3 rotationDirection = (rotationTarget - transform.position).normalized;
+
+            Quaternion targetRotation = Quaternion.LookRotation(rotationDirection);
+            targetRotation.z = 0;
 
             while ((target - transform.position).sqrMagnitude > 0.1)
             {
                 Vector3 position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
                 position.y += bobbingHeight * Mathf.Sin(bobbingCounter * bobbingFrequency);
 
-                Vector3 direction = (position - transform.position).normalized;
-                Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-                rotation.x = 0;
+                Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 rotation.z = 0;
-                rotation = Quaternion.RotateTowards(transform.rotation, rotation, (rotationSpeed / distance) * Time.deltaTime);
-
                 transform.SetPositionAndRotation(position, rotation);
 
                 bobbingCounter += Time.deltaTime;
@@ -130,7 +131,7 @@ public class Player : MonoBehaviour, ICombatEntity
         while (elapsedTime < timeToRotate)
         {
             float percent = elapsedTime / timeToRotate;
-            transform.rotation = Quaternion.Lerp(startRotation, endRotation, percent);
+            transform.rotation = Quaternion.Slerp(startRotation, endRotation, percent);
 
             elapsedTime += Time.deltaTime;
 
@@ -149,6 +150,9 @@ public class Player : MonoBehaviour, ICombatEntity
 
         Health -= damage;
 
+        if (damage > 0)
+            actionUI.OnPlayerHealthChanged(-damage);
+
         if (Health <= 0)
             Die();
         else
@@ -159,7 +163,6 @@ public class Player : MonoBehaviour, ICombatEntity
                 AudioManager.Instance.HitSound();
 
             CameraManager.Instance.Shake();
-            actionUI.OnPlayerHealthChanged(-damage);
         }
     }
 

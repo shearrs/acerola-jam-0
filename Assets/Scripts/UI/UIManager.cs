@@ -61,7 +61,7 @@ namespace CustomUI
             portrait.DefaultPosition();
         }
 
-        public void ToggleSideBars(bool enable, Action onComplete)
+        public void ToggleSideBars(bool enable, Action onComplete = null)
         {
             if (enable)
                 bars[0].Enable(onComplete);

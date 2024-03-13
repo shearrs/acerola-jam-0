@@ -22,7 +22,6 @@ public class Level : Singleton<Level>
     {
         audioManager = AudioManager.Instance;
 
-        audioManager.PlaySong(audioManager.AmbientMusic);
         audioManager.PlayAmbience(audioManager.AmbientForest);
     }
 

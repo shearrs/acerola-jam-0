@@ -8,17 +8,19 @@ public class StartGameButton : ToggleableButton
 {
     [Header("Menu")]
     [SerializeField] private RectTransform mainMenu;
-    [SerializeField] private TextMeshProUGUI titleCard;
+    [SerializeField] private RectTransform titleCard;
     private readonly Tween buttonTween = new();
     private readonly Tween titleTween = new();
 
     [Header("Start Sequence")]
     [SerializeField] private Vector3 walkLocation;
-    [SerializeField] private Vector3 walkRotation;
+    [SerializeField] private float rotationTime;
+
+    private readonly int isWalkingID = PlayerAnimationData.IsWalking;
 
     protected override void OnClickedInternal()
     {
-        titleCard.rectTransform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.45f, titleTween)
+        titleCard.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.45f, titleTween)
             .SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK)
             .SetOnComplete(() => titleCard.gameObject.SetActive(false));
 
@@ -35,12 +37,6 @@ public class StartGameButton : ToggleableButton
     private void OnComplete()
     {
         StartCoroutine(IEOnComplete());
-
-        // rotate
-        // move to first position
-        // rotate
-        // tween bars up
-        // move
     }
 
     private IEnumerator IEOnComplete()
@@ -49,28 +45,49 @@ public class StartGameButton : ToggleableButton
         Transform playerTransform = player.transform;
 
         Vector3 direction = (walkLocation - playerTransform.position).normalized;
-        Quaternion targetRotation1 = Quaternion.LookRotation(direction, Vector3.up);
+        Path firstPath = Level.Instance.CurrentEncounter.Path;
+        Vector3 rotationDirection = (firstPath.GetPosition(1) - firstPath.GetPosition(0)).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(rotationDirection, Vector3.up);
+        targetRotation.z = 0;
 
-        while (Quaternion.Angle(transform.rotation, targetRotation1) > 0.1f)
+        player.Animator.SetBool(isWalkingID, true);
+        float walkSpeed = player.MovementSpeed * 0.5f;
+        float elapsedTime = 0;
+        float timeToRotate = rotationTime * 3;
+
+        Vector3 currentVelocity = Vector3.zero;
+        UIManager.Instance.ToggleSideBars(true);
+
+        while ((walkLocation - playerTransform.position).sqrMagnitude > 0.1)
         {
-            playerTransform.rotation = Quaternion.RotateTowards(playerTransform.rotation, targetRotation1, player.RotationSpeed * Time.deltaTime);
+            Vector3 position = Vector3.MoveTowards(playerTransform.position, walkLocation, walkSpeed * Time.deltaTime);
+
+            if (elapsedTime < timeToRotate)
+            {
+                playerTransform.rotation = ExtensionMethods.SmoothDampQuaternion(playerTransform.rotation, targetRotation, ref currentVelocity, rotationTime);
+                elapsedTime += Time.deltaTime;
+            }
+
+            playerTransform.position = position;
 
             yield return null;
         }
 
-        Quaternion targetRotation2 = Quaternion.Euler(walkRotation);
+        player.Animator.SetBool(isWalkingID, false);
 
-        while ((walkLocation - transform.position).sqrMagnitude > 0.1)
+        while (elapsedTime < timeToRotate)
         {
-            Vector3 position = Vector3.MoveTowards(transform.position, walkLocation, player.MovementSpeed * Time.deltaTime);
-            Quaternion rotation = Quaternion.RotateTowards(transform.rotation, targetRotation2, player.RotationSpeed * Time.deltaTime);
+            Quaternion rotation = ExtensionMethods.SmoothDampQuaternion(playerTransform.rotation, targetRotation, ref currentVelocity, rotationTime);
+            playerTransform.rotation = rotation;
 
-            transform.SetPositionAndRotation(position, rotation);
-
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        UIManager.Instance.ToggleSideBars(true, () => player.Move());
+        UIManager.Instance.Portrait.Enable();
+        AudioManager audioManager = AudioManager.Instance;
+        audioManager.PlaySong(audioManager.AmbientMusic);
+        player.Move();
     }
 
     private void OnDrawGizmosSelected()

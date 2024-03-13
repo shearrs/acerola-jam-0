@@ -5,6 +5,7 @@ using Tweens;
 
 public class ShepherdPortrait : MonoBehaviour
 {
+    [SerializeField] private Vector2 startPosition;
     [SerializeField] private Vector2 defaultPosition;
     [SerializeField] private Vector2 combatPosition;
     [SerializeField] private Tween movementTween;
@@ -15,6 +16,13 @@ public class ShepherdPortrait : MonoBehaviour
     private void Awake()
     {
         rect = GetComponent<RectTransform>();
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
+        rect.anchoredPosition = startPosition;
+        Move(defaultPosition);
     }
 
     public void CombatPosition()

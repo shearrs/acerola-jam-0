@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Tweens;
 using UnityEngine;
 
 public class Satan : Enemy
 {
     [SerializeField] private ParticleSystem sinParticles;
     [SerializeField] private ParticleSystem attackParticles;
+    private readonly Tween deathTween = new();
 
     public override bool CorruptHealth => true;
 
@@ -31,5 +33,12 @@ public class Satan : Enemy
     public void AttackAction()
     {
         attackParticles.Play();
+    }
+
+    protected override void Die()
+    {
+        Destroy(healthbar.gameObject);
+
+        transform.Shake(1, 3f, deathTween);
     }
 }

@@ -31,6 +31,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private float songTransitionTime;
     [SerializeField] private AudioClip ambientMusic;
     [SerializeField] private AudioClip battleMusic;
+    private AudioClip currentSong = null;
     private Coroutine songCoroutine;
 
     [Header("Ambience")]
@@ -51,6 +52,11 @@ public class AudioManager : Singleton<AudioManager>
 
     public void PlaySong(AudioClip song, float transitionTime = -1)
     {
+        if (song == currentSong)
+            return;
+        else
+            currentSong = song;
+
         if (songCoroutine != null)
             StopCoroutine(songCoroutine);
 

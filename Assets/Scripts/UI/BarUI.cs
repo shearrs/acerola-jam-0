@@ -9,12 +9,16 @@ public class BarUI : MonoBehaviour
     [SerializeField] private Vector3 startPosition;
     [SerializeField] private Vector3 endPosition;
     private readonly Tween tween = new();
+    private RectTransform rect;
 
     public void Enable(Action onComplete = null)
     {
-        transform.position = startPosition;
+        if (rect == null)
+            rect = GetComponent<RectTransform>();
+
+        rect.anchoredPosition = startPosition;
         gameObject.SetActive(true);
-        transform.DoTweenPositionNonAlloc(endPosition, 1f, tween);
+        rect.DoTweenPositionNonAlloc(endPosition, 1f, tween);
 
         if (onComplete != null)
             tween.SetOnComplete(onComplete);
@@ -22,7 +26,7 @@ public class BarUI : MonoBehaviour
 
     public void Disable(Action onComplete = null)
     {
-        transform.DoTweenPositionNonAlloc(startPosition, 1f, tween).SetOnComplete(() => gameObject.SetActive(false));
+        rect.DoTweenPositionNonAlloc(startPosition, 1f, tween).SetOnComplete(() => gameObject.SetActive(false));
 
         if (onComplete != null)
             tween.SetOnComplete(onComplete);

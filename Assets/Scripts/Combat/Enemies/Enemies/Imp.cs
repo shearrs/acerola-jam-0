@@ -24,6 +24,7 @@ public class Imp : Enemy
             {
                 turn.Action = actions[0];
                 turn.Target = player;
+                attackCounter++;
             }
             else // defend
             {
