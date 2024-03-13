@@ -5,6 +5,7 @@ using UnityEngine;
 public class Snake : Enemy
 {
     [SerializeField] private AudioSource audioSource;
+    private bool hasGivenEnvy = false;
 
     private bool attackedLastTurn = false;
     private bool hiss = false;
@@ -29,9 +30,10 @@ public class Snake : Enemy
         }
 
         // if this is the only snake and player does not have envy, 75% chance to inflict player with envy
-        if (onlySnake && !player.HasSin(SinType.ENVY) && EnvyRoll())
+        if (onlySnake && !hasGivenEnvy && !player.HasSin(SinType.ENVY) && EnvyRoll())
         {
             turn.Action = actions[2];
+            hasGivenEnvy = true;
 
             turn.Target = player;
         }
@@ -62,7 +64,7 @@ public class Snake : Enemy
 
     private bool EnvyRoll()
     {
-        return Random.Range(0, 5) < 4;
+        return Random.Range(0, 5) == 4;
     }
 
     public override void OnExecutingTurn()

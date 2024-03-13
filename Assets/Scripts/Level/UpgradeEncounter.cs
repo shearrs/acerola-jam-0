@@ -2,10 +2,12 @@ using CustomUI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class UpgradeEncounter : Encounter
 {
     [SerializeField] private bool blessed;
+    [SerializeField] private Volume encounterVolume;
     private UpgradeUI upgradeUI;
 
     private void Start()
@@ -15,6 +17,9 @@ public class UpgradeEncounter : Encounter
 
     public override void Enter()
     {
+        encounterVolume.gameObject.SetActive(true);
+        StartCoroutine(IEEncounterFog(true));
+
         List<PlayerTurnType> upgradeTypes = GetValidUpgradeTypes();
 
         if (upgradeTypes.Count == 0)
@@ -39,7 +44,14 @@ public class UpgradeEncounter : Encounter
         }
 
         if (blessed)
-            Level.Instance.Player.LotCapacity++;
+        {
+            Player player = Level.Instance.Player;
+
+            foreach(Sin sin in player.Sins)
+            {
+                player.RemoveSin(sin);
+            }
+        }
 
         upgradeUI.Enable(blessed);
     }
@@ -66,6 +78,49 @@ public class UpgradeEncounter : Encounter
 
     protected override void EndEncounter()
     {
-        // make ui disappear
+        StartCoroutine(IEEncounterFog(false));
+    }
+
+    private IEnumerator IEEncounterFog(bool enable)
+    {
+        float start;
+        float end;
+        float time;
+        float elapsedTime = 0;
+        const float timeToFadeIn = 0.3f;
+        const float timeToFadeOut = 4f;
+
+        if (enable)
+        {
+            encounterVolume.gameObject.SetActive(true);
+            start = 0;
+            end = 1;
+            time = timeToFadeIn;
+        }
+        else
+        {
+            start = 1;
+            end = 0;
+            time = timeToFadeOut;
+        }
+
+        while (elapsedTime < time)
+        {
+            float percentage = elapsedTime / time;
+            encounterVolume.weight = Mathf.Lerp(start, end, percentage);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        if (!enable)
+            encounterVolume.gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 1f);
     }
 }

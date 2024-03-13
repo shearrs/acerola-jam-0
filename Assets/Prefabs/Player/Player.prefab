@@ -313,7 +313,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 55
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8600000, guid: 5fad576532cc99c49ad6219ae7ad5642, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -635,10 +635,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 472152230212e3e43841d1974ea34835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
-  rotationSpeed: 5
-  bobbingHeight: 0.05
-  bobbingFrequency: 1
+  speed: 3.5
+  rotationSpeed: 100
+  bobbingHeight: 0.001
+  bobbingFrequency: 6
   animator: {fileID: 1439312017396543897}
   maxHealth: 10
   combatSpeed: 5

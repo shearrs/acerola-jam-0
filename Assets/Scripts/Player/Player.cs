@@ -7,7 +7,7 @@ public class Player : MonoBehaviour, ICombatEntity
 {
     [Header("Movement")]
     [SerializeField, Range(0, 10)] private float speed = 1;
-    [SerializeField, Range(0, 10)] private float rotationSpeed;
+    [SerializeField] private float rotationSpeed;
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;
 
@@ -94,6 +94,7 @@ public class Player : MonoBehaviour, ICombatEntity
         for (int waypointIndex = 0; waypointIndex < path.WaypointCount; waypointIndex++)
         {
             Vector3 target = path.GetPosition(waypointIndex);
+            float distance = (target - transform.position).magnitude;
 
             while ((target - transform.position).sqrMagnitude > 0.1)
             {
@@ -102,7 +103,8 @@ public class Player : MonoBehaviour, ICombatEntity
 
                 Vector3 direction = (position - transform.position).normalized;
                 Quaternion rotation = Quaternion.LookRotation(direction, Vector3.up);
-                rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                rotation.x = 0;
+                rotation = Quaternion.RotateTowards(transform.rotation, rotation, rotationSpeed / distance * Time.deltaTime);
 
                 transform.SetPositionAndRotation(position, rotation);
 
@@ -113,22 +115,23 @@ public class Player : MonoBehaviour, ICombatEntity
 
         animator.SetBool(isWalkingID, false);
 
+        Level.Instance.StartEncounter();
+
         // rotate to the encounter's rotation
         float elapsedTime = 0;
+        const float timeToRotate = .2f;
         Transform encounter = Level.Instance.CurrentEncounter.transform;
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = encounter.rotation;
-        while (elapsedTime < .4f)
+        while (elapsedTime < timeToRotate)
         {
-            float percent = elapsedTime / .4f;
+            float percent = elapsedTime / timeToRotate;
             transform.rotation = Quaternion.Lerp(startRotation, endRotation, percent);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
-
-        Level.Instance.StartEncounter();
 
         transform.SetPositionAndRotation(encounter.position, encounter.rotation);
     }

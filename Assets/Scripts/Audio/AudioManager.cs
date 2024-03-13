@@ -15,6 +15,7 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip buttonSound3;
 
     [Header("Combat")]
+    [SerializeField] private AudioClip encounterSound;
     [SerializeField] private AudioClip sinSound;
     [SerializeField] private AudioClip purifySound;
     [SerializeField] private AudioClip hitSound;
@@ -102,6 +103,11 @@ public class AudioManager : Singleton<AudioManager>
         uiSource.PlayOneShot(clip, volumeScale);
     }
 
+    public void EncounterSound()
+    {
+        uiSource.PlayOneShot(encounterSound, 0.9f);
+    }
+
     public void DeathSound()
     {
         uiSource.PlayOneShot(deathSound, 0.55f);
@@ -134,7 +140,7 @@ public class AudioManager : Singleton<AudioManager>
     public void HealthSound()
     {
         uiSource.pitch = 1;
-        uiSource.PlayOneShot(healthSound, 1);
+        uiSource.PlayOneShot(healthSound, .75f);
     }
 
     public void HighlightSound(int index = 1)

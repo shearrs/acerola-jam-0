@@ -9,10 +9,11 @@ public enum CombatDrop { NONE, LOT, HEALTH, LOT_AND_HEALTH };
 public class CombatDropUI : Singleton<CombatDropUI>
 {
     [SerializeField] private RectTransform container;
-    [SerializeField] private RectTransform lotDisplay;
-    [SerializeField] private RectTransform healthDisplay;
-    [SerializeField] private RectTransform lotAndHealthDisplay;
-    private RectTransform currentScreen;
+    [SerializeField] private CombatDropDisplay lotDisplay;
+    [SerializeField] private CombatDropDisplay healthDisplay;
+    [SerializeField] private CombatDropDisplay lotAndHealthDisplay;
+    private CombatDropDisplay currentDisplay;
+    private Player player;
 
     public bool LotSelected { get; set; } = false;
     public bool HealthSelected { get; set; } = false;
@@ -21,35 +22,35 @@ public class CombatDropUI : Singleton<CombatDropUI>
 
     public void Enable(CombatDrop drop)
     {
-        currentScreen = GetScreenForDrop(drop);
+        if (player == null)
+            player = Level.Instance.Player;
+
+        currentDisplay = GetDisplayForDrop(drop);
 
         void onComplete()
         {
-            currentScreen.gameObject.SetActive(true);
+            currentDisplay.Enable();
             StartCoroutine(IEWaitForConfirmation(drop));
         }
 
         container.gameObject.SetActive(true);
         container.localScale = TweenManager.TWEEN_ZERO;
-        container.DoTweenScaleNonAlloc(Vector3.one, 0.65f, tween).SetOnComplete(onComplete).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
+        container.DoTweenScaleNonAlloc(Vector3.one, 0.45f, tween).SetOnComplete(onComplete).SetEasingFunction(EasingFunctions.EasingFunction.OUT_BACK);
     }
 
-    private void Disable()
+    public void Disable()
     {
-        UIManager.Instance.ToggleBar(false, null, true);
-
-        currentScreen.gameObject.SetActive(false);
-
         LotSelected = false;
         HealthSelected = false;
 
         void onComplete()
         {
+            UIManager.Instance.ToggleBar(false, null, true);
             container.gameObject.SetActive(false);
             Level.Instance.EndEncounter();
         }
 
-        container.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.65f, tween).SetOnComplete(onComplete); // on complete continue game
+        container.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.45f, tween).SetOnComplete(onComplete); // on complete continue game
     }
 
     private IEnumerator IEWaitForConfirmation(CombatDrop drop)
@@ -70,10 +71,10 @@ public class CombatDropUI : Singleton<CombatDropUI>
                 yield return null;
         }
 
-        Disable();
+        currentDisplay.Disable();
     }
 
-    private RectTransform GetScreenForDrop(CombatDrop drop)
+    private CombatDropDisplay GetDisplayForDrop(CombatDrop drop)
     {
         switch (drop)
         {

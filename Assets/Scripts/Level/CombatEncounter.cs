@@ -37,6 +37,7 @@ public class CombatEncounter : Encounter
         if (combatManager == null)
             combatManager = CombatManager.Instance;
 
+        AudioManager.Instance.EncounterSound();
         AudioManager.Instance.PlaySong(null, 1.25f);
         combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
@@ -125,25 +126,29 @@ public class CombatEncounter : Encounter
     {
         float start;
         float end;
+        float time;
+        const float timeToFadeIn = 0.3f;
+        const float timeToFadeOut = 4f;
 
         if (enable)
         {
             combatFog.gameObject.SetActive(true);
             start = 0;
             end = 1;
+            time = timeToFadeIn;
         }
         else
         {
             start = 1;
             end = 0;
+            time = timeToFadeOut;
         }
 
         float elapsedTime = 0;
-        const float timeToFadeIn = 0.3f;
 
-        while(elapsedTime < timeToFadeIn)
+        while(elapsedTime < time)
         {
-            float percentage = elapsedTime / timeToFadeIn;
+            float percentage = elapsedTime / time;
             combatFog.weight = Mathf.Lerp(start, end, percentage);
 
             elapsedTime += Time.deltaTime;

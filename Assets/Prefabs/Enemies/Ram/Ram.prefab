@@ -461,7 +461,7 @@ MonoBehaviour:
   pointerOffset: 2.15
   spawnParticles: {fileID: 5478036408692508925}
   enemyName: Ram
-  maxHealth: 20
+  maxHealth: 10
   speed: 3
   actions:
   - {fileID: 11400000, guid: d8d94e6ba278233449fbc87763ce8fa7, type: 2}

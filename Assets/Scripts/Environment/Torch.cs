@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Torhc : MonoBehaviour
+public class Torch : MonoBehaviour
 {
     [SerializeField] private Light torchLight;
     [SerializeField] private float flickerTime;
-    [SerializeField] private float lowRange;
+    [SerializeField] private float lowRange = 8;
+    [SerializeField] private float highRange = 10;
 
     private void Awake()
     {
