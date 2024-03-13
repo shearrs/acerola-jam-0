@@ -6,7 +6,7 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICombatEntity
 {
     [Header("Movement")]
-    [SerializeField, Range(0, 10)] private float speed = 1;
+    [SerializeField, Range(0, 20)] private float speed = .35f;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;

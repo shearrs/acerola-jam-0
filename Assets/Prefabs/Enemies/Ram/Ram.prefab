@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 5930023253826034457}
   serializedVersion: 2
   m_LocalRotation: {x: 0.8000311, y: -0, z: -0, w: 0.59995854}
-  m_LocalPosition: {x: 0, y: 6.07, z: 1.78}
+  m_LocalPosition: {x: 0, y: 6.07, z: 2.47}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45,7 +45,7 @@ Light:
   m_Type: 0
   m_Shape: 0
   m_Color: {r: 1, g: 0.9575472, b: 0.9575472, a: 1}
-  m_Intensity: 6061275.5
+  m_Intensity: 18183826
   m_Range: 10
   m_SpotAngle: 37.301804
   m_InnerSpotAngle: 21.80208
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a68c43fe1f2a47cfa234b5eeaa98012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Intensity: 2000000
+  m_Intensity: 6000000
   m_EnableSpotReflector: 1
   m_LuxAtDistance: 1
   m_InnerSpotPercent: 0
@@ -465,7 +465,7 @@ MonoBehaviour:
   spawnParticles: {fileID: 5478036408692508925}
   deathParticles: {fileID: 6096505220876197946}
   enemyName: Ram
-  maxHealth: 10
+  maxHealth: 15
   speed: 3
   actions:
   - {fileID: 11400000, guid: d8d94e6ba278233449fbc87763ce8fa7, type: 2}
@@ -706,7 +706,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7477413950330131751, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.75
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7477413950330131751, guid: 7fff9581f36d90744b9e67c1d73bc4cb, type: 3}
       propertyPath: m_LocalPosition.z
