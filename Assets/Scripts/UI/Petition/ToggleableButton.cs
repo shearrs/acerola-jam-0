@@ -7,12 +7,12 @@ using CustomUI;
 
 public abstract class ToggleableButton : MonoBehaviour
 {
-    private UIManager uiManager;
-    private Image image;
-    private TextMeshProUGUI text;
-    private Button button;
-    private Color originalImageColor;
-    private Color originalTextColor;
+    protected UIManager uiManager;
+    protected Image image;
+    protected TextMeshProUGUI text;
+    protected Button button;
+    protected Color originalImageColor;
+    protected Color originalTextColor;
 
     protected virtual void OnEnable()
     {
@@ -47,5 +47,5 @@ public abstract class ToggleableButton : MonoBehaviour
         OnClickedInternal();
     }
 
-    public abstract void OnClickedInternal();
+    protected abstract void OnClickedInternal();
 }

@@ -22,6 +22,9 @@ public class Player : MonoBehaviour, ICombatEntity
     private readonly List<Sin> sins = new();
     private readonly int isWalkingID = PlayerAnimationData.IsWalking;
 
+    public float MovementSpeed => speed;
+    public float RotationSpeed => rotationSpeed;
+    
     public string Name => "Shepherd";
     public int Health { get; private set; }
     private int defense;

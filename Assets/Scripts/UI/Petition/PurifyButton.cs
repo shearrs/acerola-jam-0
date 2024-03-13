@@ -17,7 +17,7 @@ public class PurifyButton : ToggleableButton
             petitionManager = PetitionManager.Instance;
     }
 
-    public override void OnClickedInternal()
+    protected override void OnClickedInternal()
     {
         petitionManager.SelectMenuOption(heal);
     }

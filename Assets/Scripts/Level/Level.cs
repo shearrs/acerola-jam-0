@@ -20,7 +20,6 @@ public class Level : Singleton<Level>
 
     public void Start()
     {
-        player.Move();
         audioManager = AudioManager.Instance;
 
         audioManager.PlaySong(audioManager.AmbientMusic);

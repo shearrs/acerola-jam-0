@@ -27,6 +27,9 @@ namespace CustomUI
         [SerializeField] private ActionUI actionUI;
         [SerializeField] private LotsUI lotsUI;
 
+        [Header("Bars")]
+        [SerializeField] private BarUI[] bars;
+
         public Canvas Canvas => canvas;
         public ShepherdPortrait Portrait => portrait;
         public ActionUI ActionUI => actionUI;
@@ -56,6 +59,22 @@ namespace CustomUI
         public void EndEncounter()
         {
             portrait.DefaultPosition();
+        }
+
+        public void ToggleSideBars(bool enable, Action onComplete)
+        {
+            if (enable)
+                bars[0].Enable(onComplete);
+            else
+                bars[0].Disable(onComplete);
+
+            for (int i = 1; i < bars.Length; i++)
+            {
+                if (enable)
+                    bars[i].Enable();
+                else
+                    bars[i].Disable();
+            }
         }
 
         public void ToggleBar(bool open, Action onComplete = null, bool toggleHealthbar = false)

@@ -19,7 +19,7 @@ public class SatanAttackVisual : TurnActionVisual
     private IEnumerator IERemoveSins(Action onComplete)
     {
         Player player = Level.Instance.Player;
-        WaitForSeconds wait = new(0.35f);
+        WaitForSeconds wait = new(0.7f);
 
         foreach (Sin sin in player.Sins)
         {
