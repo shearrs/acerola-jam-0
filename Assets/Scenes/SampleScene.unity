@@ -41816,7 +41816,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603631647}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.54152244, z: -0, w: 0.84068626}
+  m_LocalRotation: {x: -0.045263622, y: 0.54073703, z: 0.029156255, w: 0.83946687}
   m_LocalPosition: {x: 307.18, y: 7.1, z: 289.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -41824,7 +41824,7 @@ Transform:
   - {fileID: 1542711345}
   - {fileID: 392207128}
   m_Father: {fileID: 46027895}
-  m_LocalEulerAnglesHint: {x: 0, y: 65.575, z: 0}
+  m_LocalEulerAnglesHint: {x: -6.173, y: 65.575, z: 0}
 --- !u!114 &1603631649
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41847,9 +41847,9 @@ MonoBehaviour:
   - {fileID: -5294701127904083218, guid: 4a401cf8164444742ae6802d50fa9e87, type: 3}
   - {fileID: 4760463457984081715, guid: 621e27dab298f16409e2405abd9a6c71, type: 3}
   enemyPositions:
-  - {x: -3, y: 0.33, z: 5}
-  - {x: 0, y: 0.34, z: 7}
-  - {x: 3, y: 0.21, z: 5}
+  - {x: -4, y: -0.21, z: 6}
+  - {x: 0, y: -0.38, z: 7}
+  - {x: 4, y: -0.42, z: 6}
 --- !u!1001 &1606037279
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59674,6 +59674,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 368178663706926028, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 489370375656440904, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: m_RaycastTarget
       value: 0
@@ -59733,6 +59737,10 @@ PrefabInstance:
     - target: {fileID: 1748779545102626183, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: tweenTime
       value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1928471690766374406, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1933649552333744771, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: m_RaycastTarget
