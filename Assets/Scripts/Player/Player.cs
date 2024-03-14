@@ -108,6 +108,9 @@ public class Player : MonoBehaviour, ICombatEntity
 
             while ((target - transform.position).sqrMagnitude > 0.1)
             {
+                while (PauseManager.Instance.Paused)
+                    yield return null;
+
                 Vector3 position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
                 float bobFactor = Mathf.Sin(bobbingCounter * bobbingFrequency);
                 position.y += bobbingHeight * bobFactor;

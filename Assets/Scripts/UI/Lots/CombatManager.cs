@@ -114,6 +114,9 @@ public class CombatManager : Singleton<CombatManager>
 
     private IEnumerator IEDeathParticles(ParticleSystem particles)
     {
+        if (particles == null)
+            yield break;
+
         particles.transform.SetParent(transform);
         particles.Play();
 

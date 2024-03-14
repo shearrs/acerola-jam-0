@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 11400000, guid: b94dd243585628f46b5a16aa888f8a4d, type: 2}
   actionName: Fly By
-  damage: 3
+  damage: 2

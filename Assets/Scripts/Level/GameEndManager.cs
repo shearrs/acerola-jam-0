@@ -49,7 +49,7 @@ public class GameEndManager : Singleton<GameEndManager>
 
     public void ShowEndScreen()
     {
-        Level.Instance.SetVolume(LevelVolume.DEFAULT, 0f);
+        Level.Instance.SetVolume(LevelVolume.DEFAULT, 24f);
         endScreen.Enable();
     }
 }

@@ -21,6 +21,7 @@ public class Level : Singleton<Level>
 
     public bool RamFight { get; set; } = false;
     public bool SatanFight { get; set; } = false;
+    public bool HasStarted { get; private set; } = false;
     public Encounter CurrentEncounter => encounters[0];
     public Player Player => player;
 
@@ -34,6 +35,9 @@ public class Level : Singleton<Level>
 
     public void StartEncounter()
     {
+        if (!HasStarted)
+            HasStarted = true;
+
         UIManager.Instance.EnterEncounter();
         CurrentEncounter.Enter();
     }

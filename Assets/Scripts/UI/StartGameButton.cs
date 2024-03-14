@@ -20,6 +20,8 @@ public class StartGameButton : ToggleableButton
 
     protected override void OnClickedInternal()
     {
+        Disable();
+
         titleCard.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.45f, titleTween)
             .SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK)
             .SetOnComplete(() => titleCard.gameObject.SetActive(false));

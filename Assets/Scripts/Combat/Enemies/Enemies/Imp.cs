@@ -22,9 +22,9 @@ public class Imp : Enemy
     {
         Turn turn = new(this, null, null);
 
-        int random = Random.Range(0, 3);
+        int random = Random.Range(0, 2);
 
-        if (!brimstoneMode && (!hasAttackedOnce || random < 2)) // attack at least once
+        if (!brimstoneMode && (!hasAttackedOnce || random == 0)) // attack at least once
         {
             turn.Action = actions[0];
             turn.Target = player;

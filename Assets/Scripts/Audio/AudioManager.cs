@@ -180,8 +180,8 @@ public class AudioManager : Singleton<AudioManager>
 
     public void ShieldSound()
     {
-        RandomizePitch(uiSource, 1, 1.25f);
-        uiSource.PlayOneShot(shieldSound, 0.4f);
+        RandomizePitch(uiSource, 0.75f, 1f);
+        uiSource.PlayOneShot(shieldSound, 0.3f);
     }
 
     public void HitSound(AudioClip sound)
@@ -238,8 +238,8 @@ public class AudioManager : Singleton<AudioManager>
 
     public void DefenseSound()
     {
-        uiSource.pitch = 1f;
-        uiSource.PlayOneShot(defenseSound, 0.5f);
+        uiSource.pitch = 1;
+        uiSource.PlayOneShot(defenseSound, 0.65f);
     }
 
     public void ButtonSound(int index = 1, bool randomize = true, float volumeScale = -1)

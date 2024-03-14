@@ -29,6 +29,7 @@ public abstract class ToggleableButton : MonoBehaviour
 
     public virtual void Enable()
     {
+        gameObject.SetActive(true);
         image.color = originalImageColor;
         text.color = originalTextColor;
         button.enabled = true;

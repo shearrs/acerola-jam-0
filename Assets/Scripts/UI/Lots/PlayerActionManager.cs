@@ -85,7 +85,7 @@ public class PlayerActionManager
         {
             int choice = UnityEngine.Random.Range(0, 6);
 
-            if (choice < 4 && Battle.Enemies.Count > 1)
+            if (choice < 2 && Battle.Enemies.Count > 1)
             {
                 SinUI.Instance.ActivateUI(SinType.LUST);
                 return Battle.GetRandomEnemy(player.EnemyIndex);
