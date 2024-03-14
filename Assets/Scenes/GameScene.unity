@@ -16855,7 +16855,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 772365956492276895, guid: f76775b9c3a12944fb23fa5b152336a3, type: 3}
       propertyPath: drop
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 772365956492276895, guid: f76775b9c3a12944fb23fa5b152336a3, type: 3}
       propertyPath: path
@@ -53962,15 +53962,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1592671034}
   encounters:
+  - {fileID: 6646641769981169102}
+  - {fileID: 5676850767236014860}
+  - {fileID: 606651736}
   - {fileID: 169877042584248872}
   - {fileID: 772365955764316575}
   - {fileID: 687422606}
   - {fileID: 1875427343}
   - {fileID: 1123713517}
   - {fileID: 1603631649}
-  - {fileID: 6646641769981169102}
-  - {fileID: 5676850767236014860}
-  - {fileID: 606651736}
   defaultVolume: {fileID: 1647997397}
   stormVolume: {fileID: 1917692669}
   heavenVolume: {fileID: 2065469438}
@@ -74501,11 +74501,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8266711477414344653, guid: 8560643da0c4e3145901a69c817c09d1, type: 3}
       propertyPath: speed
-      value: 100
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 8266711477414344653, guid: 8560643da0c4e3145901a69c817c09d1, type: 3}
       propertyPath: lotCapacity
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8266711477414344653, guid: 8560643da0c4e3145901a69c817c09d1, type: 3}
       propertyPath: bobbingHeight
@@ -74715,6 +74715,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6717471319361853363, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7643178162468923199, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8344986681974400263, guid: e76756074660e7d42b2e5376cacc0d42, type: 3}

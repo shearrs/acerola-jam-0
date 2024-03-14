@@ -41,7 +41,7 @@ public class Ram : Enemy
         {
             if (waitCounter == 0)
             {
-                turn.Action = actions[1];
+                turn.Action = actions[2];
                 turn.Target = this;
                 waitCounter++;
             }
