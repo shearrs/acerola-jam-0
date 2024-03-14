@@ -117,7 +117,7 @@ public class Player : MonoBehaviour, ICombatEntity
 
                 if (bobFactor < -0.75 && !step)
                 {
-                    AudioManager.RandomizePitch(stepAudioSource);
+                    AudioManager.RandomizePitch(stepAudioSource, 1, 1.25f);
                     stepAudioSource.Play();
                     step = true;
                 }
@@ -185,6 +185,7 @@ public class Player : MonoBehaviour, ICombatEntity
     {
         AudioManager.Instance.DeathSound();
         CameraManager.Instance.Shake(0.1f, 2f);
+        UIManager.Instance.DeathMenu.Enable();
         IsDead = true;
     }
 

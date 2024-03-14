@@ -46,7 +46,7 @@ public class Level : Singleton<Level>
     {
         UIManager.Instance.EndEncounter();
 
-        if (!SatanFight)
+        if (!SatanFight && !Player.IsDead)
         {
             audioManager.PlayAmbientMusic();
             encounters.RemoveAt(0);

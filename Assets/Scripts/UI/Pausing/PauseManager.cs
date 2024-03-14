@@ -10,7 +10,7 @@ public class PauseManager : Singleton<PauseManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.Escape))
             TogglePause();
     }
 

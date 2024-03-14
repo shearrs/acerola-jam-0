@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 11400000, guid: 36123e7fe0e77374dbc22340ce913f40, type: 2}
   actionName: Snake Bite
-  damage: 1
+  damage: 100

@@ -9,6 +9,8 @@ public class StartGameButton : ToggleableButton
     [Header("Menu")]
     [SerializeField] private RectTransform mainMenu;
     [SerializeField] private RectTransform titleCard;
+    [SerializeField] private RectTransform exitButton;
+    [SerializeField] private RectTransform volumeSlider;
     private readonly Tween buttonTween = new();
     private readonly Tween titleTween = new();
 
@@ -25,6 +27,9 @@ public class StartGameButton : ToggleableButton
         titleCard.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.45f, titleTween)
             .SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK)
             .SetOnComplete(() => titleCard.gameObject.SetActive(false));
+
+        exitButton.gameObject.SetActive(false);
+        volumeSlider.gameObject.SetActive(true);
 
         Invoke(nameof(TweenButton), 0.15f);
     }

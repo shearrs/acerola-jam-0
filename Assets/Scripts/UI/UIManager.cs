@@ -21,6 +21,7 @@ namespace CustomUI
         [SerializeField] private Vector3 bbTargetPosition;
         [SerializeField] private PlayerHealthbar healthbar;
         [SerializeField] private ShepherdPortrait portrait;
+        [SerializeField] private DeathMenu deathMenu;
         private Vector3 bbOriginalPosition;
 
         [Header("Sub Classes")]
@@ -35,6 +36,7 @@ namespace CustomUI
         public ActionUI ActionUI => actionUI;
         public LotsUI LotsUI => lotsUI;
         public PlayerHealthbar PlayerHealthbar => healthbar;
+        public DeathMenu DeathMenu => deathMenu;
 
         private void Start()
         {

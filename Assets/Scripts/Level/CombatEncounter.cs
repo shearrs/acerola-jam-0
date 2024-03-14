@@ -87,6 +87,9 @@ public class CombatEncounter : Encounter
             if (turn.User.IsDead)
                 continue;
 
+            if (Level.Instance.Player.IsDead)
+                break;
+
             turn.Perform();
 
             while (!turn.Finished)
@@ -108,7 +111,10 @@ public class CombatEncounter : Encounter
             }
         }
         else
+        {
+            drop = CombatDrop.NONE;
             EndEncounter();
+        }
     }
 
     protected override void EndEncounter()
