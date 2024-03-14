@@ -6,7 +6,7 @@ public class Ram : Enemy
 {
     [SerializeField] private Transform pentagram;
     [SerializeField] private AudioSource audioSource;
-    private int attackCounter = 0;
+    private int waitCounter = 0;
 
     public Transform Pentagram => pentagram;
 
@@ -19,19 +19,19 @@ public class Ram : Enemy
     {
         Turn turn = new(this, null, null);
 
-        if (turnCounter <= 4)
+        if (turnCounter <= 3)
         {
-            if (turnCounter <= 2)
+            if (turnCounter <= 1)
             {
                 turn.Action = actions[0];
                 turn.Target = player;
             }
-            else if (turnCounter == 3)
+            else if (turnCounter == 2)
             {
                 turn.Action = actions[1];
                 turn.Target = this;
             }
-            else if (turnCounter == 4)
+            else if (turnCounter == 3)
             {
                 turn.Action = actions[2];
                 turn.Target = player;
@@ -39,18 +39,18 @@ public class Ram : Enemy
         }
         else
         {
-            if (attackCounter < 2)
-            {
-                turn.Action = actions[0];
-                turn.Target = player;
-                attackCounter++;
-            }
-            else
+            if (waitCounter == 0)
             {
                 turn.Action = actions[1];
                 turn.Target = this;
-                attackCounter = 0;
-            }    
+                waitCounter++;
+            }
+            else
+            {
+                turn.Action = actions[0];
+                turn.Target = player;
+                waitCounter = 0;
+            }
         }
 
         return turn;

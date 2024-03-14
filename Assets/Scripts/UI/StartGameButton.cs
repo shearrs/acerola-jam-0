@@ -29,7 +29,7 @@ public class StartGameButton : ToggleableButton
             .SetOnComplete(() => titleCard.gameObject.SetActive(false));
 
         exitButton.gameObject.SetActive(false);
-        volumeSlider.gameObject.SetActive(true);
+        volumeSlider.gameObject.SetActive(false);
 
         Invoke(nameof(TweenButton), 0.15f);
     }

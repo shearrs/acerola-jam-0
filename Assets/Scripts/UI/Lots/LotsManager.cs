@@ -124,6 +124,14 @@ public class LotsManager
 
     public void SelectLots()
     {
+        CombatManager.Instance.StartCoroutine(IEBeforeSelectLots());
+    }
+
+    private IEnumerator IEBeforeSelectLots()
+    {
+        while (LotsBeingThrown())
+            yield return null;
+
         if (player.HasSin(SinType.PRIDE))
             SinUI.Instance.ActivateUI(SinType.PRIDE);
 
@@ -139,6 +147,17 @@ public class LotsManager
         {
             lotsUI.UpdateLotsButton(0);
         }
+    }
+
+    private bool LotsBeingThrown()
+    {
+        for (int i = 0; i < lots.Count; i++)
+        {
+            if (lots[i].IsBeingThrown)
+                return true;
+        }
+
+        return false;
     }
 
     public void RetireLot(Lot lot)

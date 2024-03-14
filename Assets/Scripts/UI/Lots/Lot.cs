@@ -28,6 +28,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private bool isKept = false;
     private bool keptHighlightPrevent = false;
+
     public bool IsKept 
     { 
         get => isKept; 
@@ -38,8 +39,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 keptHighlightPrevent = true;
         }
     }
-
     public bool IsLocked { get; set; }
+    public bool IsBeingThrown { get; private set; } = false;
     public Vector3 OriginalPosition { get; set; }
     public Quaternion OriginalRotation { get; set; }
     public LotType Type { get; private set; }
@@ -70,6 +71,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         float verticalRotations = Random.Range(1, 5) * 360;
         float horizontalRotations = Random.Range(1, 3) * 180;
         float speed = Random.Range(1.5f, 2.25f);
+        IsBeingThrown = true;
 
         shadowImage.gameObject.SetActive(true);
 
@@ -102,6 +104,8 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         if (onComplete)
             combatManager.SelectLots();
+
+        IsBeingThrown = false;
     }
 
     private void PlayCollisionSound()
