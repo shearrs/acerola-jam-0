@@ -49,6 +49,8 @@ public class LotsButton : MonoBehaviour
 
     public void UpdateState(int lots)
     {
+        Debug.Log("lots: " + lots);
+
         if (!confirmable && lots == 0)
         {
             confirmable = true; 

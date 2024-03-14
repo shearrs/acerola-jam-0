@@ -18,7 +18,7 @@ public class PentagramVisual : TurnActionVisual
         // float up in air
         ram.Animator.PlayAndNotify(Level.Instance, "DemonAct", () => ram.StartCoroutine(IEWait(0.5f, ram, onComplete))); // play float animation
 
-        Level.Instance.StartStorm(1.5f); // make sky stormy
+        Level.Instance.SetVolume(LevelVolume.STORM, 1.5f); // make sky stormy
 
         ram.PentagramSound();
         pentagram.gameObject.SetActive(true);

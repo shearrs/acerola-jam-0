@@ -194,6 +194,9 @@ public class LotsBox : MonoBehaviour
             sins.Remove(sin.GetSinType());
         }
 
+        if (sins.Count == 0)
+            return SinType.PRIDE;
+
         int sinIndex = Random.Range(0, sins.Count);
 
         return sins[sinIndex];

@@ -85,8 +85,6 @@ public class StartGameButton : ToggleableButton
         }
 
         UIManager.Instance.Portrait.Enable();
-        AudioManager audioManager = AudioManager.Instance;
-        audioManager.PlaySong(audioManager.AmbientMusic);
         player.Move();
     }
 

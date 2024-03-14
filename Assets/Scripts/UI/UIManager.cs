@@ -34,6 +34,7 @@ namespace CustomUI
         public ShepherdPortrait Portrait => portrait;
         public ActionUI ActionUI => actionUI;
         public LotsUI LotsUI => lotsUI;
+        public PlayerHealthbar PlayerHealthbar => healthbar;
 
         private void Start()
         {

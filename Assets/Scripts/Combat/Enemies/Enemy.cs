@@ -51,6 +51,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
     public int MaxHealth => maxHealth;
     public Healthbar Healthbar => healthbar;
     public abstract bool CorruptHealth { get; }
+    protected virtual AudioClip HitSound => null;
 
     public virtual void Enable()
     {
@@ -88,7 +89,7 @@ public abstract class Enemy : MonoBehaviour, ICombatEntity
         else if (damage == 0)
             AudioManager.Instance.ShieldSound();
         else
-            AudioManager.Instance.HitSound();
+            AudioManager.Instance.HitSound(HitSound);
     }
 
     protected virtual void Die()

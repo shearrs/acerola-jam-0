@@ -127,9 +127,9 @@ public class LotsManager
         if (player.HasSin(SinType.PRIDE))
             SinUI.Instance.ActivateUI(SinType.PRIDE);
 
+        lotsUI.MinimizeButton.Enable(false);
         lotsUI.SelectLots();
         SetLotTypes();
-        lotsUI.MinimizeButton.Enable(false);
 
         if (Roll < MAX_ROLLS)
         {
@@ -144,6 +144,7 @@ public class LotsManager
     public void RetireLot(Lot lot)
     {
         lot.gameObject.SetActive(false);
+        lots.Remove(lot);
         reserveLots.Add(lot);
     }
 

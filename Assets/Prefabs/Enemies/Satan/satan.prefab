@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7177874059668384201}
   - component: {fileID: 5156695883674193041}
   m_Layer: 0
-  m_Name: Attack Particles
+  m_Name: Sin Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4787,7 +4787,7 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4852,7 +4852,7 @@ GameObject:
   - component: {fileID: 7716424884304639315}
   - component: {fileID: 1550154402816146687}
   m_Layer: 0
-  m_Name: Sin Particles
+  m_Name: Attack Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4881,7 +4881,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 474335513995440229}
   serializedVersion: 8
-  lengthInSec: 2
+  lengthInSec: 6
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -4956,7 +4956,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1.5
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5444,7 +5444,7 @@ ParticleSystem:
         m_RotationOrder: 4
     randomizeRotationDirection: 0
     gravitySource: 0
-    maxNumParticles: 2000
+    maxNumParticles: 2500
     customEmitterVelocity: {x: 0, y: 0, z: 0}
     size3D: 0
     rotation3D: 0
@@ -14932,10 +14932,10 @@ PrefabInstance:
       addedObject: {fileID: 7492645986015751055}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2508b68e756e87b47aad0aff13e2e8bc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2153161228699167362}
+      addedObject: {fileID: 4324377488480186321}
     - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2508b68e756e87b47aad0aff13e2e8bc, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4324377488480186321}
+      addedObject: {fileID: 2153161228699167362}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2508b68e756e87b47aad0aff13e2e8bc, type: 3}
       insertIndex: -1
@@ -14974,8 +14974,10 @@ MonoBehaviour:
   actions:
   - {fileID: 11400000, guid: b62cbff5b7029e14589b785378e56800, type: 2}
   - {fileID: 11400000, guid: 7ca3d29e4367e3c4495388c6fcf847dd, type: 2}
-  sinParticles: {fileID: 7716424884304639315}
-  attackParticles: {fileID: 7177874059668384201}
+  sinParticles: {fileID: 7177874059668384201}
+  attackParticles: {fileID: 7716424884304639315}
+  attackSound: {fileID: 8300000, guid: 9df175c3bb207914eaa39401ec0f3580, type: 3}
+  sinSound: {fileID: 8300000, guid: f80bd14f9aa1d9c4e8a6b9c886121ced, type: 3}
 --- !u!95 &525583912811920654
 Animator:
   serializedVersion: 5

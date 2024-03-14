@@ -18,6 +18,15 @@ public class StartButton : MonoBehaviour
 
         AudioManager audioManager = AudioManager.Instance;
         audioManager.ButtonSound();
-        audioManager.PlaySong(audioManager.BattleMusic);
+
+        AudioClip song;
+        CombatEncounter encounter = (CombatEncounter)Level.Instance.CurrentEncounter;
+
+        if (encounter.SatanFight)
+            song = audioManager.SatanMusic;
+        else
+            song = audioManager.BattleMusic;
+
+        audioManager.PlaySong(song);
     }
 }

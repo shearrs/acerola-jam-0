@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 11400000, guid: 78e7487d0c92219459b493ebea6ed834, type: 2}
   actionName: Pentagram
-  sinTypes: 0500000002000000
+  sinTypes: 0600000002000000
+  random: 0

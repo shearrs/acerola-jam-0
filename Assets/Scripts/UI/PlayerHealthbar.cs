@@ -17,6 +17,8 @@ public class PlayerHealthbar : MonoBehaviour
     [SerializeField] private float heartSpawnDelay;
     private Player player;
 
+    public bool IsHealing { get; private set; }
+
     private void Awake()
     {
         player = Level.Instance.Player;
@@ -86,6 +88,8 @@ public class PlayerHealthbar : MonoBehaviour
 
     private IEnumerator IEHealHearts(int amount)
     {
+        IsHealing = true;
+
         WaitForSeconds wait = new(heartSpawnDelay);
 
         if (amount > deadHearts.Count)
@@ -102,5 +106,7 @@ public class PlayerHealthbar : MonoBehaviour
 
             yield return wait;
         }
+
+        IsHealing = false;
     }
 }

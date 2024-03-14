@@ -62,12 +62,12 @@ public class CombatDropUI : Singleton<CombatDropUI>
         }
         else if (drop == CombatDrop.HEALTH)
         {
-            while (HealthSelected == false)
+            while (HealthSelected == false || UIManager.Instance.PlayerHealthbar.IsHealing)
                 yield return null;
         }
         else if (drop == CombatDrop.LOT_AND_HEALTH)
         {
-            while (LotSelected == false || HealthSelected == false)
+            while (LotSelected == false || HealthSelected == false || UIManager.Instance.PlayerHealthbar.IsHealing)
                 yield return null;
         }
 

@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class Satan : Enemy
 {
+    [Header("Particles")]
     [SerializeField] private ParticleSystem sinParticles;
     [SerializeField] private ParticleSystem attackParticles;
-    private readonly Tween deathTween = new();
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip attackSound;
+    [SerializeField] private AudioClip sinSound;
+
+    protected override AudioClip HitSound => AudioManager.Instance.SatanHit;
     public override bool CorruptHealth => true;
+    public ParticleSystem DeathParticles => deathParticles;
 
     // 0 is sin
     // 1 is big attack (consumes all sins)
@@ -28,17 +34,38 @@ public class Satan : Enemy
     public void SinAction()
     {
         sinParticles.Play();
+
+        AudioManager audioManager = AudioManager.Instance;
+        audioManager.UISource.pitch = 1;
+        audioManager.PlaySound(sinSound, 0.65f);
     }
     
     public void AttackAction()
     {
+        sinParticles.Play();
         attackParticles.Play();
+
+        AudioManager audioManager = AudioManager.Instance;
+        audioManager.UISource.pitch = 1;
+        audioManager.PlaySound(attackSound, 0.65f);
     }
 
     protected override void Die()
     {
+        List<Enemy> enemies = Battle.Enemies;
+        int count = enemies.Count;
+        for (int i = 0; i < count; i++)
+        {
+            if (enemies[i] == this)
+                continue;
+
+            enemies[0].Damage(999);
+            enemies.RemoveAt(0);
+        }
+
+        intent.gameObject.SetActive(false);
         Destroy(healthbar.gameObject);
 
-        transform.Shake(1, 3f, deathTween);
+        GameEndManager.Instance.SatanDeathSequence(this);
     }
 }

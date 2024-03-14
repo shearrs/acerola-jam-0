@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visual: {fileID: 11400000, guid: f1026e89452b073499a30c7544998d7d, type: 2}
   actionName: Blood Sacrifice
-  damage: 6
+  damage: 7

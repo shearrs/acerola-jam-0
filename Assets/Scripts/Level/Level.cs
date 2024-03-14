@@ -4,6 +4,8 @@ using UnityEngine;
 using CustomUI;
 using UnityEngine.Rendering;
 
+public enum LevelVolume { DEFAULT, STORM, HEAVENLY };
+
 public class Level : Singleton<Level>
 {
     [Header("Gameplay")]
@@ -13,8 +15,12 @@ public class Level : Singleton<Level>
     [Header("Environment")]
     [SerializeField] private Volume defaultVolume;
     [SerializeField] private Volume stormVolume;
+    [SerializeField] private Volume heavenVolume;
+    private Volume currentVolume;
     private AudioManager audioManager;
 
+    public bool RamFight { get; set; } = false;
+    public bool SatanFight { get; set; } = false;
     public Encounter CurrentEncounter => encounters[0];
     public Player Player => player;
 
@@ -23,6 +29,7 @@ public class Level : Singleton<Level>
         audioManager = AudioManager.Instance;
 
         audioManager.PlayAmbience(audioManager.AmbientForest);
+        currentVolume = defaultVolume;
     }
 
     public void StartEncounter()
@@ -34,42 +41,46 @@ public class Level : Singleton<Level>
     public void EndEncounter()
     {
         UIManager.Instance.EndEncounter();
-        AudioManager.Instance.PlaySong(AudioManager.Instance.AmbientMusic);
-        encounters.RemoveAt(0);
 
-        if (!Player.IsDead)
+        if (!SatanFight)
+        {
+            audioManager.PlayAmbientMusic();
+            encounters.RemoveAt(0);
             Player.Move();
+        }
     }
 
-    public void StartStorm(float time)
+    public void SetVolume(LevelVolume volume, float time)
     {
-        StartCoroutine(IETransitionStorm(true, time));
+        Volume volumeToTransitionTo = null;
+
+        switch(volume)
+        {
+            case LevelVolume.DEFAULT:
+                volumeToTransitionTo = defaultVolume;
+                break;
+            case LevelVolume.STORM:
+                volumeToTransitionTo = stormVolume;
+                break;
+            case LevelVolume.HEAVENLY:
+                volumeToTransitionTo = heavenVolume;
+                break;
+        }
+
+        StartCoroutine(TransitionVolumes(volumeToTransitionTo, time));
     }
 
-    private IEnumerator IETransitionStorm(bool active, float time)
+    private IEnumerator TransitionVolumes(Volume newVolume, float time)
     {
         float elapsedTime = 0;
         float percent = 0;
-        Volume volumeOn;
-        Volume volumeOff;
 
-        if (active)
-        {
-            volumeOn = stormVolume;
-            volumeOff = defaultVolume;
-        }
-        else
-        {
-            volumeOn = defaultVolume;
-            volumeOff = stormVolume;
-        }
-
-        volumeOn.gameObject.SetActive(true);
+        newVolume.gameObject.SetActive(true);
 
         while(elapsedTime < time)
         {
-            volumeOn.weight = Mathf.Lerp(0, 1, percent);
-            volumeOff.weight = Mathf.Lerp(1, 0, percent);
+            newVolume.weight = Mathf.Lerp(0, 1, percent);
+            currentVolume.weight = Mathf.Lerp(1, 0, percent);
 
             percent = elapsedTime / time;
             elapsedTime += Time.deltaTime;
@@ -77,14 +88,9 @@ public class Level : Singleton<Level>
             yield return null;
         }
 
-        volumeOn.weight = 1;
-        volumeOff.weight = 0;
+        newVolume.weight = 1;
+        currentVolume.weight = 0;
 
-        volumeOff.gameObject.SetActive(false);
-    }
-
-    public void EndStorm(float time)
-    {
-        StartCoroutine(IETransitionStorm(false, time));
+        currentVolume.gameObject.SetActive(false);
     }
 }

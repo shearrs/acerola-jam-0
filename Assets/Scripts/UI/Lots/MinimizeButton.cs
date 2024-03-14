@@ -38,6 +38,8 @@ public class MinimizeButton : MonoBehaviour
 
     public void Enable(bool tween = true)
     {
+        Debug.Log("enabled");
+        
         if (tween)
         {
             rect.anchoredPosition3D = closedPosition;
@@ -51,6 +53,8 @@ public class MinimizeButton : MonoBehaviour
 
     public void Disable(bool tween = true)
     {
+        Debug.Log("disabled");
+
         button.enabled = false;
 
         if (tween)

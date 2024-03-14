@@ -8,6 +8,8 @@ using UnityEngine.Rendering;
 public class CombatEncounter : Encounter
 {
     [SerializeField] private Volume combatFog;
+    [SerializeField] private bool ramFight = false;
+    [SerializeField] private bool satanFight = false;
 
     [Header("Combat")]
     [SerializeField] private CombatDrop drop;
@@ -18,6 +20,7 @@ public class CombatEncounter : Encounter
     [SerializeField] private List<Enemy> enemies;
     [SerializeField] private Vector3[] enemyPositions;
 
+    public bool SatanFight => satanFight;
     public Battle Battle => battle;
 
     private void Awake()
@@ -37,8 +40,18 @@ public class CombatEncounter : Encounter
         if (combatManager == null)
             combatManager = CombatManager.Instance;
 
-        AudioManager.Instance.EncounterSound();
-        AudioManager.Instance.PlaySong(null, 1.25f);
+        AudioManager audioManager = AudioManager.Instance;
+
+        if (ramFight)
+        {
+            Level.Instance.RamFight = true;
+            audioManager.PlayAmbience(audioManager.AmbientOoo);
+        }
+        else if (satanFight)
+            Level.Instance.SatanFight = true;
+
+        audioManager.EncounterSound();
+        audioManager.PlaySong(null, 1.25f);
         combatManager.Enable();
         battle = new(this, enemies, GetRelativePositions());
 

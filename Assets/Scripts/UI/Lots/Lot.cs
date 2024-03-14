@@ -52,6 +52,10 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private void OnDisable()
     {
         shadowImage.gameObject.SetActive(false);
+        Highlight(false);
+
+        if (combatManager != null && combatManager.HoveredLot == this)
+            combatManager.HoveredLot = null;
     }
 
     public void Throw(Spline path, bool notifyUI = false)
@@ -177,7 +181,7 @@ public class Lot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             alpha = 0;
 
-            if (!keptHighlightPrevent)
+            if (!keptHighlightPrevent && transform.parent.gameObject.activeSelf)
                 transform.SetSiblingIndex(previousChildIndex);
             else
                 keptHighlightPrevent = false;

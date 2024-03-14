@@ -14,11 +14,6 @@ public class SatanSinVisual : TurnActionVisual
 
         satan.SinAction();
 
-        // give player a random sin
-        // wait for some amount of time
-        Sin sin = Sin.GetSinForType(lotsBox.GetRandomSin());
-        player.AddSin(sin);
-
         player.StartCoroutine(IEWait(onComplete));
     }
 

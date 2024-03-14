@@ -12,7 +12,6 @@ public class AudioManager : Singleton<AudioManager>
     [Header("Buttons")]
     [SerializeField] private AudioClip buttonSound1;
     [SerializeField] private AudioClip buttonSound2;
-    [SerializeField] private AudioClip buttonSound3;
 
     [Header("Combat")]
     [SerializeField] private AudioClip encounterSound;
@@ -26,28 +25,58 @@ public class AudioManager : Singleton<AudioManager>
     [SerializeField] private AudioClip lotSound;
     [SerializeField] private AudioClip healthSound;
     [SerializeField] private AudioClip defenseSound;
+    [SerializeField] private AudioClip satanHit;
 
     [Header("Songs")]
     [SerializeField] private float songTransitionTime;
-    [SerializeField] private AudioClip ambientMusic;
+    [SerializeField] private AudioClip happyAmbientMusic;
+    [SerializeField] private AudioClip scaryAmbientMusic;
     [SerializeField] private AudioClip battleMusic;
+    [SerializeField] private AudioClip satanMusic;
+    [SerializeField] private AudioClip heavenMusic;
     private AudioClip currentSong = null;
     private Coroutine songCoroutine;
 
     [Header("Ambience")]
     [SerializeField] private AudioClip ambientForest;
+    [SerializeField] private AudioClip ambientOoo;
+
+    public AudioClip SatanHit => satanHit;
 
     public AudioClip AmbientForest => ambientForest;
-
-    public AudioClip AmbientMusic => ambientMusic;
+    public AudioClip AmbientOoo => ambientOoo;
+    public AudioClip HappyAmbientMusic => happyAmbientMusic;
+    public AudioClip ScaryAmbientMusic => scaryAmbientMusic;
     public AudioClip BattleMusic => battleMusic;
+    public AudioClip SatanMusic => satanMusic;
+    public AudioClip HeavenMusic => heavenMusic;
     public AudioSource UISource => uiSource;
+
+    private void Start()
+    {
+        PlayAmbientMusic();
+    }
 
     public void PlayAmbience(AudioClip ambience)
     {
         ambientSource.Stop();
         ambientSource.clip = ambience;
         ambientSource.Play();
+    }
+
+    public void PlayAmbientMusic()
+    {
+        if (musicSource.isPlaying && (musicSource.clip == happyAmbientMusic || musicSource.clip == scaryAmbientMusic))
+            return;
+
+        if (Level.Instance.RamFight)
+        {
+            PlaySong(ScaryAmbientMusic);
+        }
+        else
+        {
+            PlaySong(HappyAmbientMusic);
+        }
     }
 
     public void PlaySong(AudioClip song, float transitionTime = -1)
@@ -69,13 +98,19 @@ public class AudioManager : Singleton<AudioManager>
     private IEnumerator IETransitionSong(AudioClip song, float transitionTime)
     {
         float elapsedTime = 0;
+        float maxAudio;
+
+        if (song == satanMusic || song == heavenMusic)
+            maxAudio = 0.7f;
+        else
+            maxAudio = 0.5f;
 
         if (musicSource.isPlaying)
         {
             while (elapsedTime < transitionTime)
             {
                 float percentage = elapsedTime / transitionTime;
-                musicSource.volume = Mathf.Lerp(.3f, 0, percentage);
+                musicSource.volume = Mathf.Lerp(maxAudio, 0, percentage);
 
                 elapsedTime += Time.deltaTime;
 
@@ -95,14 +130,37 @@ public class AudioManager : Singleton<AudioManager>
         while(elapsedTime < transitionTime)
         {
             float percentage = elapsedTime / transitionTime;
-            musicSource.volume = Mathf.Lerp(0, .3f, percentage);
+            musicSource.volume = Mathf.Lerp(0, maxAudio, percentage);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        musicSource.volume = .3f;
+        musicSource.volume = maxAudio;
+    }
+
+    private IEnumerator IEHeavenMusic()
+    {
+        float quietPoint = 13f; // 13 seconds in, go quiet
+
+        while (musicSource.time < quietPoint)
+            yield return null;
+
+        StartCoroutine(IETransitionSong(null, 3));
+        Invoke(nameof(ShowEndScreen), 1);
+    }
+
+    private void ShowEndScreen()
+    {
+        GameEndManager.Instance.ShowEndScreen();
+    }
+
+    public void PlayHeavenMusic()
+    {
+        StartCoroutine(IETransitionSong(heavenMusic, 0.25f));
+
+        StartCoroutine(IEHeavenMusic());
     }
 
     public void PlaySound(AudioClip clip, float volumeScale = 1)
@@ -112,7 +170,7 @@ public class AudioManager : Singleton<AudioManager>
 
     public void EncounterSound()
     {
-        uiSource.PlayOneShot(encounterSound, 0.9f);
+        uiSource.PlayOneShot(encounterSound, 0.75f);
     }
 
     public void DeathSound()
@@ -123,13 +181,21 @@ public class AudioManager : Singleton<AudioManager>
     public void ShieldSound()
     {
         RandomizePitch(uiSource, 1, 1.25f);
-        uiSource.PlayOneShot(shieldSound, 0.5f);
+        uiSource.PlayOneShot(shieldSound, 0.4f);
     }
 
-    public void HitSound()
+    public void HitSound(AudioClip sound)
     {
-        RandomizePitch();
-        uiSource.PlayOneShot(hitSound, 0.75f);
+        if (sound == null)
+        {
+            RandomizePitch();
+            uiSource.PlayOneShot(hitSound, 0.55f);
+        }
+        else
+        {
+            RandomizePitch(uiSource, 0.75f, 0.95f);
+            uiSource.PlayOneShot(sound, 0.55f);
+        }
     }
 
     public void SinSound()
@@ -153,7 +219,7 @@ public class AudioManager : Singleton<AudioManager>
     public void HealthSound()
     {
         uiSource.pitch = 1;
-        uiSource.PlayOneShot(healthSound, .75f);
+        uiSource.PlayOneShot(healthSound, .65f);
     }
 
     public void HighlightSound(int index = 1)
@@ -173,7 +239,7 @@ public class AudioManager : Singleton<AudioManager>
     public void DefenseSound()
     {
         uiSource.pitch = 1f;
-        uiSource.PlayOneShot(defenseSound);
+        uiSource.PlayOneShot(defenseSound, 0.5f);
     }
 
     public void ButtonSound(int index = 1, bool randomize = true, float volumeScale = -1)
@@ -184,7 +250,7 @@ public class AudioManager : Singleton<AudioManager>
                 RandomizePitch(uiSource, 1.25f, 2);
 
             if (volumeScale == -1)
-                volumeScale = 0.75f;
+                volumeScale = 0.5f;
 
             uiSource.PlayOneShot(buttonSound1, volumeScale);
         }
@@ -194,16 +260,9 @@ public class AudioManager : Singleton<AudioManager>
                 RandomizePitch(uiSource, 0.95f, 1.25f);
 
             if (volumeScale == -1)
-                volumeScale = 0.75f;
+                volumeScale = 0.35f;
 
             uiSource.PlayOneShot(buttonSound2, volumeScale);
-        }
-        else if (index == 3) // low blip
-        {
-            if (randomize)
-                RandomizePitch(uiSource, 1, 1.5f);
-
-            uiSource.PlayOneShot(buttonSound3, volumeScale);
         }
     }
 

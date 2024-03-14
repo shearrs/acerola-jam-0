@@ -6,10 +6,12 @@ using UnityEngine;
 public class Player : MonoBehaviour, ICombatEntity
 {
     [Header("Movement")]
-    [SerializeField, Range(0, 20)] private float speed = .35f;
+    [SerializeField, Range(0, 100)] private float speed = .35f;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private float bobbingHeight;
     [SerializeField] private float bobbingFrequency;
+    [SerializeField] private AudioSource stepAudioSource;
+    private bool step = false;
 
     [Header("Combat")]
     [SerializeField] private Animator animator;
@@ -107,7 +109,17 @@ public class Player : MonoBehaviour, ICombatEntity
             while ((target - transform.position).sqrMagnitude > 0.1)
             {
                 Vector3 position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-                position.y += bobbingHeight * Mathf.Sin(bobbingCounter * bobbingFrequency);
+                float bobFactor = Mathf.Sin(bobbingCounter * bobbingFrequency);
+                position.y += bobbingHeight * bobFactor;
+
+                if (bobFactor < -0.75 && !step)
+                {
+                    AudioManager.RandomizePitch(stepAudioSource);
+                    stepAudioSource.Play();
+                    step = true;
+                }
+                else if (bobFactor > 0.75 && step)
+                    step = false;
 
                 Quaternion rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 rotation.z = 0;
@@ -160,7 +172,7 @@ public class Player : MonoBehaviour, ICombatEntity
             if (damage == 0)
                 AudioManager.Instance.ShieldSound();
             else
-                AudioManager.Instance.HitSound();
+                AudioManager.Instance.HitSound(null);
 
             CameraManager.Instance.Shake();
         }

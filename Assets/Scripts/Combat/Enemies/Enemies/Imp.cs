@@ -6,10 +6,14 @@ public class Imp : Enemy
 {
     [SerializeField] private ParticleSystem brimstoneParticles;
     [SerializeField] private AudioSource audioSource;
-    int attackCounter = 0;
-    int brimstoneCounter = 0;
+    bool hasAttackedOnce = false;
+    bool defendedLastTurn = false;
+    bool brimstoneMode = false;
 
     public override bool CorruptHealth => true;
+
+    // attack the first turn
+    // after that, 50% chance to go into brimstone mode
 
     // 0 is attack
     // 1 is defend
@@ -18,34 +22,30 @@ public class Imp : Enemy
     {
         Turn turn = new(this, null, null);
 
-        if (Health > MaxHealth / 2)
+        int random = Random.Range(0, 3);
+
+        if (!brimstoneMode && (!hasAttackedOnce || random < 2)) // attack at least once
         {
-            if (attackCounter < 2) // attack
-            {
-                turn.Action = actions[0];
-                turn.Target = player;
-                attackCounter++;
-            }
-            else // defend
-            {
-                turn.Action = actions[1];
-                turn.Target = this;
-                attackCounter = 0;
-            }
+            turn.Action = actions[0];
+            turn.Target = player;
+            hasAttackedOnce = true;
         }
-        else // half health, defend, then brimstone
+        else // go into brimstone mode where we defend then attack
         {
-            if (brimstoneCounter == 0)
+            brimstoneMode = true;
+
+            if (!defendedLastTurn)
             {
                 turn.Action = actions[1];
                 turn.Target = this;
-                brimstoneCounter++;
+                defendedLastTurn = true;
             }
-            else if (brimstoneCounter == 1)
+            else
             {
                 turn.Action = actions[2];
                 turn.Target = player;
-                brimstoneCounter++;
+                defendedLastTurn = false;
+                brimstoneMode = false;
             }
         }
 

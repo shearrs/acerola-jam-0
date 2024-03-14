@@ -20,13 +20,23 @@ public class SatanAttackVisual : TurnActionVisual
     {
         Player player = Level.Instance.Player;
         WaitForSeconds wait = new(0.7f);
+        int count = player.SinCount;
 
-        foreach (Sin sin in player.Sins)
+        Debug.Log("count: " + count);
+
+        CameraManager.Instance.Shake(0.05f, 6.5f);
+
+        for(int i = 0; i < count; i++)
         {
+            Sin sin = player.Sins[0];
             player.RemoveSin(sin);
+
+            Debug.Log("removed sin: " + sin.GetSinType());
 
             yield return wait;
         }
+
+        yield return wait;
 
         onComplete();
     }
