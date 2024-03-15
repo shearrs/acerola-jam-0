@@ -1,4 +1,5 @@
 using Tweens;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -11,6 +12,7 @@ public class CombatDropSelectable : MonoBehaviour, IPointerEnterHandler, IPointe
     [Header("Tweens")]
     [SerializeField] private float tweenTime;
     private bool selected = false;
+    private bool disabling = false;
     private readonly Tween tween = new();
 
     public void Enable()
@@ -22,8 +24,18 @@ public class CombatDropSelectable : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void Disable()
     {
+        disabling = true;
         selected = false;
-        transform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.2f, tween).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK).SetOnComplete(() => gameObject.SetActive(false));
+
+        highlight.gameObject.SetActive(false);
+
+        void onComplete()
+        {
+            disabling = false;
+            gameObject.SetActive(false);
+        }
+
+        transform.DoTweenScaleNonAlloc(TweenManager.TWEEN_ZERO, 0.2f, tween).SetEasingFunction(EasingFunctions.EasingFunction.IN_BACK).SetOnComplete(onComplete);
     }
 
     private void Update()
@@ -54,6 +66,9 @@ public class CombatDropSelectable : MonoBehaviour, IPointerEnterHandler, IPointe
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if (disabling)
+            return;
+
         if (lot)
             AudioManager.Instance.HighlightSound();
         else

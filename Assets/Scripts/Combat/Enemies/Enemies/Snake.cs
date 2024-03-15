@@ -18,6 +18,7 @@ public class Snake : Enemy
     protected override Turn ChooseTurnInternal()
     {
         Turn turn = new(this, null, null);
+
         bool onlySnake = true;
         
         foreach (Enemy enemy in Battle.Enemies)

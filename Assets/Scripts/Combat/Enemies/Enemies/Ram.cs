@@ -13,13 +13,13 @@ public class Ram : Enemy
     public override bool CorruptHealth => false;
 
     // 0 is attack
-    // 1 is wait
-    // 2 is demon act
+    // 1 is demon act
+    // 2 is wait
     protected override Turn ChooseTurnInternal()
     {
         Turn turn = new(this, null, null);
 
-        if (turnCounter <= 3)
+        if (turnCounter <= 2)
         {
             if (turnCounter <= 1)
             {
@@ -30,11 +30,6 @@ public class Ram : Enemy
             {
                 turn.Action = actions[1];
                 turn.Target = this;
-            }
-            else if (turnCounter == 3)
-            {
-                turn.Action = actions[2];
-                turn.Target = player;
             }
         }
         else

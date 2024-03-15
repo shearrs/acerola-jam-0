@@ -6,9 +6,9 @@ public class Imp : Enemy
 {
     [SerializeField] private ParticleSystem brimstoneParticles;
     [SerializeField] private AudioSource audioSource;
-    bool hasAttackedOnce = false;
-    bool defendedLastTurn = false;
-    bool brimstoneMode = false;
+    private bool hasAttackedOnce = false;
+    private bool defendedLastTurn = false;
+    private bool brimstoneMode = false;
 
     public override bool CorruptHealth => true;
 

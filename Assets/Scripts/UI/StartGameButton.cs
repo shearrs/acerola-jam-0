@@ -91,6 +91,7 @@ public class StartGameButton : ToggleableButton
             yield return null;
         }
 
+        Level.Instance.HasStarted = true;
         UIManager.Instance.Portrait.Enable();
         player.Move();
     }

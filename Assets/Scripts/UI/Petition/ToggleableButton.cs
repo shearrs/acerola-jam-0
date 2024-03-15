@@ -7,7 +7,6 @@ using CustomUI;
 
 public abstract class ToggleableButton : MonoBehaviour
 {
-    protected UIManager uiManager;
     protected Image image;
     protected TextMeshProUGUI text;
     protected Button button;
@@ -18,7 +17,6 @@ public abstract class ToggleableButton : MonoBehaviour
     {
         if (button == null)
         {
-            uiManager = UIManager.Instance;
             button = GetComponent<Button>();
             image = GetComponent<Image>();
             text = GetComponentInChildren<TextMeshProUGUI>();
@@ -37,8 +35,8 @@ public abstract class ToggleableButton : MonoBehaviour
 
     public virtual void Disable()
     {
-        image.color = uiManager.DefaultUIData.DisabledImageColor;
-        text.color = uiManager.DefaultUIData.DisabledTextColor;
+        image.color = UIManager.Instance.DefaultUIData.DisabledImageColor;
+        text.color = UIManager.Instance.DefaultUIData.DisabledTextColor;
         button.enabled = false;
     }
 
