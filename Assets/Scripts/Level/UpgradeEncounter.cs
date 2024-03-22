@@ -46,11 +46,7 @@ public class UpgradeEncounter : Encounter
         if (blessed)
         {
             Player player = Level.Instance.Player;
-
-            foreach(Sin sin in player.Sins)
-            {
-                player.RemoveSin(sin);
-            }
+            player.RemoveAllSins();
         }
 
         upgradeUI.Enable(blessed);

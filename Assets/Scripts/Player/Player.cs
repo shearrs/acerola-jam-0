@@ -275,6 +275,20 @@ public class Player : MonoBehaviour, ICombatEntity
         sin.Purify();
     }
 
+    public void RemoveAllSins()
+    {
+        int count = SinCount;
+
+        for (int i = 0; i < count; i++)
+        {
+            Sin sin = sins[0];
+
+            sins.RemoveAt(0);
+            SinUI.Instance.RemoveSin(sin.GetSinType());
+            sin.Purify();
+        }
+    }
+
     public void OnExecutingTurn()
     {
     }
