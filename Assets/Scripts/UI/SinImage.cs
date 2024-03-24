@@ -91,8 +91,8 @@ public class SinImage : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 PetitionManager.Instance.PurifyMenu.Disable();
         }
 
-        if (tween2.IsPlaying)
-            tween2.Stop();
+        tween.Stop();
+        tween2.Stop();
 
         TweenManager.DoTweenCustomNonAlloc(ColorUpdate, disableTime, tween).SetOnComplete(scaleTween);
         AudioManager.Instance.PurifySound();
