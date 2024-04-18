@@ -165,10 +165,13 @@ public class Player : MonoBehaviour, ICombatEntity
 
         Health -= damage;
 
+        if (Health < 0)
+            Health = 0;
+
         if (damage > 0)
             actionUI.OnPlayerHealthChanged(-damage);
 
-        if (Health <= 0)
+        if (Health == 0)
             Die();
         else
         {
@@ -187,6 +190,13 @@ public class Player : MonoBehaviour, ICombatEntity
         CameraManager.Instance.Shake(0.1f, 2f);
         UIManager.Instance.DeathMenu.Enable();
         IsDead = true;
+    }
+
+    public void Revive()
+    {
+        IsDead = false;
+        Heal(MaxHealth);
+        RemoveAllSins();
     }
 
     public void Heal(int heal)

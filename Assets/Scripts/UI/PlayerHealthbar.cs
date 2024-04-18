@@ -38,8 +38,11 @@ public class PlayerHealthbar : MonoBehaviour
 
     public void UpdateHealth()
     {
+        Debug.Log("updating");
         int health = player.Health;
         int change = health - livingHearts.Count;
+
+        Debug.Log("change: " + change);
 
         if (change > 0)
             HealHearts(change);
@@ -49,6 +52,9 @@ public class PlayerHealthbar : MonoBehaviour
 
     private void HealHearts(int amount)
     {
+        Debug.Log("healing");
+
+        gameObject.SetActive(true);
         StartCoroutine(IEHealHearts(amount));
     }
 

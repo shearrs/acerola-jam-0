@@ -15,23 +15,28 @@ public class CombatEncounter : Encounter
     [SerializeField] private CombatDrop drop;
     [SerializeField] private Battle battle;
     private CombatManager combatManager;
+    private bool giveDrop;
 
     [Header("Enemies")]
     [SerializeField] private List<Enemy> enemies;
     [SerializeField] private Vector3[] enemyPositions;
+    private readonly List<Enemy> instantiatedEnemies = new();
 
     public bool SatanFight => satanFight;
-    public Battle Battle => battle;
 
     private void Awake()
     {
-        // spawn enemies
+        SpawnEnemies();
+    }
+
+    private void SpawnEnemies()
+    {
         for (int i = 0; i < enemies.Count; i++)
         {
             Enemy enemy = Instantiate(enemies[i], transform.TransformPoint(enemyPositions[i]), Quaternion.identity, transform);
             enemy.gameObject.SetActive(false);
 
-            enemies[i] = enemy;
+            instantiatedEnemies.Add(enemy);
         }
     }
 
@@ -50,10 +55,11 @@ public class CombatEncounter : Encounter
         else if (satanFight)
             Level.Instance.SatanFight = true;
 
+        giveDrop = true;
         audioManager.EncounterSound();
         audioManager.PlaySong(null, 1.25f);
         combatManager.Enable();
-        battle = new(this, enemies, GetRelativePositions());
+        battle = new(this, instantiatedEnemies, GetRelativePositions());
 
         StartCoroutine(IEFog(true));
         battle.StartTurns();
@@ -110,9 +116,12 @@ public class CombatEncounter : Encounter
                 battle.StartTurns();
             }
         }
-        else
+        else // player died
         {
-            drop = CombatDrop.NONE;
+            giveDrop = false;
+            battle.EndBattle();
+            battle = null;
+            SpawnEnemies();
             EndEncounter();
         }
     }
@@ -127,7 +136,7 @@ public class CombatEncounter : Encounter
             Level.Instance.EndEncounter();
             UIManager.Instance.ToggleBar(false, null, true);
         }
-        else 
+        else if (giveDrop)
             CombatDropUI.Instance.Enable(drop);
     }
 

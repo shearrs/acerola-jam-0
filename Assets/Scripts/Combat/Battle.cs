@@ -26,6 +26,18 @@ public class Battle
         SpawnEnemies();
     }
 
+    public void EndBattle()
+    {
+        while(Enemies.Count > 0)
+        {
+            Enemy enemy = Enemies[0];
+            Enemies.RemoveAt(0);
+
+            Object.Destroy(enemy.Healthbar.gameObject);
+            Object.Destroy(enemy.gameObject);
+        }
+    }
+
     private void SpawnEnemies()
     {
         for (int i = 0; i < enemies.Count; i++)
